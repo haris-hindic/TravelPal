@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace TravelPalAPI.Models
 {
-    public class Event
+    public class Accommodation
     {
         public int Id { get; set; }
+        //public int HostID { get; set; }
+        //public Host Host { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-        public DateTime Date { get; set; }
-        public string Duration { get; set; }
-        public string EventDescription { get; set; }
+        //public IEnumerable<AccommodationImage> EventImages { get; set; }
+
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]
         public Location Location { get; set; }
+        public int AccommodationDetailsId { get; set; }
+        public AccommodationDetails AccommodationDetails { get; set; }
     }
 }

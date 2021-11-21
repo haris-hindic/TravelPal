@@ -16,6 +16,8 @@ namespace TravelPalAPI.Context
 
         public DbSet<Event> Events{ get; set; }
         public DbSet<Location> Locations{ get; set; }
+        public DbSet<Accommodation> Accommodations{ get; set; }
+        public DbSet<AccommodationDetails> AccommodationDetails{ get; set; }
         
     }
 }
