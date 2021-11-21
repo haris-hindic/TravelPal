@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TestService } from '../test.service';
 
 @Component({
   selector: 'app-events',
@@ -8,18 +9,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EventsComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  testing: any;
+  constructor(private testService: TestService) { }
 
-  ngOnInit(): void {
-  }
-  MojTest: string = 'https://localhost:44325/api/Location';
-  
-  get()
+  ngOnInit(): void 
   {
-    this.http.get(this.MojTest).subscribe((rez) =>
-    {
-      console.log(rez);
-    })
+    this.testService.ClickOnLocation();
+    this.testService.autPut.subscribe((povratna) =>{
+      console.log(povratna);
+      this.testing=povratna; })
   }
-
 }
+
+  
+    
+
+
+
