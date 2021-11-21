@@ -60,5 +60,11 @@ namespace TravelPalAPI.Controllers
         {
             return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).ToList();
         }
+
+        [HttpGet,Route("{id}")]
+        public ActionResult<Accommodation> Get(int id)
+        {
+            return appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).ToList().FirstOrDefault(x=>x.Id==id);
+        }
     }
 }
