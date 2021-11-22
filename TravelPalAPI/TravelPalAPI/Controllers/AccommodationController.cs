@@ -58,13 +58,27 @@ namespace TravelPalAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Accommodation>> Get()
         {
-            return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).ToList();
+            return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).ToArray();
         }
 
         [HttpGet,Route("{id}")]
         public ActionResult<Accommodation> Get(int id)
         {
-            return appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).ToList().FirstOrDefault(x=>x.Id==id);
+            return appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).FirstOrDefault(x=>x.Id==id);
+        }
+
+        [HttpDelete,Route("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var accommodation = appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).FirstOrDefault(x => x.Id == id);
+            var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
+            var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id == accommodation.LocationId);
+
+            appDb.Accommodations.Remove(accommodation);
+            appDb.AccommodationDetails.Remove(accommodationDetails);
+            appDb.Locations.Remove(accommodationLocation);
+            appDb.SaveChanges();
+            return Ok("Succesfully deleted!");
         }
     }
 }

@@ -24,8 +24,8 @@ namespace TravelPalAPI.Controllers
             this.appDb = appDb;
         }
 
-        [HttpPost]
 
+        [HttpPost]
         public void Post(EventVM _eventVM)
         {
             appDb.Events.Add(new Event
@@ -61,15 +61,15 @@ namespace TravelPalAPI.Controllers
             appDb.SaveChanges();
         }
 
-        [HttpGet]
 
+        [HttpGet]
         public IEnumerable<Event> GetAll()
         {
             return appDb.Events.Include(x => x.Location).ToArray();
 
         }
-        [HttpPut]
 
+        [HttpPut]
         public void Update(Event _event)
         {
             appDb.Events.Update(_event);
