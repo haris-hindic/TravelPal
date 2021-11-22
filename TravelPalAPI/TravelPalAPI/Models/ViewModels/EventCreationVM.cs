@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TravelPalAPI.Models.ViewModels
 {
-    public class EventVM
+    public class EventCreationVM
     {
         public string Name { get; set; }
         public double Price { get; set; }

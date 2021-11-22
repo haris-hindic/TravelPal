@@ -55,6 +55,14 @@ namespace TravelPalAPI.Controllers
             return Ok("Succesfully created!");
         }
 
+        [HttpPut]
+        public IActionResult Update(Accommodation accommodation)
+        {
+            appDb.Accommodations.Update(accommodation);
+            appDb.SaveChanges();
+            return Ok("Updated succesfully!");
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Accommodation>> Get()
         {
@@ -70,7 +78,7 @@ namespace TravelPalAPI.Controllers
         [HttpDelete,Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var accommodation = appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).FirstOrDefault(x => x.Id == id);
+            var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
             var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
             var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id == accommodation.LocationId);
 

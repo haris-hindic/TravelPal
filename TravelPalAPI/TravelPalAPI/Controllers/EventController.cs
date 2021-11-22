@@ -26,7 +26,7 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpPost]
-        public void Post(EventVM _eventVM)
+        public void Post(EventCreationVM _eventVM)
         {
             appDb.Events.Add(new Event
             {
