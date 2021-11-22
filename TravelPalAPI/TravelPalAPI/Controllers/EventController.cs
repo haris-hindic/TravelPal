@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Context;
 using TravelPalAPI.Models;
+using TravelPalAPI.Models.ViewModels;
 
 namespace TravelPalAPI.Controllers
 {
@@ -24,9 +25,23 @@ namespace TravelPalAPI.Controllers
 
         [HttpPost]
 
-        public void Post(Event _event)
+        public void Post([FromBody] EventVM _eventVM)
         {
-            appDb.Events.Add(_event);
+            appDb.Events.Add(new Event
+            {
+                Date = _eventVM.Date,
+                Duration = _eventVM.Duration,
+                EventDescription = _eventVM.EventDescription,
+                Location = new Location
+                {
+                    Country = _eventVM.LocationVM.Country,
+                    City = _eventVM.LocationVM.City,
+                    Address = _eventVM.LocationVM.Address
+                },
+                Name = _eventVM.Name,
+                Price = _eventVM.Price
+            });
+
             appDb.SaveChanges();
         }
 
