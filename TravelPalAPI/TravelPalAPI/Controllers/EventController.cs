@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace TravelPalAPI.Controllers
 
         [HttpPost]
 
-        public void Post([FromBody] EventVM _eventVM)
+        public void Post(EventVM _eventVM)
         {
             appDb.Events.Add(new Event
             {
@@ -49,7 +50,7 @@ namespace TravelPalAPI.Controllers
         [Route("{_id}")]
         public Event Get(int _id)
         {
-            return appDb.Events.Find(_id);
+            return appDb.Events.Include(x => x.Location).FirstOrDefault(x => x.Id == _id);
         }
 
         [HttpDelete]
@@ -62,9 +63,9 @@ namespace TravelPalAPI.Controllers
 
         [HttpGet]
 
-        public object GetAll()
+        public IEnumerable<Event> GetAll()
         {
-            return appDb.Events.ToArray();
+            return appDb.Events.Include(x => x.Location).ToArray();
 
         }
         [HttpPut]
@@ -74,5 +75,7 @@ namespace TravelPalAPI.Controllers
             appDb.Events.Update(_event);
             appDb.SaveChanges();
         }
+       
+        
     }
 }
