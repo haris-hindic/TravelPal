@@ -13,12 +13,11 @@ namespace TravelPalAPI.Models
         //public Host Host { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
-        //public IEnumerable<AccommodationImage> EventImages { get; set; }
-
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]
         public Location Location { get; set; }
         public int AccommodationDetailsId { get; set; }
         public AccommodationDetails AccommodationDetails { get; set; }
+        public ICollection<AccommodationImage> EventImages { get; set; }
     }
 }

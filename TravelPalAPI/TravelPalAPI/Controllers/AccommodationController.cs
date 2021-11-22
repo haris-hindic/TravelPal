@@ -55,7 +55,21 @@ namespace TravelPalAPI.Controllers
             return Ok("Succesfully created!");
         }
 
-        [HttpPut]
+        [HttpPost,Route("add-images/{id}")]
+        public IActionResult AddImages(int id, [FromBody] AccommodationImageCreationVM creationVM)
+        {
+            var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
+
+            foreach (var img in creationVM.Images)
+            {
+                appDb.AccommodationImages.Add(new AccommodationImage { AccommodationId = accommodation.Id, Image = new Image { ImagePath = img } });
+            }
+
+            appDb.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut,Route("update")]
         public IActionResult Update(Accommodation accommodation)
         {
             appDb.Accommodations.Update(accommodation);
@@ -63,19 +77,24 @@ namespace TravelPalAPI.Controllers
             return Ok("Updated succesfully!");
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public ActionResult<IEnumerable<Accommodation>> Get()
         {
-            return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).ToArray();
+            return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).
+                Include(i=>i.EventImages).ThenInclude(i=>i.Image).ToArray();
         }
 
-        [HttpGet,Route("{id}")]
+
+        [HttpGet,Route("get/{id}")]
         public ActionResult<Accommodation> Get(int id)
         {
-            return appDb.Accommodations.Include(l => l.Location).Include(ad => ad.AccommodationDetails).FirstOrDefault(x=>x.Id==id);
+            return appDb.Accommodations
+                .Include(l => l.Location)
+                .Include(ad => ad.AccommodationDetails)
+                .FirstOrDefault(x=>x.Id==id);
         }
 
-        [HttpDelete,Route("{id}")]
+        [HttpDelete,Route("delete/{id}")]
         public IActionResult Delete(int id)
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
