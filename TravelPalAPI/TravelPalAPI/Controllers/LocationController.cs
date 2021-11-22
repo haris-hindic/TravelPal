@@ -31,13 +31,12 @@ namespace TravelPalAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public Location Get(int id)
+        public Location Get(int _id)
         {
-            return appDb.Locations.Find(id);
+            return appDb.Locations.Find(_id);
         }
 
         [HttpDelete]
-        [Route("{id}")]
         public void Delete(int id)
         {
             var obj = appDb.Locations.Find(id);
