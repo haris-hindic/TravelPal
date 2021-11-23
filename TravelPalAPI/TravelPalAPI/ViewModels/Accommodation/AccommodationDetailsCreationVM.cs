@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TravelPalAPI.Models.ViewModels
+namespace TravelPalAPI.ViewModels.Accommodation
 {
     public class AccommodationDetailsCreationVM
     {

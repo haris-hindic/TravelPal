@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Context;
 using TravelPalAPI.Models;
-using TravelPalAPI.Models.ViewModels;
+using TravelPalAPI.ViewModels.Accommodation;
 
 namespace TravelPalAPI.Controllers
 {
@@ -69,29 +69,62 @@ namespace TravelPalAPI.Controllers
             return Ok();
         }
 
-        [HttpPut,Route("update")]
-        public IActionResult Update(Accommodation accommodation)
+        [HttpPut,Route("update/{id}")]
+        public IActionResult Update(int id, [FromBody] AccommodationEditVM accommodationEditVM)
         {
-            appDb.Accommodations.Update(accommodation);
+            var x =appDb.Accommodations.FirstOrDefault(x => x.Id == id);
+            
+            if (x==null)
+                NotFound();
+
+            //appDb.Accommodations.Update(accommodation);
+            x.Name = accommodationEditVM.Name;
+            x.Price = accommodationEditVM.Price;
+            x.Location = accommodationEditVM.Location;
+            x.AccommodationDetails = accommodationEditVM.AccommodationDetails;
+
+
+            appDb.Update(x);
             appDb.SaveChanges();
             return Ok("Updated succesfully!");
         }
 
         [HttpGet("getall")]
-        public ActionResult<IEnumerable<Accommodation>> Get()
+        public ActionResult<IEnumerable<AccommodationVM>> Get()
         {
-            return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).
-                Include(i=>i.AccommodationImages).ThenInclude(i=>i.Image).ToArray();
+            var accommodations = appDb.Accommodations
+                .Select(x => new AccommodationVM
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Location = x.Location,
+                    AccommodationDetails = x.AccommodationDetails,
+                    Images = x.AccommodationImages.Select(x => x.Image).ToList()
+                }).ToList();
+
+            return accommodations;
         }
 
 
         [HttpGet,Route("get/{id}")]
-        public ActionResult<Accommodation> Get(int id)
+        public ActionResult<AccommodationVM> Get(int id)
         {
-            return appDb.Accommodations
-                .Include(l => l.Location)
-                .Include(ad => ad.AccommodationDetails)
-                .FirstOrDefault(x=>x.Id==id);
+            if (appDb.Accommodations.Any(x => x.Id == id))
+                NotFound();
+
+            var accommodation = appDb.Accommodations
+                .Select(x => new AccommodationVM
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Location = x.Location,
+                    AccommodationDetails = x.AccommodationDetails,
+                    Images = x.AccommodationImages.Select(x => x.Image).ToList()
+                }).FirstOrDefault(x => x.Id == id);
+
+            return accommodation;
         }
 
         [HttpDelete,Route("delete/{id}")]
