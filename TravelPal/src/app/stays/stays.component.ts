@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Accommodation, AccommodationImages } from './stays.model';
 
 @Component({
   selector: 'app-stays',
@@ -7,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stays.component.css'],
 })
 export class StaysComponent implements OnInit {
-  stays!: any[];
+  stays!: Accommodation[];
 
   constructor(private _http: HttpClient) {}
 
   ngOnInit(): void {
     this._http
-      .get('https://localhost:44325/api/Accommodation')
+      .get<Accommodation[]>('https://localhost:44325/api/Accommodation/getall')
       .subscribe((data) => {
         console.log(data);
-        this.stays = data as [];
+        this.stays = data;
       });
   }
 }

@@ -18,6 +18,6 @@ namespace TravelPalAPI.Models
         public Location Location { get; set; }
         public int AccommodationDetailsId { get; set; }
         public AccommodationDetails AccommodationDetails { get; set; }
-        public ICollection<AccommodationImage> EventImages { get; set; }
+        public ICollection<AccommodationImage> AccommodationImages { get; set; }
     }
 }

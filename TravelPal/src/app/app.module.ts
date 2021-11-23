@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { StaysComponent } from './stays/stays.component';
 import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
     HomeComponent,
     StaysComponent,
     EventsComponent,
+    StayDetailsComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],

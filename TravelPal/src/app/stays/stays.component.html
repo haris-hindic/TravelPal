@@ -1,115 +1,29 @@
-<section class="featured">
-  <div class="container">
-    <!-- <div class="featured-row">
-      <div class="featured-header">
-        <h4 class="featured-text">featured stays</h4>
-        <span>
-          <a href="#">See all <i class="fa fa-angle-right"></i></a>
-        </span>
-      </div>
-      <div class="featured-container">
-        <div class="discounted">
-          <div class="discount-image">
-            <a href="http://" target="_blank" rel="noopener noreferrer"
-              ><img
-                src="https://res.cloudinary.com/smartray/image/upload/v1591817570/art-house-architecture-historical-9298_1_z2ciwx.png"
-                alt="presidential suite"
-            /></a>
-          </div>
-          <div class="discount-badge">
-            <div class="discount-rate">5%</div>
-            <div class="discount-text">Discount</div>
-          </div>
-          <div class="room-details">
-            <div class="room-title">
-              presidential suite
-              <span class="room-price">76,000 / Night</span>
-            </div>
-            <div class="room-ratings">
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-            </div>
-          </div>
+<div class="container">
+  <div class="row">
+    <div class="r_card" *ngFor="let stay of stays; let i = index">
+      <a routerLink="details/{{ stay.id }}">
+        <img
+          src="{{ stay.accommodationImages[0].image.imagePath }}"
+          class="r_card_header"
+          alt=""
+      /></a>
+      <div class="r_card_content">
+        <div class="adress">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          {{ stay.location.city }}|{{ stay.location.address }}
         </div>
-        <div class="featured-others">
-          <div class="featured-other">
-            <a href="http://" target="_blank" rel="noopener noreferrer"
-              ><img
-                src="https://res.cloudinary.com/smartray/image/upload/v1591817565/senator-suite_jbqvok.png"
-                alt="senator-suite"
-            /></a>
-            <div class="room-details">
-              <div class="room-title">
-                senator suite
-                <span class="room-price">21,000 / Night</span>
-              </div>
-              <div class="room-ratings">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
-            </div>
-          </div>
-          <div class="featured-other">
-            <a href="http://" target="_blank" rel="noopener noreferrer"
-              ><img
-                src="https://res.cloudinary.com/smartray/image/upload/v1591817561/minister-suite_oyfanw.png"
-                alt="minister-suite"
-                class="mb-1"
-            /></a>
-            <div class="room-details">
-              <div class="room-title">
-                minister suite
-                <span class="room-price"> 25,000 / Night</span>
-              </div>
-              <div class="room-ratings">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
-            </div>
-          </div>
+        <div class="text_info">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione odio
+          provident reiciendis, exercitationem ex quidem voluptatum quas minus
+          id, ea ut, cupiditate sunt. Incidunt vitae nihil sapiente impedit
+          temporibus, repellat!
+          <div class="text_info_shade"></div>
         </div>
       </div>
-    </div> -->
-    <!--  -->
-    <!-- <div class="top-pick-container"> -->
-    <!-- <div class="featured-header row">
-      <h5 class="featured-text">top picks</h5>
-      <span>
-        <a href="#">See all <i class="fa fa-angle-right"></i></a>
-      </span>
-    </div> -->
-    <!-- <div class="top-picks row"> -->
-    <div *ngFor="let stay of stays" class="top-pick">
-      <div class="top-pick-room">
-        <a href="http://" target="_blank" rel="noopener noreferrer"
-          ><img [src]="stay.eventImages[0].image.imagePath" alt="luxury-mini"
-        /></a>
-
-        <div class="room-details">
-          <div class="room-title">
-            {{ stay.name }}
-            <span class="room-price"> {{ stay.price | currency }} / Night</span>
-          </div>
-          <div class="room-ratings">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-          </div>
-        </div>
+      <div class="price_info">
+        <span class="price_w">Price:</span>
+        <span class="price_v">{{ stay.price | currency }}</span>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- </div> -->
   </div>
-</section>
+</div>

@@ -81,7 +81,7 @@ namespace TravelPalAPI.Controllers
         public ActionResult<IEnumerable<Accommodation>> Get()
         {
             return appDb.Accommodations.Include(l=>l.Location).Include(ad=>ad.AccommodationDetails).
-                Include(i=>i.EventImages).ThenInclude(i=>i.Image).ToArray();
+                Include(i=>i.AccommodationImages).ThenInclude(i=>i.Image).ToArray();
         }
 
 
@@ -99,10 +99,12 @@ namespace TravelPalAPI.Controllers
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
             var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
+            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id);
             var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id == accommodation.LocationId);
 
             appDb.Accommodations.Remove(accommodation);
             appDb.AccommodationDetails.Remove(accommodationDetails);
+            appDb.AccommodationImages.RemoveRange(accommodationImages);
             appDb.Locations.Remove(accommodationLocation);
             appDb.SaveChanges();
             return Ok("Succesfully deleted!");

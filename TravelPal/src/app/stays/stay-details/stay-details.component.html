@@ -1,0 +1,10 @@
+<p>Page to display details</p>
+<ng-container *ngIf="stay">
+  <p>{{ stay.name }}</p>
+  <p>{{ stay.price | currency }}</p>
+  <p>{{ stay.location.address }}</p>
+  <p>{{ stay.location.country }}</p>
+  <p>{{ stay.location.city }}</p>
+</ng-container>
+
+<a routerLink="/stays">Back</a>
