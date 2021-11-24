@@ -12,6 +12,7 @@ export class EventsDetailsComponent implements OnInit {
   url = 'https://localhost:44325/api/Event';
   id: number = -1;
   event: any;
+  eventLoad = false;
 
   constructor(private http: HttpClient, private router: ActivatedRoute) { }
 
@@ -26,6 +27,7 @@ export class EventsDetailsComponent implements OnInit {
       (parameter) =>
       {
         this.event=parameter;
+        this.eventLoad=true;
       }
     )
   }
