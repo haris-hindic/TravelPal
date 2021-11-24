@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using TravelPalAPI.Models.ViewModels;
 
 namespace TravelPalAPI.Models
 {

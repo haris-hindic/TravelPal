@@ -1,22 +1,17 @@
 <div class="container">
   <div class="row">
     <div class="r_card" *ngFor="let stay of stays; let i = index">
-      <a routerLink="details/{{ stay.id }}">
-        <img
-          src="{{ stay.accommodationImages[0].image.imagePath }}"
-          class="r_card_header"
-          alt=""
-      /></a>
+      <img src="{{ stay.images[i].imagePath }}" class="r_card_header" alt="" />
+
       <div class="r_card_content">
         <div class="adress">
           <i class="fa fa-map-marker" aria-hidden="true"></i>
           {{ stay.location.city }}|{{ stay.location.address }}
         </div>
         <div class="text_info">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione odio
-          provident reiciendis, exercitationem ex quidem voluptatum quas minus
-          id, ea ut, cupiditate sunt. Incidunt vitae nihil sapiente impedit
-          temporibus, repellat!
+          <a routerLink="details/{{ stay.id }}">
+            <p>{{ stay.name }}</p>
+          </a>
           <div class="text_info_shade"></div>
         </div>
       </div>

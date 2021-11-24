@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.ViewModels.Location;
 
-namespace TravelPalAPI.Models.ViewModels
+namespace TravelPalAPI.ViewModels.Accommodation
 {
     public class AccommodationCreationVM
     {

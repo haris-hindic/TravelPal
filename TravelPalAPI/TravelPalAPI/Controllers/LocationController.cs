@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Context;
 using TravelPalAPI.Models;
-using TravelPalAPI.Models.ViewModels;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
 {

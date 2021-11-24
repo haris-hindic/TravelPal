@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Accommodation } from '../stays.model';
+import { AccommodationVM } from '../stays.model';
 
 @Component({
   selector: 'app-stay-details',
@@ -9,15 +9,14 @@ import { Accommodation } from '../stays.model';
   styleUrls: ['./stay-details.component.css'],
 })
 export class StayDetailsComponent implements OnInit {
-  stay!: Accommodation;
+  stay!: AccommodationVM;
 
   constructor(private _route: ActivatedRoute, private _http: HttpClient) {}
 
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
-      console.log('params.id :>> ', params.id);
       this._http
-        .get<Accommodation>(
+        .get<AccommodationVM>(
           `https://localhost:44325/api/Accommodation/get/${params.id}`
         )
         .subscribe((data) => {
