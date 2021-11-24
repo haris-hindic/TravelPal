@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Models;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.ViewModels.Accommodation
 {
     public class AccommodationVM
     {
-        //public Models.Accommodation Accommodation { get; set; }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }

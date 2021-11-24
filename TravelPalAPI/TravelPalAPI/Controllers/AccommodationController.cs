@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TravelPalAPI.Context;
+using TravelPalAPI.Database;
+using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
 {
@@ -16,10 +18,13 @@ namespace TravelPalAPI.Controllers
     public class AccommodationController : ControllerBase
     {
         private readonly AppDbContext appDb;
+        private readonly IFileStorageService fileStorageService;
+        private readonly string containerName="Accommodation";
 
-        public AccommodationController(AppDbContext appDb)
+        public AccommodationController(AppDbContext appDb,IFileStorageService fileStorageService)
         {
             this.appDb = appDb;
+            this.fileStorageService = fileStorageService;
         }
 
         [HttpPost]
@@ -56,13 +61,19 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPost,Route("add-images/{id}")]
-        public IActionResult AddImages(int id, [FromBody] AccommodationImageCreationVM creationVM)
+        public IActionResult AddImages(int id, [FromForm] AccommodationImageCreationVM creationVM)
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
 
             foreach (var img in creationVM.Images)
             {
-                appDb.AccommodationImages.Add(new AccommodationImage { AccommodationId = accommodation.Id, Image = new Image { ImagePath = img } });
+                appDb.AccommodationImages.Add(new AccommodationImage 
+                { 
+                    AccommodationId = accommodation.Id, Image = new Image 
+                    {
+                        ImagePath = fileStorageService.SaveFile(containerName,img) 
+                    } 
+                });
             }
 
             appDb.SaveChanges();
@@ -77,7 +88,6 @@ namespace TravelPalAPI.Controllers
             if (x==null)
                 NotFound();
 
-            //appDb.Accommodations.Update(accommodation);
             x.Name = accommodationEditVM.Name;
             x.Price = accommodationEditVM.Price;
             x.Location = accommodationEditVM.Location;

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TravelPalAPI.Context;
+using TravelPalAPI.Database;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Location;
 

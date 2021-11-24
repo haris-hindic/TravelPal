@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Models;
 
-namespace TravelPalAPI.Context
+namespace TravelPalAPI.Database
 {
     public class AppDbContext : DbContext 
     {

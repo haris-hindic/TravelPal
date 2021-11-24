@@ -13,7 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using TravelPalAPI.Context;
+using TravelPalAPI.Database;
+using TravelPalAPI.Helpers;
 
 namespace TravelPalAPI
 {
@@ -37,6 +38,9 @@ namespace TravelPalAPI
             });
 
             services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("AppDb")));
+
+            services.AddScoped<IFileStorageService, LocalImageStorage>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +56,8 @@ namespace TravelPalAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
             

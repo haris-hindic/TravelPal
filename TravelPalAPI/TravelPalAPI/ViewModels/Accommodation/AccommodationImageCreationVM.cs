@@ -8,6 +8,7 @@ namespace TravelPalAPI.ViewModels.Accommodation
 {
     public class AccommodationImageCreationVM
     {
-        public List<string> Images { get; set; }
+        public List<IFormFile> Images { get; set; }
+        //public List<string> Images { get; set; }
     }
 }

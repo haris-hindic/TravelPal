@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Models;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.ViewModels.Accommodation
 {
