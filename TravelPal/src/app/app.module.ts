@@ -9,6 +9,7 @@ import { StaysComponent } from './stays/stays.component';
 import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
+import { EventsDetailsComponent } from './events/events-details/events-details.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { StayDetailsComponent } from './stays/stay-details/stay-details.componen
     StaysComponent,
     EventsComponent,
     StayDetailsComponent,
+    EventsDetailsComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],
