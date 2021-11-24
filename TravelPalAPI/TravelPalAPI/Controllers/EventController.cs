@@ -63,9 +63,18 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpGet]
-        public IEnumerable<Event> GetAll()
+        public IEnumerable<EventVM> GetAll()
         {
-            return appDb.Events.Include(x => x.Location).ToArray();
+            return appDb.Events.Select(e => new EventVM
+            {
+                Id = e.Id,
+                Date=e.Date,
+                Duration=e.Duration,
+                Location=e.Location,
+                EventDescription=e.EventDescription,
+                Name=e.Name,
+                Price=e.Price
+            });
 
         }
 
