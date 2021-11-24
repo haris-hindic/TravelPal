@@ -69,10 +69,19 @@ namespace TravelPalAPI.Controllers
 
         }
 
-        [HttpPut]
-        public void Update(Event _event)
+        [HttpPut, Route("update/{_id}")]
+        public void Update(int _id, EventEditVM _event)
         {
-            appDb.Events.Update(_event);
+            var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
+
+            temp.Location = _event.Location;
+            temp.Name = _event.Name;
+            temp.Price = _event.Price;
+            temp.Date = _event.Date;
+            temp.Duration = _event.Duration;
+            temp.EventDescription = _event.EventDescription;
+
+            appDb.Events.Update(temp);
             appDb.SaveChanges();
         }
        
