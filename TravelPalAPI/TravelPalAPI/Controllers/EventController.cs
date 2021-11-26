@@ -26,7 +26,7 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpPost]
-        public void Post(EventCreationVM _eventVM)
+        public ActionResult Post(EventCreationVM _eventVM)
         {
             appDb.Events.Add(new Event
             {
@@ -44,6 +44,7 @@ namespace TravelPalAPI.Controllers
             });
 
             appDb.SaveChanges();
+            return Ok("Event added");
         }
 
         [HttpGet]
@@ -54,9 +55,10 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpDelete]
-        public void Delete(int _id)
+        public ActionResult Delete(int _id)
         {
             var del = appDb.Events.Find(_id);
+            return Ok($"{del.Name} was deleted");
             appDb.Remove(del);
             appDb.SaveChanges();
         }
@@ -79,7 +81,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPut, Route("update/{_id}")]
-        public void Update(int _id, EventEditVM _event)
+        public ActionResult Update(int _id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
 
@@ -92,6 +94,7 @@ namespace TravelPalAPI.Controllers
 
             appDb.Events.Update(temp);
             appDb.SaveChanges();
+            return Ok("Event updated");
         }
        
         
