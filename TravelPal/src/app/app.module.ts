@@ -10,7 +10,7 @@ import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
-import { NgImageSliderModule } from 'ng-image-slider';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgImageSliderModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

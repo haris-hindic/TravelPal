@@ -11,7 +11,7 @@ using TravelPalAPI.ViewModels.Accommodation;
 
 namespace TravelPalAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/image")]
     [ApiController]
     public class AccommodationImageController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace TravelPalAPI.Controllers
             this.fileStorageService = fileStorageService;
         }
 
-        [HttpPost, Route("add-images/{id}")]
+        [HttpPost, Route("{id}")]
         public IActionResult AddImages(int id, [FromForm] AccommodationImageCreationVM creationVM)
         {
             if (!appDb.Accommodations.Any(x => x.Id == id)) return NotFound();
@@ -46,7 +46,7 @@ namespace TravelPalAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete, Route("delete-image/{id}")]
+        [HttpDelete, Route("{id}")]
         public IActionResult Delete(int id)
         {
             var accImg = appDb.AccommodationImages.FirstOrDefault(x => x.ImageId == id);

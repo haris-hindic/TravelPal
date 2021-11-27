@@ -38,7 +38,7 @@ namespace TravelPalAPI.Controllers
             return Ok("Succesfully created!");
         }
 
-        [HttpPut,Route("update/{id}")]
+        [HttpPut,Route("{id}")]
         public IActionResult Update(int id, [FromBody] AccommodationEditVM accommodationEditVM)
         {
             var x =appDb.Accommodations.FirstOrDefault(x => x.Id == id);
@@ -56,7 +56,7 @@ namespace TravelPalAPI.Controllers
             return Ok("Updated succesfully!");
         }
 
-        [HttpGet("getall")]
+        [HttpGet]
         public ActionResult<IEnumerable<AccommodationVM>> Get()
         {
             var accommodations = appDb.Accommodations
@@ -74,7 +74,7 @@ namespace TravelPalAPI.Controllers
         }
 
 
-        [HttpGet,Route("get/{id}")]
+        [HttpGet,Route("{id}")]
         public ActionResult<AccommodationVM> Get(int id)
         {
             if (appDb.Accommodations.Any(x => x.Id == id))
@@ -94,7 +94,7 @@ namespace TravelPalAPI.Controllers
             return accommodation;
         }
 
-        [HttpDelete,Route("delete/{id}")]
+        [HttpDelete,Route("{id}")]
         public IActionResult Delete(int id)
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);

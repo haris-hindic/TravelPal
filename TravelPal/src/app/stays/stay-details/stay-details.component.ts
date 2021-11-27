@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ImageService } from '../image.service';
+import { AccommodationService } from '../accommodation.service';
 import { AccommodationVM } from '../stays.model';
 
 @Component({
@@ -11,7 +12,11 @@ import { AccommodationVM } from '../stays.model';
 export class StayDetailsComponent implements OnInit {
   stay!: AccommodationVM;
 
-  constructor(private _route: ActivatedRoute, private _http: HttpClient) {}
+  constructor(
+    private _route: ActivatedRoute,
+    private _accommodationService: AccommodationService,
+    private _imageService: ImageService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -19,11 +24,9 @@ export class StayDetailsComponent implements OnInit {
 
   loadData() {
     this._route.params.subscribe((params) => {
-      this._http
-        .get<AccommodationVM>(
-          `https://localhost:44325/api/Accommodation/get/${params.id}`
-        )
-        .subscribe((data) => {
+      this._accommodationService
+        .getById(params.id)
+        .subscribe((data: AccommodationVM) => {
           this.stay = data;
           console.log('data :>> ', data);
         });
@@ -32,10 +35,6 @@ export class StayDetailsComponent implements OnInit {
 
   delete(id: number) {
     console.log(id);
-    this._http
-      .delete(
-        `https://localhost:44325/api/AccommodationImage/delete-image/${id}`
-      )
-      .subscribe(() => this.loadData());
+    this._imageService.deleteImage(id).subscribe(() => this.loadData());
   }
 }

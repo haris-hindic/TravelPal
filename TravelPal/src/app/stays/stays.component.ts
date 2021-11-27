@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AccommodationService } from './accommodation.service';
 import { AccommodationVM } from './stays.model';
 
 @Component({
@@ -10,16 +11,12 @@ import { AccommodationVM } from './stays.model';
 export class StaysComponent implements OnInit {
   stays!: AccommodationVM[];
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _accommodationService: AccommodationService) {}
 
   ngOnInit(): void {
-    this._http
-      .get<AccommodationVM[]>(
-        'https://localhost:44325/api/Accommodation/getall'
-      )
-      .subscribe((data) => {
-        console.log(data);
-        this.stays = data;
-      });
+    this._accommodationService.getAll().subscribe((data) => {
+      console.log(data);
+      this.stays = data;
+    });
   }
 }

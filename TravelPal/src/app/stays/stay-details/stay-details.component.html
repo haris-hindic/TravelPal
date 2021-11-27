@@ -20,7 +20,15 @@
           alt=""
         />
         <br />
-        <button class="btn btn-danger mb-1" (click)="delete(img.id)">
+        <button
+          class="btn btn-danger mb-1"
+          [swal]="{
+            title: 'Confirmation',
+            text: 'Are you sure?',
+            showCancelButton: true
+          }"
+          (confirm)="delete(img.id)"
+        >
           Delete
         </button>
       </div>
