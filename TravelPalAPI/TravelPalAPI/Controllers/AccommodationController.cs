@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,6 +10,7 @@ using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
+using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
@@ -17,67 +19,23 @@ namespace TravelPalAPI.Controllers
     [ApiController]
     public class AccommodationController : ControllerBase
     {
+        private readonly IMapper mapper;
         private readonly AppDbContext appDb;
-        private readonly IFileStorageService fileStorageService;
-        private readonly string containerName="Accommodation";
 
-        public AccommodationController(AppDbContext appDb,IFileStorageService fileStorageService)
+        public AccommodationController(AppDbContext appDb,IMapper mapper)
         {
             this.appDb = appDb;
-            this.fileStorageService = fileStorageService;
+            this.mapper = mapper;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] AccommodationCreationVM creationVM)
         {
-            var obj = new Accommodation
-            {
-                Name = creationVM.Name,
-                Price = creationVM.Price,
-                Location = new Location
-                {
-                    Country = creationVM.LocationCreation.Country,
-                    City = creationVM.LocationCreation.City,
-                    Address = creationVM.LocationCreation.Address
-                },
-                AccommodationDetails = new AccommodationDetails
-                {
-                    Parking = creationVM.AccommodationDetailsCreation.Parking,
-                    Minibar= creationVM.AccommodationDetailsCreation.Minibar,
-                    AirConditioning= creationVM.AccommodationDetailsCreation.AirConditioning,
-                    Safe= creationVM.AccommodationDetailsCreation.Safe,
-                    Dryer= creationVM.AccommodationDetailsCreation.Dryer,
-                    FlatScreenTV= creationVM.AccommodationDetailsCreation.FlatScreenTV,
-                    BBQ= creationVM.AccommodationDetailsCreation.BBQ,
-                    Refrigerator= creationVM.AccommodationDetailsCreation.Refrigerator,
-                    Balcony= creationVM.AccommodationDetailsCreation.Balcony,
-                    MosquitoNet= creationVM.AccommodationDetailsCreation.MosquitoNet
-                }
-            };
+            var obj = mapper.Map<Accommodation>(creationVM);
 
             appDb.Accommodations.Add(obj);
             appDb.SaveChanges();
             return Ok("Succesfully created!");
-        }
-
-        [HttpPost,Route("add-images/{id}")]
-        public IActionResult AddImages(int id, [FromForm] AccommodationImageCreationVM creationVM)
-        {
-            var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
-
-            foreach (var img in creationVM.Images)
-            {
-                appDb.AccommodationImages.Add(new AccommodationImage 
-                { 
-                    AccommodationId = accommodation.Id, Image = new Image 
-                    {
-                        ImagePath = fileStorageService.SaveFile(containerName,img) 
-                    } 
-                });
-            }
-
-            appDb.SaveChanges();
-            return Ok();
         }
 
         [HttpPut,Route("update/{id}")]
@@ -85,14 +43,13 @@ namespace TravelPalAPI.Controllers
         {
             var x =appDb.Accommodations.FirstOrDefault(x => x.Id == id);
             
-            if (x==null)
-                NotFound();
+            if (x==null) NotFound();
+
 
             x.Name = accommodationEditVM.Name;
             x.Price = accommodationEditVM.Price;
-            x.Location = accommodationEditVM.Location;
-            x.AccommodationDetails = accommodationEditVM.AccommodationDetails;
-
+            x.Location = mapper.Map<Location>(accommodationEditVM.Location);
+            x.AccommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
 
             appDb.Update(x);
             appDb.SaveChanges();
@@ -103,16 +60,16 @@ namespace TravelPalAPI.Controllers
         public ActionResult<IEnumerable<AccommodationVM>> Get()
         {
             var accommodations = appDb.Accommodations
-                .Select(x => new AccommodationVM
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Location = x.Location,
-                    AccommodationDetails = x.AccommodationDetails,
-                    Images = x.AccommodationImages.Select(x => x.Image).ToList()
-                }).ToList();
+               .Select(x => new AccommodationVM
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Price = x.Price,
+                   Location = mapper.Map<LocationVM>(x.Location),
+                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   Images = x.AccommodationImages.Select(x => x.Image).ToList()
 
+               }).ToList();
             return accommodations;
         }
 
@@ -129,8 +86,8 @@ namespace TravelPalAPI.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Price = x.Price,
-                    Location = x.Location,
-                    AccommodationDetails = x.AccommodationDetails,
+                    Location = mapper.Map<LocationVM>(x.Location),
+                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                     Images = x.AccommodationImages.Select(x => x.Image).ToList()
                 }).FirstOrDefault(x => x.Id == id);
 
@@ -142,8 +99,8 @@ namespace TravelPalAPI.Controllers
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
             var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
-            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id);
-            var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id == accommodation.LocationId);
+            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id).ToList();
+            var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id== accommodation.LocationId);
 
             appDb.Accommodations.Remove(accommodation);
             appDb.AccommodationDetails.Remove(accommodationDetails);

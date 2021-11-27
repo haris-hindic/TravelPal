@@ -10,7 +10,7 @@ namespace TravelPalAPI.ViewModels.Accommodation
     {
         public string Name { get; set; }
         public double Price { get; set; }
-        public LocationCreationVM LocationCreation { get; set; }
-        public AccommodationDetailsCreationVM AccommodationDetailsCreation { get; set; }
+        public LocationCreationVM Location { get; set; }
+        public AccommodationDetailsCreationVM AccommodationDetails { get; set; }
     }
 }

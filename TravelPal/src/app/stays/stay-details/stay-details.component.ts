@@ -14,6 +14,10 @@ export class StayDetailsComponent implements OnInit {
   constructor(private _route: ActivatedRoute, private _http: HttpClient) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this._route.params.subscribe((params) => {
       this._http
         .get<AccommodationVM>(
@@ -24,5 +28,14 @@ export class StayDetailsComponent implements OnInit {
           console.log('data :>> ', data);
         });
     });
+  }
+
+  delete(id: number) {
+    console.log(id);
+    this._http
+      .delete(
+        `https://localhost:44325/api/AccommodationImage/delete-image/${id}`
+      )
+      .subscribe(() => this.loadData());
   }
 }

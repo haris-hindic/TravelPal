@@ -10,6 +10,7 @@ import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,12 @@ import { EventsDetailsComponent } from './events/events-details/events-details.c
     StayDetailsComponent,
     EventsDetailsComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    NgImageSliderModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
