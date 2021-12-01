@@ -12,7 +12,7 @@ const appRoutes: Routes = [
   { path: 'stays', component: StaysComponent },
   { path: 'stays/details/:id', component: StayDetailsComponent },
 
-  { path: 'events', component: EventsComponent},
+  { path: 'events', component: EventsComponent}
   { path: 'events/details/:id', component: EventsDetailsComponent },
 
 ];

@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Event;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
 {
@@ -18,49 +20,53 @@ namespace TravelPalAPI.Controllers
     public class EventController : ControllerBase
     {
         private readonly AppDbContext appDb;
+        private readonly IMapper mapper;
 
-        public EventController(AppDbContext appDb)
+        public EventController(AppDbContext appDb, IMapper imp)
         {
             this.appDb = appDb;
+            mapper = imp;
         }
 
 
         [HttpPost]
-        public ActionResult Post(EventCreationVM _eventVM)
+        public IActionResult Post(EventCreationVM _eventVM)
         {
-            appDb.Events.Add(new Event
-            {
-                Date = _eventVM.Date,
-                Duration = _eventVM.Duration,
-                EventDescription = _eventVM.EventDescription,
-                Location = new Location
-                {
-                    Country = _eventVM.LocationVM.Country,
-                    City = _eventVM.LocationVM.City,
-                    Address = _eventVM.LocationVM.Address
-                },
-                Name = _eventVM.Name,
-                Price = _eventVM.Price
-            });
+            var _event = mapper.Map<Event>(_eventVM);
+            appDb.Events.Add(_event);
 
             appDb.SaveChanges();
             return Ok("Event added");
+
         }
 
         [HttpGet]
         [Route("{_id}")]
-        public Event Get(int _id)
-        {
-            return appDb.Events.Include(x => x.Location).FirstOrDefault(x => x.Id == _id);
+        public ActionResult<EventVM> Get(int _id)
+        { 
+            if (appDb.Events.Any(e => e.Id == _id))
+                NotFound();
+
+            return appDb.Events.Select(e => new EventVM
+            {
+                Id=e.Id,
+                Name = e.Name,
+                Date = e.Date,
+                Price = e.Price,
+                EventDescription = e.EventDescription,
+                Duration = e.Duration,
+                LocationVM = mapper.Map<LocationVM>(e.Location)
+            }).FirstOrDefault(x => x.Id == _id);
         }
 
         [HttpDelete]
-        public ActionResult Delete(int _id)
+        public IActionResult Delete(int _id)
         {
             var del = appDb.Events.Find(_id);
-            return Ok($"{del.Name} was deleted");
+            appDb.Locations.Remove(appDb.Locations.FirstOrDefault(x => x.Id == del.LocationId));
             appDb.Remove(del);
             appDb.SaveChanges();
+            return Ok($"{del.Name} was deleted");
         }
 
 
@@ -72,7 +78,8 @@ namespace TravelPalAPI.Controllers
                 Id = e.Id,
                 Date=e.Date,
                 Duration=e.Duration,
-                Location=e.Location,
+                //Location=e.Location
+                LocationVM = mapper.Map<LocationVM>(e.Location),
                 EventDescription=e.EventDescription,
                 Name=e.Name,
                 Price=e.Price
@@ -81,7 +88,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPut, Route("update/{_id}")]
-        public ActionResult Update(int _id, EventEditVM _event)
+        public IActionResult Update(int _id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
 

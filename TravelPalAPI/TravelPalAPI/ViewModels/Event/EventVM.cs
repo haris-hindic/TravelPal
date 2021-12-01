@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.ViewModels.Event
 {
@@ -13,6 +14,7 @@ namespace TravelPalAPI.ViewModels.Event
         public DateTime Date { get; set; }
         public string Duration { get; set; }
         public string EventDescription { get; set; }
-        public Models.Location Location { get; set; }
+        public LocationVM LocationVM { get; set; }
+
     }
 }
