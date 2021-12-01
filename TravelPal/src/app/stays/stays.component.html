@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="r_card" *ngFor="let stay of stays; let i = index">
-      <img
+      <img *ngIf="stay.images.length>0"
         src="{{ stay.images[0].imagePath }}"
         class="r_card_header"
         alt="image"
