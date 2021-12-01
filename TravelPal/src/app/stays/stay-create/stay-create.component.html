@@ -1,0 +1,186 @@
+<div class="container">
+  <h1>Create new stay</h1>
+  <form class="row g-3" [formGroup]="form" (ngSubmit)="saveChanges()">
+    <div class="col-12">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" formControlName="name" />
+    </div>
+    <!-- <div class="col-md-6">
+      <label class="form-label">Rooms</label>
+      <input type="number" class="form-control" />
+    </div> -->
+    <div class="col-md-12">
+      <label class="form-label">Price</label>
+      <input type="number" class="form-control" formControlName="price" />
+    </div>
+    <div class="row g-3 mt-2" formGroupName="location">
+      <div class="col-4">
+        <label class="form-label">Country</label>
+        <input type="text" class="form-control" formControlName="country" />
+      </div>
+      <div class="col-4">
+        <label class="form-label">City</label>
+        <input type="text" class="form-control" formControlName="city" />
+      </div>
+      <div class="col-4">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" formControlName="address" />
+      </div>
+    </div>
+    <div class="row g-3 mt-2" formGroupName="accommodationDetails">
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="parking"
+          />
+          <label class="form-check-label"> Parking </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="wiFi"
+          />
+          <label class="form-check-label"> WiFi </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="shower"
+          />
+          <label class="form-check-label"> Shower </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="minibar"
+          />
+          <label class="form-check-label"> Minibar </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="airConditioning"
+          />
+          <label class="form-check-label"> Air Conditioning </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="safe"
+          />
+          <label class="form-check-label"> Safe </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="dryer"
+          />
+          <label class="form-check-label"> Dryer </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="flatScreenTV"
+          />
+          <label class="form-check-label"> Flat screen TV </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="petFriendly"
+          />
+          <label class="form-check-label"> Pet Friendly </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="bbq"
+          />
+          <label class="form-check-label"> BBQ </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="refrigerator"
+          />
+          <label class="form-check-label"> Refrigerator </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="balcony"
+          />
+          <label class="form-check-label"> Balcony </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            formControlName="mosquitoNet"
+          />
+          <label class="form-check-label"> Mosquito Net </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Select pictures</label>
+      <input
+        type="file"
+        class="form-control"
+        (change)="imageSelected($event)"
+      />
+    </div>
+    <div *ngIf="images && images.length > 0" class="row">
+      <div class="col-3 m-2" *ngFor="let img of images; let i = index">
+        <img
+          [src]="img"
+          alt=""
+          class="img-fluid m-2"
+          style="max-width: 500px; max-height: 200px"
+        />
+      </div>
+    </div>
+
+    <div class="col-12">
+      <a routerLink="stays" class="btn btn-secondary me-2">Cancel</a>
+      <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+  </form>
+</div>

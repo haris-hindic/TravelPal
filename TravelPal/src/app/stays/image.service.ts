@@ -9,7 +9,7 @@ export class ImageService {
 
   constructor(private _http: HttpClient) {}
 
-  addImages(id: number, images: File[]) {
+  addImages(id: number, images: FormData) {
     return this._http.post(`${this._apiURL}/${id}`, images);
   }
 

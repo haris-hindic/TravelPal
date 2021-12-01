@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { StayCreateComponent } from './stays/stay-create/stay-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,12 +23,14 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     EventsComponent,
     StayDetailsComponent,
     EventsDetailsComponent,
+    StayCreateComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     SweetAlert2Module.forRoot(),
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

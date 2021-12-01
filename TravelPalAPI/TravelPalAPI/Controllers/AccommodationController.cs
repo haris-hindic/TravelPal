@@ -29,13 +29,14 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] AccommodationCreationVM creationVM)
+        public ActionResult<int> Post([FromBody] AccommodationCreationVM creationVM)
         {
             var obj = mapper.Map<Accommodation>(creationVM);
 
             appDb.Accommodations.Add(obj);
             appDb.SaveChanges();
-            return Ok("Succesfully created!");
+            //return Ok("Succesfully created!");
+            return obj.Id;
         }
 
         [HttpPut,Route("{id}")]
