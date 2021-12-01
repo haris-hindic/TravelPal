@@ -13,6 +13,6 @@ namespace TravelPalAPI.ViewModels.Event
         public DateTime Date { get; set; }
         public string Duration { get; set; }
         public string EventDescription { get; set; }
-        public Models.Location Location { get; set; }
+        public Models.Location LocationVM { get; set; }
     }
 }

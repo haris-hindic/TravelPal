@@ -94,7 +94,7 @@ namespace TravelPalAPI.Controllers
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
 
-            temp.Location = _event.Location;
+            temp.Location = mapper.Map<Location>(_event.LocationVM);
             temp.Name = _event.Name;
             temp.Price = _event.Price;
             temp.Date = _event.Date;
