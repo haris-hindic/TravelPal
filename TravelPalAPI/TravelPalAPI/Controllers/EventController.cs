@@ -62,6 +62,8 @@ namespace TravelPalAPI.Controllers
         [HttpDelete]
         public IActionResult Delete(int _id)
         {
+            if (!appDb.Events.Any(x => x.Id == _id))
+                return NotFound();
             var del = appDb.Events.Find(_id);
             appDb.Locations.Remove(appDb.Locations.FirstOrDefault(x => x.Id == del.LocationId));
             appDb.Remove(del);
