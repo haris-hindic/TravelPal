@@ -14,9 +14,16 @@ export class StaysComponent implements OnInit {
   constructor(private _accommodationService: AccommodationService) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this._accommodationService.getAll().subscribe((data) => {
-      console.log(data);
       this.stays = data;
     });
+  }
+
+  delete(id: number) {
+    this._accommodationService.delete(id).subscribe((res) => this.loadData());
   }
 }

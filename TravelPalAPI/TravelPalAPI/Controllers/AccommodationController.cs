@@ -20,12 +20,16 @@ namespace TravelPalAPI.Controllers
     public class AccommodationController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IFileStorageService imageService;
+        private readonly string containerName = "Accommodation";
+
         private readonly AppDbContext appDb;
 
-        public AccommodationController(AppDbContext appDb,IMapper mapper)
+        public AccommodationController(AppDbContext appDb,IMapper mapper,IFileStorageService imageService)
         {
             this.appDb = appDb;
             this.mapper = mapper;
+            this.imageService = imageService;
         }
 
         [HttpPost]
@@ -54,7 +58,7 @@ namespace TravelPalAPI.Controllers
 
             appDb.Update(x);
             appDb.SaveChanges();
-            return Ok("Updated succesfully!");
+            return Ok();
         }
 
         [HttpGet]
@@ -100,15 +104,23 @@ namespace TravelPalAPI.Controllers
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
             var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
-            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id).ToList();
             var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id== accommodation.LocationId);
+            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id).ToList();
+            var imageIds = accommodationImages.Select(x => x.ImageId).ToList();
+            var images = appDb.Images.Where(x => imageIds.Contains(x.Id)).ToList();
+
+            foreach (var img in images)
+            {
+                imageService.DeleteFile(img.ImagePath, containerName);
+            }
 
             appDb.Accommodations.Remove(accommodation);
             appDb.AccommodationDetails.Remove(accommodationDetails);
             appDb.AccommodationImages.RemoveRange(accommodationImages);
+            appDb.Images.RemoveRange(images);
             appDb.Locations.Remove(accommodationLocation);
             appDb.SaveChanges();
-            return Ok("Succesfully deleted!");
+            return Ok();
         }
     }
 }

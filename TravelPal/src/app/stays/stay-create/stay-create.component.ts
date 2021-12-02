@@ -14,6 +14,7 @@ export class StayCreateComponent implements OnInit {
   form!: FormGroup;
   formData: FormData = new FormData();
   images: string[] = [];
+  imagesFiles: File[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -51,16 +52,24 @@ export class StayCreateComponent implements OnInit {
 
   imageSelected(event: any) {
     if (event.target.files.length > 0) {
-      this.formData.append('images', event.target.files[0]);
-
+      //this.formData.append('images', event.target.files[0]);
+      this.imagesFiles.push(event.target.files[0]);
       toBase64(event.target.files[0]).then((img) => {
         this.images.push(img);
       });
     }
   }
 
+  deleteImage(i: number) {
+    this.images.splice(i, 1);
+    this.imagesFiles.splice(i, 1);
+  }
+
   saveChanges() {
     this._accommodationService.add(this.form.value).subscribe((res) => {
+      this.imagesFiles.forEach((img) => {
+        this.formData.append('images', img);
+      });
       this._imageService
         .addImages(res as number, this.formData)
         .subscribe(() => {

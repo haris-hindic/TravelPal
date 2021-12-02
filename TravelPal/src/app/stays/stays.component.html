@@ -50,6 +50,22 @@
                 / night
               </div>
             </div>
+            <div>
+              <a class="btn btn-outline-warning" routerLink="edit/{{ stay.id }}"
+                >Edit</a
+              >
+              <button
+                class="btn btn-outline-danger"
+                [swal]="{
+                  title: 'Confirmation',
+                  text: 'Are you sure?',
+                  showCancelButton: true
+                }"
+                (confirm)="delete(stay.id)"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>

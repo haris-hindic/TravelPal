@@ -28,13 +28,11 @@ export class StayDetailsComponent implements OnInit {
         .getById(params.id)
         .subscribe((data: AccommodationVM) => {
           this.stay = data;
-          console.log('data :>> ', data);
         });
     });
   }
 
   delete(id: number) {
-    console.log(id);
     this._imageService.deleteImage(id).subscribe(() => this.loadData());
   }
 }
