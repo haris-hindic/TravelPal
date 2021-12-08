@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventsService } from '../events.service';
 
 @Component({
   selector: 'app-events-details',
@@ -14,22 +15,30 @@ export class EventsDetailsComponent implements OnInit {
   event: any;
   eventLoad = false;
 
-  constructor(private http: HttpClient, private router: ActivatedRoute) { }
+  constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router) { }
 
   ngOnInit(): void {
-    this.router.params.subscribe(
-      (parameter) =>
+    this.activeRouter.params.subscribe((parameter) =>
       {
         this.id=parameter.id;
       }
-    )
-    this.http.get(this.url + '/' + this.id).subscribe(
-      (parameter) =>
+    );
+
+    this.es.getSpecific(this.id).subscribe(e=>
       {
-        this.event=parameter;
+        this.event=e;
         this.eventLoad=true;
-      }
-    )
+      });
+
+  }
+  
+  deleteEvent(id: number)
+  {
+    this.es.delete(id).subscribe(x=>
+      {
+        alert('Event deleted!');
+        this.route.navigate(['events']);
+      });
   }
 
 }

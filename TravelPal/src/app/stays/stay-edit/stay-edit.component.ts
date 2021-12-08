@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toBase64 } from 'src/app/helpers/toBase64';
+import { Image } from 'src/app/models/image.model';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from '../image.service';
-import { AccommodationVM, Image } from '../stays.model';
+import { AccommodationVM} from '../stays.model';
 
 @Component({
   selector: 'app-stay-edit',

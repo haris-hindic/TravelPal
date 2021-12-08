@@ -1,3 +1,6 @@
+import { Image } from "../models/image.model";
+import { LocationCreationVM, LocationVM } from "../models/location.model";
+
 export interface AccommodationVM {
   id: number;
   name: string;
@@ -19,24 +22,6 @@ export interface AccommodationEditVM {
   price: number;
   location: LocationVM;
   accommodationDetails: AccommodationDetailsVM;
-}
-
-export interface Image {
-  id: number;
-  imagePath: string;
-}
-
-export interface LocationVM {
-  id: number;
-  country: string;
-  city: string;
-  address: string;
-}
-
-export interface LocationCreationVM {
-  country: string;
-  city: string;
-  address: string;
 }
 
 export interface AccommodationDetailsVM {
