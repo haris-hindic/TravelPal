@@ -59,7 +59,7 @@ namespace TravelPalAPI.Controllers
             }).FirstOrDefault(x => x.Id == _id);
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{_id}")]
         public IActionResult Delete(int _id)
         {
             if (!appDb.Events.Any(x => x.Id == _id))
@@ -89,7 +89,7 @@ namespace TravelPalAPI.Controllers
 
         }
 
-        [HttpPut, Route("update/{_id}")]
+        [HttpPut, Route("{_id}")]
         public IActionResult Update(int _id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
