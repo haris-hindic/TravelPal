@@ -2,5 +2,6 @@
     <li class="list-group-item">NAME: {{event.name}}</li>
     <li class="list-group-item">DATE: {{event.date}}</li>
     <li class="list-group-item">PRICE: {{event.price}}</li>
-    <button class="btn-danger" (click)="deleteEvent(event.id)">Delete event</button>
+    <div class="col-xs-12">
+    <button class="btn btn-danger" style="margin-top: 20px; margin-left: 20px;" (click)="deleteEvent(event.id)">Delete event</button></div>
   </ul>

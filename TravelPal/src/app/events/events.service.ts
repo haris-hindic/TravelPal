@@ -24,7 +24,6 @@ export class EventsService {
   }
   delete(id: number)
   {
-    console.log(id);
     return this.http.delete(this.url + '/Event/' + id, {responseType: 'text'});
   }
 }

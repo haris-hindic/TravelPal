@@ -22,7 +22,6 @@ export class EventsComponent implements OnInit {
     this.es.post({id:142, name: 'Ermin', price:24, date: '2021-12-12', duration:'2', eventDescription: 'Ajmo', locationVM: {
       id: 1, country:'BiH', city:'Mostar', address:'MostarskaBB'}}).subscribe(x=>
       {
-        alert("Uspjesno dodat event");
         this.loadList();
       });
   }
@@ -32,5 +31,9 @@ export class EventsComponent implements OnInit {
     this.es.get().subscribe((e) => {
       this.events = e;
     });
+  }
+  createEvent()
+  {
+    
   }
 }
