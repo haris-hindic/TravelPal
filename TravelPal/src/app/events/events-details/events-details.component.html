@@ -2,6 +2,12 @@
     <li class="list-group-item">NAME: {{event.name}}</li>
     <li class="list-group-item">DATE: {{event.date}}</li>
     <li class="list-group-item">PRICE: {{event.price}}</li>
+    <li class="list-group-item">DURATION: {{event.duration}}</li>
+    <li class="list-group-item">COUNTRY: {{event.locationVM.country}}</li>
+    <li class="list-group-item">CITY: {{event.locationVM.city}}</li>
+    <li class="list-group-item">ADDRESS: {{event.locationVM.address}}</li>
+    <li class="list-group-item">DESCRIPTION: {{event.eventDescription}}</li>
     <div class="col-xs-12">
-    <button class="btn btn-danger" style="margin-top: 20px; margin-left: 20px;" (click)="deleteEvent(event.id)">Delete event</button></div>
+    <button class="btn btn-danger" style="margin-top: 20px; margin-left: 20px;" (click)="deleteEvent(event.id)">Delete event</button>
+    <button class="btn btn-warning" style="margin-top: 20px; margin-left: 20px;" routerLink="../../edit/{{id}}">Edit</button></div>
   </ul>

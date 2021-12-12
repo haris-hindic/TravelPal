@@ -30,13 +30,13 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Post(EventCreationVM _eventVM)
+        public void Post( EventCreationVM _eventCreation)
         {
-            var _event = mapper.Map<Event>(_eventVM);
+            var _event = mapper.Map<Event>(_eventCreation);
+
             appDb.Events.Add(_event);
 
             appDb.SaveChanges();
-            return Ok("Event added");
 
         }
 
@@ -90,7 +90,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPut, Route("{_id}")]
-        public IActionResult Update(int _id, EventEditVM _event)
+        public void Update(int _id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
 
@@ -103,7 +103,6 @@ namespace TravelPalAPI.Controllers
 
             appDb.Events.Update(temp);
             appDb.SaveChanges();
-            return Ok("Event updated");
         }
        
         

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
+import { EventsEditComponent } from './events/events-edit/events-edit.component';
 import { EventsComponent } from './events/events.component';
 import { HomeComponent } from './home/home.component';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'events', component: EventsComponent},
   { path: 'events/details/:id', component: EventsDetailsComponent},
   { path: 'events/creation', component: EventsCreationComponent },
+  { path: 'events/edit/:id', component: EventsEditComponent },
   {path: '**', redirectTo: ''}
 ];
 @NgModule({

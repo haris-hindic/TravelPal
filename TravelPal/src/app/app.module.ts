@@ -15,6 +15,7 @@ import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
+import { EventsEditComponent } from './events/events-edit/events-edit.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EventsCreationComponent } from './events/events-creation/events-creatio
     StayCreateComponent,
     StayEditComponent,
     EventsCreationComponent,
+    EventsEditComponent,
   ],
   imports: [
     BrowserModule,
