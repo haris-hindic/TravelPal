@@ -55,7 +55,8 @@ export class EventsEditComponent implements OnInit {
   {
     this.es.edit(this.id, this.groupData.value).subscribe(e=>
       {
-        alert('Event added');
+        alert('Event edited');
+        this.router.navigate(['events']);
       })
   }
 
