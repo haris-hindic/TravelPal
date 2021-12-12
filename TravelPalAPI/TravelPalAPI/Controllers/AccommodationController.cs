@@ -39,7 +39,6 @@ namespace TravelPalAPI.Controllers
 
             appDb.Accommodations.Add(obj);
             appDb.SaveChanges();
-            //return Ok("Succesfully created!");
             return obj.Id;
         }
 
@@ -58,7 +57,7 @@ namespace TravelPalAPI.Controllers
 
             appDb.Update(x);
             appDb.SaveChanges();
-            return Ok();
+            return NoContent();
         }
 
         [HttpGet]

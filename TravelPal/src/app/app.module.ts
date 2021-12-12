@@ -14,6 +14,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
+import { DisplayErrorsComponent } from './helpers/display-errors/display-errors.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
     EventsDetailsComponent,
     StayCreateComponent,
     StayEditComponent,
+    DisplayErrorsComponent,
   ],
   imports: [
     BrowserModule,
