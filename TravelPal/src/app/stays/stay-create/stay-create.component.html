@@ -1,9 +1,27 @@
 <div class="container">
   <h1>Create new stay</h1>
+  <app-display-errors
+    *ngIf="errors.length > 0"
+    [errors]="errors"
+  ></app-display-errors>
   <form class="row g-3" [formGroup]="form" (ngSubmit)="saveChanges()">
     <div class="col-12">
       <label class="form-label">Name</label>
-      <input type="text" class="form-control" formControlName="name" />
+      <input
+        [ngClass]="
+          !form.get('name')?.valid && form.get('name')?.touched
+            ? 'border-danger'
+            : ''
+        "
+        type="text"
+        class="form-control"
+        formControlName="name"
+      />
+      <label
+        class="form-label text-danger"
+        *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+        >The name is a required field!</label
+      >
     </div>
     <!-- <div class="col-md-6">
       <label class="form-label">Rooms</label>
@@ -11,20 +29,88 @@
     </div> -->
     <div class="col-md-12">
       <label class="form-label">Price</label>
-      <input type="number" class="form-control" formControlName="price" />
+      <input
+        [ngClass]="
+          !form.get('price')?.valid && form.get('price')?.touched
+            ? 'border-danger'
+            : ''
+        "
+        type="number"
+        class="form-control"
+        formControlName="price"
+      />
+      <label
+        class="form-label text-danger"
+        *ngIf="!form.get('price')?.valid && form.get('price')?.touched"
+        >The price is a required field!</label
+      >
     </div>
     <div class="row g-3 mt-2" formGroupName="location">
       <div class="col-4">
         <label class="form-label">Country</label>
-        <input type="text" class="form-control" formControlName="country" />
+        <input
+          [ngClass]="
+            !form.get('location.country')?.valid &&
+            form.get('location.country')?.touched
+              ? 'border-danger'
+              : ''
+          "
+          type="text"
+          class="form-control"
+          formControlName="country"
+        />
+        <label
+          class="form-label text-danger"
+          *ngIf="
+            !form.get('location.country')?.valid &&
+            form.get('location.country')?.touched
+          "
+          >The country is a required field!</label
+        >
       </div>
       <div class="col-4">
         <label class="form-label">City</label>
-        <input type="text" class="form-control" formControlName="city" />
+        <input
+          [ngClass]="
+            !form.get('location.city')?.valid &&
+            form.get('location.city')?.touched
+              ? 'border-danger'
+              : ''
+          "
+          type="text"
+          class="form-control"
+          formControlName="city"
+        />
+        <label
+          class="form-label text-danger"
+          *ngIf="
+            !form.get('location.city')?.valid &&
+            form.get('location.city')?.touched
+          "
+          >The city is a required field!</label
+        >
       </div>
       <div class="col-4">
         <label class="form-label">Address</label>
-        <input type="text" class="form-control" formControlName="address" />
+        <input
+          [ngClass]="
+            !form.get('location.address')?.valid &&
+            form.get('location.address')?.touched
+              ? 'border-danger'
+              : ''
+          "
+          type="text"
+          class="form-control"
+          formControlName="address"
+        />
+        <label
+          class="form-label text-danger"
+          *ngIf="
+            !form.get('location.address')?.valid &&
+            form.get('location.address')?.touched
+          "
+          >The Address is a required field!</label
+        >
       </div>
     </div>
     <div class="row g-3 mt-2" formGroupName="accommodationDetails">
@@ -165,7 +251,13 @@
         type="file"
         class="form-control"
         (change)="imageSelected($event)"
+        #img
       />
+      <label
+        class="form-label text-danger"
+        *ngIf="imagesFiles.length === 0 && form.valid"
+        >Photos are required!</label
+      >
     </div>
     <div *ngIf="images && images.length > 0" class="row">
       <div class="col-3 m-2" *ngFor="let img of images; let i = index">
@@ -193,7 +285,13 @@
 
     <div class="col-12">
       <a routerLink="/stays" class="btn btn-secondary me-2">Cancel</a>
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button
+        type="submit"
+        [disabled]="form.invalid || imagesFiles.length === 0"
+        class="btn btn-primary"
+      >
+        Create
+      </button>
     </div>
   </form>
 </div>
