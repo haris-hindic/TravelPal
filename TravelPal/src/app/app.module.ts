@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
@@ -16,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
+import { DisplayErrorsComponent } from './helpers/display-errors/display-errors.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { EventsEditComponent } from './events/events-edit/events-edit.component'
     StayEditComponent,
     EventsCreationComponent,
     EventsEditComponent,
+    DisplayErrorsComponent,
   ],
   imports: [
     BrowserModule,

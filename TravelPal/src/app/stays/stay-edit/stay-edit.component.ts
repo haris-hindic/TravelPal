@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { Image } from 'src/app/models/image.model';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from '../image.service';
-import { AccommodationVM} from '../stays.model';
+import { AccommodationVM } from '../stays.model';
 
 @Component({
   selector: 'app-stay-edit',
@@ -14,10 +15,12 @@ import { AccommodationVM} from '../stays.model';
 })
 export class StayEditComponent implements OnInit {
   form!: FormGroup;
-  images!: Image[];
+  images: Image[] = [];
   formData: FormData = new FormData();
   newImages: string[] = [];
   newImageFiles: File[] = [];
+
+  errors: string[] = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -69,22 +72,36 @@ export class StayEditComponent implements OnInit {
   }
 
   saveChanges() {
+    this.errors = [];
     this._accommodationService
       .update(this._route.snapshot.params.id, this.form.value)
-      .subscribe(() => {
-        if (this.newImageFiles.length > 0) {
-          this.newImageFiles.forEach((img) => {
-            this.formData.append('images', img);
-          });
-          this._imageService
-            .addImages(this._route.snapshot.params.id as number, this.formData)
-            .subscribe(() => {
-              this._router.navigate(['stays']);
+      .subscribe(
+        () => {
+          if (this.newImageFiles.length > 0) {
+            this.newImageFiles.forEach((img) => {
+              this.formData.append('images', img);
             });
-        } else {
-          this._router.navigate(['stays']);
+            this._imageService
+              .addImages(
+                this._route.snapshot.params.id as number,
+                this.formData
+              )
+              .subscribe(
+                () => {
+                  this._router.navigate(['stays']);
+                },
+                (err) => {
+                  this.errors = parseWebAPiErrors(err);
+                }
+              );
+          } else {
+            this._router.navigate(['stays']);
+          }
+        },
+        (err) => {
+          this.errors = parseWebAPiErrors(err);
         }
-      });
+      );
   }
 
   deleteImage(id: number) {

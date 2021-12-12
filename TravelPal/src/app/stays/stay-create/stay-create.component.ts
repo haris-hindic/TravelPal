@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from '../image.service';
@@ -15,6 +16,10 @@ export class StayCreateComponent implements OnInit {
   formData: FormData = new FormData();
   images: string[] = [];
   imagesFiles: File[] = [];
+
+  errors: string[] = [];
+
+  //@ViewChild('img') img!: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -66,15 +71,21 @@ export class StayCreateComponent implements OnInit {
   }
 
   saveChanges() {
-    this._accommodationService.add(this.form.value).subscribe((res) => {
-      this.imagesFiles.forEach((img) => {
-        this.formData.append('images', img);
-      });
-      this._imageService
-        .addImages(res as number, this.formData)
-        .subscribe(() => {
-          this._router.navigate(['stays']);
+    this.errors = [];
+
+    this._accommodationService.add(this.form.value).subscribe(
+      (res) => {
+        this.imagesFiles.forEach((img) => {
+          this.formData.append('images', img);
         });
-    });
+        this._imageService.addImages(res as number, this.formData).subscribe(
+          () => {
+            this._router.navigate(['stays']);
+          },
+          (err) => (this.errors = parseWebAPiErrors(err))
+        );
+      },
+      (err) => (this.errors = parseWebAPiErrors(err))
+    );
   }
 }
