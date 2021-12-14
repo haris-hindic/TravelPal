@@ -16,6 +16,9 @@ import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
 import { DisplayErrorsComponent } from './helpers/display-errors/display-errors.component';
+import { AuthViewComponent } from './security/auth-view/auth-view.component';
+import { SignUpComponent } from './security/sign-up/sign-up.component';
+import { SignInComponent } from './security/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { DisplayErrorsComponent } from './helpers/display-errors/display-errors.
     EventsCreationComponent,
     EventsEditComponent,
     DisplayErrorsComponent,
+    AuthViewComponent,
+    SignUpComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,

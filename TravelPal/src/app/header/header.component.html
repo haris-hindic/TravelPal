@@ -60,7 +60,29 @@
   </ul>
 
   <div class="col-md-3 text-end">
-    <a class="btn btn-outline-secondary rounded-circle me-1">Login</a>
-    <a class="btn btn-outline-secondary rounded-circle me-1">Sign-up</a>
+    <app-auth-view>
+      <ng-container notAuthorized>
+        <a
+          routerLink="signin"
+          class="btn btn-outline-secondary rounded-circle me-1"
+          >Sign-in</a
+        >
+        <a
+          routerLink="signup"
+          class="btn btn-outline-secondary rounded-circle me-1"
+          >Sign-up</a
+        >
+      </ng-container>
+      <ng-container authorized>
+        <span class="btn btn-outline-primary rounded-pill me-1">
+          {{ _securityService.getFieldFromJWT("userName") }}</span
+        >
+        <a
+          (click)="_securityService.logout()"
+          class="btn btn-outline-secondary rounded-circle me-1"
+          >Log out</a
+        >
+      </ng-container>
+    </app-auth-view>
   </div>
 </header>

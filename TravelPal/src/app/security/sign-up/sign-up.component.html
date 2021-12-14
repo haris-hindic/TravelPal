@@ -1,0 +1,90 @@
+<div
+  class="container rounded shadow-sm mt-5"
+  style="border: 0.5px rgb(255, 245, 245) solid"
+>
+  <div class="row">
+    <div class="col-7">
+      <app-display-errors
+        *ngIf="errors.length > 0"
+        [errors]="errors"
+      ></app-display-errors>
+      <h2>Sign Up</h2>
+      <form class="registracija" [formGroup]="form" (ngSubmit)="signUp()">
+        <div class="form-group">
+          <label class="form-label">Ime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite vaše ime"
+            formControlName="firstName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prezime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite vaše prezime"
+            formControlName="lastName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Korisničko ime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite korisničko ime"
+            formControlName="userName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Unesite email"
+            formControlName="email"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Broj telefona</label>
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="Unesite broj telefona"
+            formControlName="phoneNumber"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Šifra"
+            formControlName="password"
+          />
+        </div>
+
+        <!-- <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Potvrdite šifru"
+          />
+        </div> -->
+        <br />
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+        <div><a class="btn">Already registered?&nbsp;Sign In</a></div>
+      </form>
+    </div>
+    <div class="col-5">
+      <img
+        class="img-fluid mt-2"
+        style="width: 600px; height: 500px"
+        src="https://images.pexels.com/photos/4496960/pexels-photo-4496960.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      />
+    </div>
+  </div>
+</div>

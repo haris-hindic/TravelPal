@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using TravelPalAPI.Models;
 
 namespace TravelPalAPI.Database
 {
-    public class AppDbContext : DbContext 
+    public class AppDbContext : IdentityDbContext 
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -20,10 +21,13 @@ namespace TravelPalAPI.Database
         public DbSet<AccommodationDetails> AccommodationDetails{ get; set; }
         public DbSet<Image> Images{ get; set; }
         public DbSet<AccommodationImage> AccommodationImages{ get; set; }
+        public DbSet<UserAccount> UserAccounts{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccommodationImage>().HasKey(k => new { k.AccommodationId,k.ImageId});
+
+            base.OnModelCreating(modelBuilder);
         }
         
     }
