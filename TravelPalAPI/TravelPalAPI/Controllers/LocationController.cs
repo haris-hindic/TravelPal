@@ -27,6 +27,8 @@ namespace TravelPalAPI.Controllers
 
             appDb.Locations.Add(new Location{ Country = obj.Country, City = obj.City, Address=obj.Address});
             appDb.SaveChanges();
+
+            appDb.SaveChanges(); //TEST STUDIO 22
         }
 
         [HttpGet]
