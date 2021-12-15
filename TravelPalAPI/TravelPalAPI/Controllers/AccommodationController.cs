@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +13,14 @@ using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
+using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme )]
     public class AccommodationController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -36,6 +40,7 @@ namespace TravelPalAPI.Controllers
         public ActionResult<int> Post([FromBody] AccommodationCreationVM creationVM)
         {
             var obj = mapper.Map<Accommodation>(creationVM);
+            
 
             appDb.Accommodations.Add(obj);
             appDb.SaveChanges();
@@ -60,7 +65,7 @@ namespace TravelPalAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet]
+        [HttpGet,AllowAnonymous]
         public ActionResult<IEnumerable<AccommodationVM>> Get()
         {
             var accommodations = appDb.Accommodations
@@ -69,16 +74,39 @@ namespace TravelPalAPI.Controllers
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
+                   User= mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = x.AccommodationImages.Select(x => x.Image).ToList()
 
                }).ToList();
+
+            return accommodations;
+        }
+
+        [HttpGet, Route("user/{id}")]
+        public ActionResult<IEnumerable<AccommodationVM>> GetByUser(string id)
+        {
+            if (!appDb.UserAccounts.Any(x => x.Id == id)) return BadRequest("No such user!");
+
+            var accommodations = appDb.Accommodations.Where(x=>x.HostId==id)
+               .Select(x => new AccommodationVM
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Price = x.Price,
+                   User = mapper.Map<UserVM>(x.Host),
+                   Location = mapper.Map<LocationVM>(x.Location),
+                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   Images = x.AccommodationImages.Select(x => x.Image).ToList()
+
+               }).ToList();
+
             return accommodations;
         }
 
 
-        [HttpGet,Route("{id}")]
+        [HttpGet,Route("{id}"), AllowAnonymous]
         public ActionResult<AccommodationVM> Get(int id)
         {
             if (appDb.Accommodations.Any(x => x.Id == id))
@@ -90,10 +118,12 @@ namespace TravelPalAPI.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Price = x.Price,
+                    User= mapper.Map<UserVM>(x.Host),
                     Location = mapper.Map<LocationVM>(x.Location),
                     AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                     Images = x.AccommodationImages.Select(x => x.Image).ToList()
                 }).FirstOrDefault(x => x.Id == id);
+
 
             return accommodation;
         }

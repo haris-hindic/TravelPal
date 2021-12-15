@@ -11,11 +11,13 @@ import { SignUpComponent } from './security/sign-up/sign-up.component';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
+import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { StaysComponent } from './stays/stays.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'stays', component: StaysComponent },
+  { path: 'user-stays/:id', component: StayUserComponent },
   {
     path: 'stays/create',
     component: StayCreateComponent,

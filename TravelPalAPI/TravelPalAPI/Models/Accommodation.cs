@@ -9,8 +9,8 @@ namespace TravelPalAPI.Models
     public class Accommodation
     {
         public int Id { get; set; }
-        //public int HostID { get; set; }
-        //public Host Host { get; set; }
+        public string HostId { get; set; }
+        public UserAccount Host { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public int LocationId { get; set; }

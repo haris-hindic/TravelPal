@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
@@ -19,6 +19,8 @@ import { DisplayErrorsComponent } from './helpers/display-errors/display-errors.
 import { AuthViewComponent } from './security/auth-view/auth-view.component';
 import { SignUpComponent } from './security/sign-up/sign-up.component';
 import { SignInComponent } from './security/sign-in/sign-in.component';
+import { JwtInterceptorService } from './security/jwt-interceptor.service';
+import { StayUserComponent } from './stays/stay-user/stay-user.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { SignInComponent } from './security/sign-in/sign-in.component';
     AuthViewComponent,
     SignUpComponent,
     SignInComponent,
+    StayUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,13 @@ import { SignInComponent } from './security/sign-in/sign-in.component';
     SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

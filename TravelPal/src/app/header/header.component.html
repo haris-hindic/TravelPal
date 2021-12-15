@@ -74,11 +74,41 @@
         >
       </ng-container>
       <ng-container authorized>
-        <span class="btn btn-outline-primary rounded-pill me-1">
-          {{ _securityService.getFieldFromJWT("userName") }}</span
-        >
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-pill me-1 dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ _securityService.getFieldFromJWT("userName") }}
+          </button>
+          <ul class="dropdown-menu text-center">
+            <li>
+              <a
+                routerLink="user-stays/{{
+                  _securityService.getFieldFromJWT('id')
+                }}"
+                class="btn btn-outline-success rounded-pill"
+              >
+                My Stays</a
+              >
+            </li>
+            <li>
+              <a class="btn btn-outline-secondary rounded-pill mt-2" href="#"
+                >Another action</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="btn btn-outline-info rounded-pill" href="#"
+                >Separated link</a
+              >
+            </li>
+          </ul>
+        </div>
         <a
-          (click)="_securityService.logout()"
+          (click)="logout()"
           class="btn btn-outline-secondary rounded-circle me-1"
           >Log out</a
         >

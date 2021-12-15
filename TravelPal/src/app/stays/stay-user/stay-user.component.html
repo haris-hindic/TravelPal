@@ -1,0 +1,46 @@
+<div class="container">
+  <h2>My Stays</h2>
+  <div class="container table-responsive py-5">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Location</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stay of stays">
+          <th scope="row">{{ stay.name }}</th>
+          <td>{{ stay.price | currency }}</td>
+          <td>{{ stay.location.city }},{{ stay.location.country }}</td>
+          <td class="text-center">
+            <a
+              routerLink="/stays/details/{{ stay.id }}"
+              class="btn btn-outline-primary me-1"
+              >Details</a
+            >
+            <a
+              routerLink="/stays/edit/{{ stay.id }}"
+              class="btn btn-outline-success me-1"
+              >Edit</a
+            >
+            <button
+              class="btn btn-outline-danger"
+              [swal]="{
+                title: 'Confirmation',
+                text: 'Are you sure?',
+                showCancelButton: true
+              }"
+              (confirm)="delete(stay.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+        <tr></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

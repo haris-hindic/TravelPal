@@ -1,10 +1,12 @@
-import { Image } from "../models/image.model";
-import { LocationCreationVM, LocationVM } from "../models/location.model";
+import { Image } from '../models/image.model';
+import { LocationCreationVM, LocationVM } from '../models/location.model';
+import { userVM } from '../models/user.model';
 
 export interface AccommodationVM {
   id: number;
   name: string;
   price: number;
+  user: userVM;
   location: LocationVM;
   accommodationDetails: AccommodationDetailsVM;
   images: Image[];
@@ -13,6 +15,7 @@ export interface AccommodationVM {
 export interface AccommodationCreationVM {
   name: string;
   price: number;
+  hostId: string;
   location: LocationCreationVM;
   accommodationDetails: AccommodationDetailsCreationVM;
 }

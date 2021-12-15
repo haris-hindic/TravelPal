@@ -7,6 +7,7 @@ using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.Event;
+using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Helpers
@@ -34,7 +35,9 @@ namespace TravelPalAPI.Helpers
                 .ForMember(X => X.Location,
                 vm => vm.MapFrom(x => x.Location))
                 .ForMember(X => X.AccommodationDetails,
-                vm => vm.MapFrom(x => x.AccommodationDetails));
+                vm => vm.MapFrom(x => x.AccommodationDetails))
+                 .ForMember(X => X.User,
+                vm => vm.MapFrom(x => x.Host));
             //Event
             CreateMap<EventCreationVM, Event>()
                 .ForMember(x => x.Location,
@@ -42,6 +45,11 @@ namespace TravelPalAPI.Helpers
             CreateMap<Event, EventVM>()
                 .ForMember(x => x.LocationVM,
                 vm => vm.MapFrom(x => x.Location));
+            //User
+            CreateMap<UserAccount, UserVM>()
+                .ForMember(x => x.Id, user => user.MapFrom(x => x.Id))
+                .ForMember(x => x.UserName, user => user.MapFrom(x => x.UserName));
+
 
         }
     }

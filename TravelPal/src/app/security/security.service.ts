@@ -52,6 +52,10 @@ export class SecurityService {
     );
   }
 
+  getToken() {
+    return localStorage.getItem(this.tokenKey);
+  }
+
   getFieldFromJWT(field: string) {
     const token = localStorage.getItem(this.tokenKey);
     if (!token) return '';

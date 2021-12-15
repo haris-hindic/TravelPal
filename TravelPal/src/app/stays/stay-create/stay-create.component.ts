@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
+import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from '../image.service';
 
@@ -25,13 +26,15 @@ export class StayCreateComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _accommodationService: AccommodationService,
     private _imageService: ImageService,
-    private _router: Router
+    private _router: Router,
+    private _securityService: SecurityService
   ) {}
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
       name: ['', { validators: [Validators.required] }],
       price: ['', { validators: [Validators.required] }],
+      hostId: [`${this._securityService.getFieldFromJWT('id')}`],
       location: this._formBuilder.group({
         country: ['', { validators: [Validators.required] }],
         city: ['', { validators: [Validators.required] }],
@@ -53,6 +56,7 @@ export class StayCreateComponent implements OnInit {
         mosquitoNet: false,
       }),
     });
+    console.log(this.form.value);
   }
 
   imageSelected(event: any) {

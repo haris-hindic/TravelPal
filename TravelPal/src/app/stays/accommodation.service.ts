@@ -22,6 +22,10 @@ export class AccommodationService {
     return this._http.get<AccommodationVM>(`${this._apiURL}/${id}`);
   }
 
+  getByUser(id: string) {
+    return this._http.get<AccommodationVM[]>(`${this._apiURL}/user/${id}`);
+  }
+
   add(accommodation: AccommodationCreationVM) {
     return this._http.post(this._apiURL, accommodation);
   }

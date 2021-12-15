@@ -41,8 +41,10 @@ namespace TravelPalAPI.Controllers
             var result = await signInManager.PasswordSignInAsync(userCredentials.UserName, 
                 userCredentials.Password, isPersistent: false, lockoutOnFailure: false);
 
+            var user = await userManager.FindByNameAsync(userCredentials.UserName);
+
             if (result.Succeeded)
-                return BuildToken(userCredentials.UserName);
+                return BuildToken(user);
             else
                 return BadRequest("Incorrect Login");
         }
@@ -62,16 +64,17 @@ namespace TravelPalAPI.Controllers
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
             if (result.Succeeded)
-                return BuildToken(userCredentials.UserName);
+                return BuildToken(user);
             else
                 return BadRequest(result.Errors);
         }
 
-        private AuthentificationResponse BuildToken(string userName)
+        private AuthentificationResponse BuildToken(UserAccount user)
         {
             var claims = new List<Claim>()
             {
-                new Claim("userName",userName)
+                new Claim("userName",user.UserName),
+                new Claim("id",user.Id)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
