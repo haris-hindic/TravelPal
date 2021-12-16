@@ -21,6 +21,7 @@ import { SignUpComponent } from './security/sign-up/sign-up.component';
 import { SignInComponent } from './security/sign-in/sign-in.component';
 import { JwtInterceptorService } from './security/jwt-interceptor.service';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
+import { UserListComponent } from './admin/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { StayUserComponent } from './stays/stay-user/stay-user.component';
     SignUpComponent,
     SignInComponent,
     StayUserComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,

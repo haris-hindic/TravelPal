@@ -12,6 +12,7 @@ import {
 export class SecurityService {
   private tokenKey: string = 'token';
   private expirationTokenKey: string = 'token-expiration';
+  private roleKey: string = 'role';
   constructor(private _http: HttpClient) {}
 
   isAuthenticated() {
@@ -28,6 +29,14 @@ export class SecurityService {
     }
 
     return true;
+  }
+
+  isAdmin() {
+    const role = this.getFieldFromJWT(this.roleKey);
+
+    if (role === 'admin') return true;
+
+    return false;
   }
 
   signUp(credentials: signUpCredentials) {
@@ -58,6 +67,7 @@ export class SecurityService {
 
   getFieldFromJWT(field: string) {
     const token = localStorage.getItem(this.tokenKey);
+
     if (!token) return '';
 
     const dataToken = JSON.parse(atob(token.split('.')[1]));

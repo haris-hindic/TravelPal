@@ -9,5 +9,8 @@ namespace TravelPalAPI.ViewModels.Identity
     {
         public string Id { get; set; }
         public string UserName { get; set; }
+        public int StaysListed { get; set; } = 1;
+        public int EventsListed { get; set; } = 1;
+        public bool IsAdmin { get; set; }
     }
 }

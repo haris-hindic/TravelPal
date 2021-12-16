@@ -1,0 +1,49 @@
+<div class="container">
+  <h2>User List</h2>
+  <div class="container table-responsive py-5">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Stays Listed</th>
+          <th scope="col">Events Listed</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <th scope="row">{{ user.userName }}</th>
+          <td>{{ user.staysListed }}</td>
+          <td>{{ user.eventsListed }}</td>
+          <td class="text-center">
+            <button
+              (click)="makeAdmin(user.id)"
+              *ngIf="!user.isAdmin"
+              class="btn btn-outline-primary me-1"
+            >
+              Make Admin
+            </button>
+            <button
+              (click)="removeAdmin(user.id)"
+              *ngIf="user.isAdmin"
+              class="btn btn-outline-success me-1"
+            >
+              Remove Admin
+            </button>
+            <!-- <button
+              class="btn btn-outline-danger"
+              [swal]="{
+                title: 'Confirmation',
+                text: 'Are you sure?',
+                showCancelButton: true
+              }"
+            >
+              Delete
+            </button> -->
+          </td>
+        </tr>
+        <tr></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

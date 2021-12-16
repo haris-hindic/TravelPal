@@ -68,6 +68,11 @@ namespace TravelPalAPI
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +90,8 @@ namespace TravelPalAPI
             app.UseRouting();
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
             

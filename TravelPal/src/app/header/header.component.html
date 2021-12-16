@@ -94,9 +94,12 @@
                 My Stays</a
               >
             </li>
-            <li>
-              <a class="btn btn-outline-secondary rounded-pill mt-2" href="#"
-                >Another action</a
+            <li *ngIf="isAdmin()">
+              <a
+                routerLink="admin/users"
+                class="btn btn-outline-secondary rounded-pill mt-2"
+                href="#"
+                >Manage Users</a
               >
             </li>
             <li><hr class="dropdown-divider" /></li>

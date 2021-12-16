@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from './admin.guard';
+import { UserListComponent } from './admin/user-list/user-list.component';
 import { AuthGuardGuard } from './auth-guard.guard';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
@@ -26,7 +28,6 @@ const appRoutes: Routes = [
   {
     path: 'stays/details/:id',
     component: StayDetailsComponent,
-    canActivate: [AuthGuardGuard],
   },
   {
     path: 'stays/edit/:id',
@@ -41,6 +42,12 @@ const appRoutes: Routes = [
 
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
+
+  {
+    path: 'admin/users',
+    component: UserListComponent,
+    canActivate: [AdminGuard],
+  },
   { path: '**', redirectTo: '' },
 ];
 @NgModule({

@@ -49,22 +49,26 @@
               User:
               {{ stay.user.userName }}
             </p>
-            <div>
-              <a class="btn btn-outline-warning" routerLink="edit/{{ stay.id }}"
-                >Edit</a
-              >
-              <button
-                class="btn btn-outline-danger"
-                [swal]="{
-                  title: 'Confirmation',
-                  text: 'Are you sure?',
-                  showCancelButton: true
-                }"
-                (confirm)="delete(stay.id)"
-              >
-                Delete
-              </button>
-            </div>
+            <ng-container *ngIf="_securityService.isAdmin()">
+              <div>
+                <a
+                  class="btn btn-outline-warning"
+                  routerLink="edit/{{ stay.id }}"
+                  >Edit</a
+                >
+                <button
+                  class="btn btn-outline-danger"
+                  [swal]="{
+                    title: 'Confirmation',
+                    text: 'Are you sure?',
+                    showCancelButton: true
+                  }"
+                  (confirm)="delete(stay.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>

@@ -19,4 +19,8 @@ export class HeaderComponent implements OnInit {
     this._securityService.logout();
     this._router.navigate(['']);
   }
+
+  isAdmin() {
+    return this._securityService.isAdmin();
+  }
 }
