@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/helpers/image.service';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { EventCreationVM, EventVM } from '../events.model';
@@ -22,7 +23,7 @@ export class EventsEditComponent implements OnInit {
   images: string[] = [];
   imgFiles: File[]= [];
   constructor(private es: EventsService, private builder: FormBuilder, private router: Router, private aRouter: ActivatedRoute,
-              private imageService: ImageService) 
+              private imageService: ImageService, private toastr: ToastrService) 
     { }
 
     
@@ -89,7 +90,8 @@ export class EventsEditComponent implements OnInit {
           this.imageService.addImages(this.id, this.formData, 'events').subscribe(
             () => {
               this.router.navigateByUrl('events');
-              alert('Event edited!');
+              this.toastr.info("Event edited!")
+
             }
           )
         });
@@ -116,13 +118,5 @@ export class EventsEditComponent implements OnInit {
     this.imgFiles.splice(i, 1);
   }
 
-  deleteImageFromService(id: number)
-  {
-    this.imageService.deleteImage(id, 'events').subscribe(x=>
-      {
-        alert("Image deleted");
-        this.router.navigate(['events']);
-
-      })
-  }
+  
 }

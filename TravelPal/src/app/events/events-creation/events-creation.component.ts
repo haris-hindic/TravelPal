@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { EventsService } from '../events.service';
-import { ImageService } from 'src/app/helpers/image.service';
+import { ImageService } from 'src/app/helpers/image.service';   
+import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-events-creation',
@@ -14,17 +16,19 @@ export class EventsCreationComponent implements OnInit {
 
   groupData!: FormGroup;
   formData: FormData = new FormData();
+  errors : string[] = [];
   imgBase64: string ='';
   images: string[] = [];
   imgFiles: File[]= [];
 
 
-  constructor(private es: EventsService, private builder: FormBuilder, private router: Router, private is: ImageService) { }
+  constructor(private es: EventsService, private builder: FormBuilder, private router: Router, private is: ImageService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.groupData = this.builder.group(
       {
-        name: ['', {validators: [Validators.required]}],
+        name: ['', {validators: [Validators.required, Validators.minLength(3)]}],
         price: ['',{validators: [Validators.required]}],
         date: ['', {validators: [Validators.required]}],
         duration: ['', {validators: [Validators.required]}],
@@ -50,10 +54,19 @@ export class EventsCreationComponent implements OnInit {
           this.is.addImages(res.id, this.formData, 'events').subscribe(
             () => {
               this.router.navigateByUrl('events');
+              this.toastr.success("Event added!")
+            },
+            err=>
+            {
+              this.errors = parseWebAPiErrors(err);
             }
           )
-        });
-   
+          }, err=>
+          {
+            this.errors = parseWebAPiErrors(err);
+          }
+      );
+  
   }
 
   change(event: any)

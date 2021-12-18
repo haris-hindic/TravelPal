@@ -1,36 +1,78 @@
 <div class="container">
+    <app-display-errors
+    *ngIf="errors.length > 0"
+    [errors]="errors"
+  ></app-display-errors>
 <form [formGroup]="groupData" (ngSubmit)="saveData()">
     <div class="mb-3">
+
         <label class="form-label" for="inputEmail">Name</label>
-        <input type="text" class="form-control" formControlName="name" >
+        <input type="text" class="form-control" formControlName="name"
+        [class.is-invalid]='groupData.get("name")?.errors && groupData.get("name")?.touched'>
+        <div *ngIf="groupData.get('name')?.hasError('required') " class="invalid-feedback">
+            Please enter the name</div>
+            <div *ngIf="groupData.get('name')?.hasError('minlength')" class="invalid-feedback">
+                Name must be at least 3 characters</div>
+
     </div>
     <div class="mb-3">
+
         <label class="form-label" for="inputPassword">Price</label>
-        <input type="number" class="form-control" formControlName="price">
+        <input type="number" class="form-control" formControlName="price"
+        [class.is-invalid]='groupData.get("price")?.errors && groupData.get("price")?.touched'>
+        <div class="invalid-feedback">Please enter the valid price
     </div>
+</div>
     <div class="mb-3">
         <label class="form-label" for="inputPassword">Date</label>
-        <input type="date" class="form-control" formControlName="date">
+        <input type="date" class="form-control" formControlName="date"
+        [class.is-invalid]='groupData.get("date")?.errors && groupData.get("date")?.touched'>
+        <div class="invalid-feedback">Please enter the date
+    </div>
     </div>
     <div class="mb-3">
         <label class="form-label" for="inputPassword">Duration</label>
-        <input type="text" class="form-control" formControlName="duration">
+        <input type="text" class="form-control" formControlName="duration"
+        [class.is-invalid]='groupData.get("duration")?.errors && groupData.get("duration")?.touched'>
+        <div class="invalid-feedback">Please enter duration
+    </div>
     </div>
     <div class="gridc" formGroupName="locationvm">
+        <div class="mb-3">
         <label class="form-label"  id="grid" >Country</label>
-        <input type="text" class="form-control" id="grid" formControlName="country">
+        <input type="text" class="form-control" id="grid" formControlName="country"
+        [class.is-invalid]='groupData.get("locationvm.country")?.errors && groupData.get("locationvm.country")?.touched'>
+        <div class="invalid-feedback">Please enter country</div>
+    </div>
+
+        <div class="mb-3">
         <label class="form-label" id="grid" >City</label>
-        <input type="text" class="form-control" id="grid" formControlName="city">
+        <input type="text" class="form-control" id="grid" formControlName="city"
+        [class.is-invalid]='groupData.get("locationvm.city")?.errors && groupData.get("locationvm.city")?.touched'>
+        <div class="invalid-feedback">Please enter the city</div>
+    </div>
+
+        <div class="mb-3">
         <label class="form-label" id="grid" >Address</label>
-        <input type="text" class="form-control" id="grid" formControlName="address">
+        <input type="text" class="form-control" id="grid" formControlName="address"
+        [class.is-invalid]='groupData.get("locationvm.address")?.errors && groupData.get("locationvm.address")?.touched'>
+        <div class="invalid-feedback">Please enter the address</div>
+    </div>
+        
     </div>
     <div class="mb-3">
         <label class="form-label" >Description</label>
-        <textarea class="form-control" formControlName="eventdescription" rows="3" ></textarea>
+        <textarea class="form-control" formControlName="eventdescription" rows="3"
+        [class.is-invalid]='groupData.get("eventdescription")?.errors && groupData.get("eventdescription")?.touched'>
+        <div class="invalid-feedback">Please select the Description></textarea>
+        
     </div>
     <div class="col-10 mb-3">
         <label class="form-label">Select picture</label>
-        <input type="file" class="form-control"  (change)="change($event)">
+        <input type="file" class="form-control"  (change)="change($event)"
+        [class.is-invalid]='images.length<1 && groupData.valid'>
+        <div class="invalid-feedback">Please select the images
+    </div>
         <div *ngIf="images && images.length > 0">
         <div *ngFor="let img of images; let i=index">
 
@@ -40,6 +82,6 @@
         </div>
     </div>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!groupData.valid || images.length<1">Save</button>
 </form>
 </div>

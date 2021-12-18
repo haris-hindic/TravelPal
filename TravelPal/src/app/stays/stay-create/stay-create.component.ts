@@ -7,6 +7,7 @@ import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from 'src/app/helpers/image.service';
 
+
 @Component({
   selector: 'app-stay-create',
   templateUrl: './stay-create.component.html',

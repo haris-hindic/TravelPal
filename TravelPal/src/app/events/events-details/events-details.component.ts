@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/helpers/image.service';
 import { EventsService } from '../events.service';
 
@@ -17,7 +18,7 @@ export class EventsDetailsComponent implements OnInit {
   eventLoad = false;
 
   constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router,
-              private imageService: ImageService) { }
+              private imageService: ImageService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     
@@ -42,7 +43,7 @@ export class EventsDetailsComponent implements OnInit {
   {
     this.es.delete(id).subscribe(x=>
       {
-        alert('Event deleted!');
+        this.toastr.error("Event deleted!")
         this.route.navigate(['events']);
       });
   }
@@ -51,7 +52,9 @@ export class EventsDetailsComponent implements OnInit {
   {
     this.imageService.deleteImage(id, 'events').subscribe(a=>
     {
+      this.toastr.error("Image deleted!")
     this.loadData();
+
     });
   }
 }

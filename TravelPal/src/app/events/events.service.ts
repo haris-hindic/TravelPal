@@ -11,24 +11,24 @@ export class EventsService {
 
   get()
   {
-    return this.http.get(this.url + '/Event');
+    return this.http.get(this.url + '/event');
   }
   getSpecific(id: number)
   {
-    return this.http.get(this.url+ '/Event/' + id);
+    return this.http.get(this.url+ '/event/' + id);
   }
 
   post(event: EventCreationVM)
   {
-    return this.http.post(this.url + '/Event/', event);
+    return this.http.post(this.url + '/event/', event);
   }
   delete(id: number)
   {
-    return this.http.delete(this.url + '/Event/' + id, {responseType: 'text'});
+    return this.http.delete(this.url + '/event/' + id, {responseType: 'text'});
   }
 
   edit(id: number, event: EventEditVM)
   {
-    return this.http.put(this.url+'/Event/' + id, event)
+    return this.http.put(this.url+'/event/edit' + id, event)
   }
 }

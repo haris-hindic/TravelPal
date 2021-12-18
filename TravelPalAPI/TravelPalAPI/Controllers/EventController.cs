@@ -39,7 +39,7 @@ namespace TravelPalAPI.Controllers
 
             appDb.SaveChanges();
 
-            return _event;
+            return Ok();
 
         }
 
@@ -97,7 +97,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPut, Route("{_id}")]
-        public void Update(int _id, EventEditVM _event)
+        public ActionResult Update(int _id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
 
@@ -109,6 +109,8 @@ namespace TravelPalAPI.Controllers
             temp.EventDescription = _event.EventDescription;
 
             appDb.Events.Update(temp);
+
+            return Ok();
             appDb.SaveChanges();
         }
        
