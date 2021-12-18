@@ -20,20 +20,24 @@ export class EventsDetailsComponent implements OnInit {
               private imageService: ImageService) { }
 
   ngOnInit(): void {
+    
     this.activeRouter.params.subscribe((parameter) =>
       {
         this.id=parameter.id;
       }
     );
 
+    this.loadData();
+  }
+  
+  loadData()
+  {
     this.es.getSpecific(this.id).subscribe(e=>
       {
         this.event=e;
         this.eventLoad=true;
       });
-
   }
-  
   deleteEvent(id: number)
   {
     this.es.delete(id).subscribe(x=>
@@ -43,5 +47,11 @@ export class EventsDetailsComponent implements OnInit {
       });
   }
 
-
+  deleteImage(id:number)
+  {
+    this.imageService.deleteImage(id, 'events').subscribe(a=>
+    {
+    this.loadData();
+    });
+  }
 }

@@ -10,6 +10,7 @@
     <li class="list-group-item">Images:</li>
       <div class="col-images" *ngFor="let img of event.images">
         <img [src]="img.imagePath" alt="">
+        <button class="btn btn-danger" (click)="deleteImage(img.id)">Delete this image</button>
         
       </div>
     <div class="col-xs-12">

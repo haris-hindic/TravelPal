@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventsService } from './events.service';
 
@@ -10,7 +10,9 @@ import { EventsService } from './events.service';
 })
 export class EventsComponent implements OnInit {
   events: any;
-  constructor(private http: HttpClient, private es: EventsService, private route: Router) {}
+  @Input() coverImage: any;
+
+  constructor(private es: EventsService) {}
 
   ngOnInit(): void {
     this.loadList();
