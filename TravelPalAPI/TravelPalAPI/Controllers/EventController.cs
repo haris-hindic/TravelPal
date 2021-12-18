@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.Location;
@@ -22,7 +23,7 @@ namespace TravelPalAPI.Controllers
         private readonly AppDbContext appDb;
         private readonly IMapper mapper;
 
-        public EventController(AppDbContext appDb, IMapper imp)
+        public EventController(AppDbContext appDb, IMapper imp, IFileStorageService imgService)
         {
             this.appDb = appDb;
             mapper = imp;
@@ -30,13 +31,15 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpPost]
-        public void Post( EventCreationVM _eventCreation)
+        public ActionResult<Event>Post(EventCreationVM _eventCreation)
         {
             var _event = mapper.Map<Event>(_eventCreation);
 
             appDb.Events.Add(_event);
 
             appDb.SaveChanges();
+
+            return _event;
 
         }
 
@@ -55,7 +58,9 @@ namespace TravelPalAPI.Controllers
                 Price = e.Price,
                 EventDescription = e.EventDescription,
                 Duration = e.Duration,
-                LocationVM = mapper.Map<LocationVM>(e.Location)
+                LocationVM = mapper.Map<LocationVM>(e.Location),
+                Images = e.EventImages.Select(e => e.Image).ToList()
+
             }).FirstOrDefault(x => x.Id == _id);
         }
 
@@ -84,7 +89,9 @@ namespace TravelPalAPI.Controllers
                 LocationVM = mapper.Map<LocationVM>(e.Location),
                 EventDescription=e.EventDescription,
                 Name=e.Name,
-                Price=e.Price
+                Price=e.Price,
+                Images = e.EventImages.Select(e => e.Image).ToList()
+
             });
 
         }

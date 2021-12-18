@@ -7,6 +7,11 @@
     <li class="list-group-item">CITY: {{event.locationVM.city}}</li>
     <li class="list-group-item">ADDRESS: {{event.locationVM.address}}</li>
     <li class="list-group-item">DESCRIPTION: {{event.eventDescription}}</li>
+    <li class="list-group-item">Images:</li>
+      <div class="col-images" *ngFor="let img of event.images">
+        <img [src]="img.imagePath" alt="">
+        
+      </div>
     <div class="col-xs-12">
     <button class="btn btn-danger" style="margin-top: 20px; margin-left: 20px;" (click)="deleteEvent(event.id)">Delete event</button>
     <button class="btn btn-warning" style="margin-top: 20px; margin-left: 20px;" routerLink="../../edit/{{id}}">Edit</button></div>

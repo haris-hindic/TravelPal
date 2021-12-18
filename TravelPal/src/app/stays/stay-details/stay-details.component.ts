@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ImageService } from '../image.service';
+import { ImageService } from 'src/app/helpers/image.service';
 import { AccommodationService } from '../accommodation.service';
 import { AccommodationVM } from '../stays.model';
 
@@ -33,6 +33,6 @@ export class StayDetailsComponent implements OnInit {
   }
 
   delete(id: number) {
-    this._imageService.deleteImage(id).subscribe(() => this.loadData());
+    this._imageService.deleteImage(id, 'stays').subscribe(() => this.loadData());
   }
 }

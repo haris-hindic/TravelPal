@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageService } from 'src/app/helpers/image.service';
 import { EventsService } from '../events.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class EventsDetailsComponent implements OnInit {
   event: any;
   eventLoad = false;
 
-  constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router) { }
+  constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router,
+              private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.activeRouter.params.subscribe((parameter) =>

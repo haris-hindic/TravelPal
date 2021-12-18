@@ -5,7 +5,7 @@ import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { Image } from 'src/app/models/image.model';
 import { AccommodationService } from '../accommodation.service';
-import { ImageService } from '../image.service';
+import { ImageService } from 'src/app/helpers/image.service';
 import { AccommodationVM } from '../stays.model';
 
 @Component({
@@ -84,13 +84,14 @@ export class StayEditComponent implements OnInit {
             this._imageService
               .addImages(
                 this._route.snapshot.params.id as number,
-                this.formData
+                this.formData,
+                'acommodation'
               )
               .subscribe(
                 () => {
                   this._router.navigate(['stays']);
                 },
-                (err) => {
+                (err: any) => {
                   this.errors = parseWebAPiErrors(err);
                 }
               );
@@ -105,7 +106,7 @@ export class StayEditComponent implements OnInit {
   }
 
   deleteImage(id: number) {
-    this._imageService.deleteImage(id).subscribe(() => this.loadData());
+    this._imageService.deleteImage(id, 'stays').subscribe(() => this.loadData());
   }
 
   imageSelected(event: any) {

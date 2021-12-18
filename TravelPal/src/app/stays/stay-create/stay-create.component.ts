@@ -5,7 +5,7 @@ import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
-import { ImageService } from '../image.service';
+import { ImageService } from 'src/app/helpers/image.service';
 
 @Component({
   selector: 'app-stay-create',
@@ -82,7 +82,7 @@ export class StayCreateComponent implements OnInit {
         this.imagesFiles.forEach((img) => {
           this.formData.append('images', img);
         });
-        this._imageService.addImages(res as number, this.formData).subscribe(
+        this._imageService.addImages(res as number, this.formData, 'accomodations').subscribe(
           () => {
             this._router.navigate(['stays']);
           },
