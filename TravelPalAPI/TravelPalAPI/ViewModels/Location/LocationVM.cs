@@ -16,5 +16,9 @@ namespace TravelPalAPI.ViewModels.Location
         public string City { get; set; }
         [Required]
         public string Address { get; set; }
+        [Required]
+        public double Latitude { get; set; }
+        [Required]
+        public double Longitude { get; set; }
     }
 }

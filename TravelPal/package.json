@@ -10,6 +10,8 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.1.0",
+    "@agm/snazzy-info-window": "^3.0.0-beta.0",
     "@angular/animations": "^12.2.15",
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
@@ -19,8 +21,10 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
+    "@types/googlemaps": "^3.39.13",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",
+    "snazzy-info-window": "^1.1.1",
     "sweetalert2": "^11.2.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

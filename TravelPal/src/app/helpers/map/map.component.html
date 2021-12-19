@@ -1,0 +1,18 @@
+<agm-map
+  [latitude]="43.8510131277294"
+  [longitude]="18.407407890579037"
+  [zoom]="8"
+  [disableDefaultUI]="true"
+  (mapClick)="mapClicked($event)"
+>
+  <ng-container>
+    <agm-marker
+      [latitude]="coordinates.lat"
+      [longitude]="coordinates.lng"
+      [iconUrl]="
+        'https://img.icons8.com/external-ddara-lineal-color-ddara/64/000000/external-rental-real-estate-ddara-lineal-color-ddara.png'
+      "
+    >
+    </agm-marker>
+  </ng-container>
+</agm-map>

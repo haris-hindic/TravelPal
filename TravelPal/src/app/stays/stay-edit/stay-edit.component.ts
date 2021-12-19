@@ -39,6 +39,8 @@ export class StayEditComponent implements OnInit {
         country: ['', { validators: [Validators.required] }],
         city: ['', { validators: [Validators.required] }],
         address: ['', { validators: [Validators.required] }],
+        latitude: ['', { validators: [Validators.required] }],
+        longitude: ['', { validators: [Validators.required] }],
       }),
       accommodationDetails: this._formBuilder.group({
         id: 0,
@@ -106,7 +108,9 @@ export class StayEditComponent implements OnInit {
   }
 
   deleteImage(id: number) {
-    this._imageService.deleteImage(id, 'stays').subscribe(() => this.loadData());
+    this._imageService
+      .deleteImage(id, 'stays')
+      .subscribe(() => this.loadData());
   }
 
   imageSelected(event: any) {
@@ -116,6 +120,11 @@ export class StayEditComponent implements OnInit {
         this.newImages.push(img);
       });
     }
+  }
+
+  mapClicked(event: { lat: number; lng: number }) {
+    this.form.get('location')?.get('latitude')?.patchValue(event.lat);
+    this.form.get('location')?.get('longitude')?.patchValue(event.lng);
   }
 
   deleteNewImage(i: number) {
@@ -136,6 +145,14 @@ export class StayEditComponent implements OnInit {
       .get('location')
       ?.get('address')
       ?.patchValue(data.location.address);
+    this.form
+      .get('location')
+      ?.get('latitude')
+      ?.patchValue(data.location.latitude);
+    this.form
+      .get('location')
+      ?.get('longitude')
+      ?.patchValue(data.location.longitude);
     this.form
       .get('accommodationDetails')
       ?.get('id')

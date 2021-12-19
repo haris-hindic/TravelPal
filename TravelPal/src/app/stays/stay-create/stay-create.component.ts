@@ -6,7 +6,7 @@ import { toBase64 } from 'src/app/helpers/toBase64';
 import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from 'src/app/helpers/image.service';
-
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stay-create',
@@ -28,7 +28,8 @@ export class StayCreateComponent implements OnInit {
     private _accommodationService: AccommodationService,
     private _imageService: ImageService,
     private _router: Router,
-    private _securityService: SecurityService
+    private _securityService: SecurityService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +41,8 @@ export class StayCreateComponent implements OnInit {
         country: ['', { validators: [Validators.required] }],
         city: ['', { validators: [Validators.required] }],
         address: ['', { validators: [Validators.required] }],
+        latitude: [0, { validators: [Validators.required] }],
+        longitude: [0, { validators: [Validators.required] }],
       }),
       accommodationDetails: this._formBuilder.group({
         parking: false,
@@ -57,6 +60,13 @@ export class StayCreateComponent implements OnInit {
         mosquitoNet: false,
       }),
     });
+    console.log(this.form.value);
+  }
+
+  mapClicked(event: { lat: number; lng: number }) {
+    console.log(event);
+    this.form.get('location')?.get('latitude')?.patchValue(event.lat);
+    this.form.get('location')?.get('longitude')?.patchValue(event.lng);
     console.log(this.form.value);
   }
 
@@ -83,12 +93,15 @@ export class StayCreateComponent implements OnInit {
         this.imagesFiles.forEach((img) => {
           this.formData.append('images', img);
         });
-        this._imageService.addImages(res as number, this.formData, 'accomodations').subscribe(
-          () => {
-            this._router.navigate(['stays']);
-          },
-          (err) => (this.errors = parseWebAPiErrors(err))
-        );
+        this._imageService
+          .addImages(res as number, this.formData, 'accomodations')
+          .subscribe(
+            () => {
+              this._router.navigate(['stays']);
+              this.toastr.success('Stay created!');
+            },
+            (err) => (this.errors = parseWebAPiErrors(err))
+          );
       },
       (err) => (this.errors = parseWebAPiErrors(err))
     );

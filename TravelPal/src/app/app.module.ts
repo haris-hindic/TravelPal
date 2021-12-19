@@ -22,9 +22,11 @@ import { SignInComponent } from './security/sign-in/sign-in.component';
 import { JwtInterceptorService } from './security/jwt-interceptor.service';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { UserListComponent } from './admin/user-list/user-list.component';
-import { ToastrModule } from 'ngx-toastr';  
+import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MapComponent } from './helpers/map/map.component';
+import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SignInComponent,
     StayUserComponent,
     UserListComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAhH0kpOB9F5lpdzbVhi4c5mJyxIBtd43Q',
+    }),
+    AgmSnazzyInfoWindowModule,
   ],
   providers: [
     {

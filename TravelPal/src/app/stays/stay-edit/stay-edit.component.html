@@ -112,6 +112,41 @@
           >The Address is a required field!</label
         >
       </div>
+      <div class="col-8">
+        <app-map
+          [coordinates]="{
+            lat: form.get('location.latitude')?.value,
+            lng: form.get('location.longitude')?.value
+          }"
+          (onClicked)="mapClicked($event)"
+        ></app-map>
+      </div>
+      <div class="col-4">
+        <label class="form-label">Latitude</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="latitude"
+          readonly
+        />
+
+        <label class="form-label">Longitude</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="longitude"
+          readonly
+        />
+        <label
+          class="form-label text-danger"
+          *ngIf="
+            form.valid &&
+            form.get('location')?.get('latitude')?.value === 0 &&
+            form.get('location')?.get('longitude')?.value === 0
+          "
+          >Latitude and longitude are required!</label
+        >
+      </div>
     </div>
     <div class="row g-3 mt-2" formGroupName="accommodationDetails">
       <div class="col-3">
