@@ -119,5 +119,10 @@ export class EventsEditComponent implements OnInit {
         this.toastr.error("Image deleted!");
       });
     }
+
+    deleteImg(i: number) {
+      this.images.splice(i, 1);
+      this.imgFiles.splice(i, 1);
+    }
 }
 
