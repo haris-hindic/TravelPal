@@ -11,13 +11,12 @@
     <li class="list-group-item">Images:</li>
       <div class="col-images" *ngFor="let img of event.images">
         <img [src]="img.imagePath" alt="">
-        <button class="btn btn-danger" (click)="deleteImage(img.id)">Delete this image</button>
       </div>
 </ul>
 <div class="row">
   <div class="col-xs-12">
-<button class="btn btn-danger" style="margin-top: 20px; margin-left: 550px;" (click)="deleteEvent(event.id)">Delete event</button>
-<button class="btn btn-warning" style="margin-top: 20px; margin-left: 20px;" routerLink="../../edit/{{event.id}}">Edit</button>
+    <button class="btn btn-warning" style="margin-top: 20px; margin-left: 550px;" routerLink="../../edit/{{event.id}}">Edit</button>
+    <button class="btn btn-danger" style="margin-top: 20px; margin-left: 20px;" (click)="deleteEvent(event.id)">Delete event</button>
 </div>
 </div>
 </div>

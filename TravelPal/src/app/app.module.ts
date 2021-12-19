@@ -23,6 +23,7 @@ import { JwtInterceptorService } from './security/jwt-interceptor.service';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { UserListComponent } from './admin/user-list/user-list.component';
 import { ToastrModule } from 'ngx-toastr';  
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     {

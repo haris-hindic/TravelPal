@@ -42,14 +42,4 @@ export class EventsDetailsComponent implements OnInit {
         this.route.navigate(['events']);
       });
   }
-
-  deleteImage(id:number)
-  {
-    this.imageService.deleteImage(id, 'events').subscribe(a=>
-    {
-      this.toastr.error("Image deleted!")
-    this.loadData();
-
-    });
-  }
 }
