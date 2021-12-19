@@ -17,7 +17,7 @@ export class EventsEditComponent implements OnInit {
 
   id!: number;
   groupData!: FormGroup;
-  formData= new FormData();
+  formData = new FormData();
   event : any;
   imgBase64: string ='';
   images: string[] = [];
@@ -46,24 +46,18 @@ export class EventsEditComponent implements OnInit {
         }
     );
 
-    this.aRouter.params.subscribe((e)=>
-    {
-      this.id=e.id;
-    });
-
-    this.es.getSpecific(this.id).subscribe((e)=>
-    {
-      this.fillInputs(e);
-      this.event = e;
-    })
+        this.aRouter.params.subscribe(params=>
+          {
+            this.es.getSpecific(params.id).subscribe(e=>
+              {
+                this.fillInputs(e);
+              })
+          });
   }
 
   EditData()
   {
-    this.es.edit(this.id, this.groupData.value).subscribe(e=>
-      {
-        this.saveData();
-      })
+    this.saveData();
   }
 
   fillInputs(value: any)
@@ -81,19 +75,21 @@ export class EventsEditComponent implements OnInit {
 
   saveData()
   {
-      this.es.edit(this.id, this.groupData.value).subscribe(
-        (value: any) => {
+      this.es.edit(this.aRouter.snapshot.params.id  as number, this.groupData.value).subscribe(
+        () => {
+          if(this.imgFiles.length > 0)
+          {
           this.imgFiles.forEach((img) => {
             console.log(img);
             this.formData.append('images', img);
           });
-          this.imageService.addImages(this.id, this.formData, 'events').subscribe(
+          this.imageService.addImages(this.aRouter.snapshot.params.id as number, this.formData, 'events').subscribe(
             () => {
-              this.router.navigateByUrl('events');
-              this.toastr.info("Event edited!")
-
             }
           )
+          }
+          this.router.navigateByUrl('events');
+          this.toastr.info("Event edited!")
         });
    
   }

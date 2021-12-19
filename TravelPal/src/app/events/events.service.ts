@@ -29,6 +29,6 @@ export class EventsService {
 
   edit(id: number, event: EventEditVM)
   {
-    return this.http.put(this.url+'/event/edit' + id, event)
+    return this.http.put(this.url+'/event/' + id, event)
   }
 }

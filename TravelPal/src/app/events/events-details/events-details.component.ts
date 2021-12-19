@@ -13,31 +13,26 @@ import { EventsService } from '../events.service';
 export class EventsDetailsComponent implements OnInit {
 
   url = 'https://localhost:44325/api/Event';
-  id: number = -1;
   event: any;
   eventLoad = false;
 
   constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router,
-              private imageService: ImageService, private toastr: ToastrService) { }
+              private imageService: ImageService, private toastr: ToastrService, private aRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     
-    this.activeRouter.params.subscribe((parameter) =>
-      {
-        this.id=parameter.id;
-      }
-    );
-
     this.loadData();
   }
   
   loadData()
   {
-    this.es.getSpecific(this.id).subscribe(e=>
+    this.aRoute.params.subscribe((params) => {
+      this.es.getSpecific(params.id).subscribe((value) => 
       {
-        this.event=e;
-        this.eventLoad=true;
+          this.event = value;
+          this.eventLoad=true;
       });
+    });
   }
   deleteEvent(id: number)
   {

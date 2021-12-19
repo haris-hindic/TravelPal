@@ -1,5 +1,5 @@
-<div class="container">
-<ul class="list-group" *ngIf="eventLoad">
+<div class="container" *ngIf="event">
+<ul class="list-group">
     <li class="list-group-item">NAME: {{event.name}}</li>
     <li class="list-group-item">DATE: {{event.date}}</li>
     <li class="list-group-item">PRICE: {{event.price}}</li>
@@ -17,7 +17,7 @@
 <div class="row">
   <div class="col-xs-12">
 <button class="btn btn-danger" style="margin-top: 20px; margin-left: 550px;" (click)="deleteEvent(event.id)">Delete event</button>
-<button class="btn btn-warning" style="margin-top: 20px; margin-left: 20px;" routerLink="../../edit/{{id}}">Edit</button>
+<button class="btn btn-warning" style="margin-top: 20px; margin-left: 20px;" routerLink="../../edit/{{event.id}}">Edit</button>
 </div>
 </div>
 </div>

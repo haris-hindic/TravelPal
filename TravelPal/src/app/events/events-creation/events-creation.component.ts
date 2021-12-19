@@ -46,12 +46,12 @@ export class EventsCreationComponent implements OnInit {
   saveData()
   {
       this.es.post(this.groupData.value).subscribe(
-        (res: any) => {
+        (id) => {
           this.imgFiles.forEach((img) => {
             console.log(img);
             this.formData.append('images', img);
           });
-          this.is.addImages(res.id, this.formData, 'events').subscribe(
+          this.is.addImages(id as number, this.formData, 'events').subscribe(
             () => {
               this.router.navigateByUrl('events');
               this.toastr.success("Event added!")
