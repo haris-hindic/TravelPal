@@ -94,7 +94,7 @@ export class StayCreateComponent implements OnInit {
           this.formData.append('images', img);
         });
         this._imageService
-          .addImages(res as number, this.formData, 'accomodations')
+          .addImages(res as number, this.formData, 'accommodations')
           .subscribe(
             () => {
               this._router.navigate(['stays']);

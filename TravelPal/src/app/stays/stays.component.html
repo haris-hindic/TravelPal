@@ -1,83 +1,27 @@
-<div class="container-fluid mt-4">
-  <div class="px-lg-5">
-    <div class="row">
-      <!-- Gallery item -->
-      <div
-        class="col-xl-3 col-lg-4 col-md-6 mb-4"
-        *ngFor="let stay of stays; let i = index"
-      >
-        <div class="bg-white rounded shadow-sm">
-          <img
-            *ngIf="stay.images.length > 0"
-            [src]="stay.images[0].imagePath"
-            alt=""
-            class="img-fluid card-img-top"
-          />
-          <div class="p-4">
-            <h5>
-              <a
-                href="#"
-                class="text-dark"
-                routerLink="details/{{ stay.id }}"
-                >{{ stay.name }}</a
-              >
-            </h5>
-            <p class="small text-muted mb-0">
-              {{ stay.location.city }}|{{ stay.location.address }}
-            </p>
-            <div
-              class="
-                d-flex
-                align-items-center
-                justify-content-between
-                rounded-pill
-                bg-light
-                px-3
-                py-2
-                mt-4
-                text-center
-              "
-            >
-              <p class="small mb-0">
-                <i class="fa fa-picture-o mr-2"></i
-                ><span class="font-weight-bold"
-                  >{{ stay.price | currency }}/ night</span
-                >
-              </p>
-            </div>
-            <p class="badge text-black">
-              User:
-              {{ stay.user.userName }}
-            </p>
-            <ng-container *ngIf="_securityService.isAdmin()">
-              <div>
-                <a
-                  class="btn btn-outline-warning"
-                  routerLink="edit/{{ stay.id }}"
-                  >Edit</a
-                >
-                <button
-                  class="btn btn-outline-danger"
-                  [swal]="{
-                    title: 'Confirmation',
-                    text: 'Are you sure?',
-                    showCancelButton: true
-                  }"
-                  (confirm)="delete(stay.id)"
-                >
-                  Delete
-                </button>
-              </div>
-            </ng-container>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div *ngFor="let stay of stays" class="card-trip">
+        <img
+          routerLink="details/{{ stay.id }}"
+          style="cursor: pointer"
+          [src]="stay.images[0].imagePath"
+        />
+        <div class="card-trip-infos">
+          <div>
+            <h2>{{ stay.name }}</h2>
+            <p>{{ stay.location.city }},{{ stay.location.city }}</p>
           </div>
+          <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
+          <!-- <img
+            [src]="stay.images[0].imagePath"
+            class="card-trip-user avatar-bordered"
+          /> -->
         </div>
       </div>
-      <!-- End -->
     </div>
-    <div class="py-5 text-right">
-      <a routerLink="create" class="btn btn-dark px-5 py-3 text-uppercase"
-        >Add new Stay!</a
-      >
+    <div class="col-6 mt-4">
+      <app-map-multiple-markers [stays]="stays"></app-map-multiple-markers>
     </div>
   </div>
 </div>

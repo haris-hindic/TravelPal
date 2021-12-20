@@ -11,7 +11,7 @@ using TravelPalAPI.ViewModels.Accommodation;
 
 namespace TravelPalAPI.Controllers
 {
-    [Route("api/image/accomodations")]
+    [Route("api/image/accommodations")]
     [ApiController]
     public class AccommodationImageController : ControllerBase
     {

@@ -14,8 +14,7 @@ export class StayDetailsComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
-    private _accommodationService: AccommodationService,
-    private _imageService: ImageService
+    private _accommodationService: AccommodationService
   ) {}
 
   ngOnInit(): void {
@@ -30,9 +29,5 @@ export class StayDetailsComponent implements OnInit {
           this.stay = data;
         });
     });
-  }
-
-  delete(id: number) {
-    this._imageService.deleteImage(id, 'stays').subscribe(() => this.loadData());
   }
 }

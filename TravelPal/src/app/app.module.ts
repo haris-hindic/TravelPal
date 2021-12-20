@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapComponent } from './helpers/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-multiple-markers.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     StayUserComponent,
     UserListComponent,
     MapComponent,
+    MapMultipleMarkersComponent,
   ],
   imports: [
     BrowserModule,

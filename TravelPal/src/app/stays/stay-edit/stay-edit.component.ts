@@ -87,7 +87,7 @@ export class StayEditComponent implements OnInit {
               .addImages(
                 this._route.snapshot.params.id as number,
                 this.formData,
-                'acommodation'
+                'accommodations'
               )
               .subscribe(
                 () => {

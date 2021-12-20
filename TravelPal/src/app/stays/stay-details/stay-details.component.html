@@ -2,7 +2,7 @@
 <ng-container *ngIf="stay">
   <div class="container">
     <div class="row">
-      <div class="col">
+      <div class="col-7">
         <p>{{ stay.name }}</p>
         <p>{{ stay.price | currency }}</p>
         <p>{{ stay.location.address }}</p>
@@ -12,27 +12,8 @@
 
         <hr />
       </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-auto mb-1" *ngFor="let img of stay.images">
-        <img
-          class="img-fluid mb-1"
-          style="max-width: 600px; max-height: 300px"
-          [src]="img.imagePath"
-          alt=""
-        />
-        <br />
-        <button
-          class="btn btn-danger mb-1"
-          [swal]="{
-            title: 'Confirmation',
-            text: 'Are you sure?',
-            showCancelButton: true
-          }"
-          (confirm)="delete(img.id)"
-        >
-          Delete
-        </button>
+      <div class="col-5 mb-1">
+        <img *ngFor="let img of stay.images" [src]="img.imagePath" alt="" />
       </div>
     </div>
   </div>
