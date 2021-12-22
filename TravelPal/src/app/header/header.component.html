@@ -5,6 +5,7 @@
     align-items-center
     justify-content-center justify-content-md-between
     bg-opacity-25 bg-transparent
+    m-1
   "
 >
   <a
@@ -32,7 +33,7 @@
         routerLinkActive="link-info"
         [routerLinkActiveOptions]="{ exact: true }"
         routerLink=""
-        style="text-decoration: none"
+        style="text-decoration: none; font-size: medium; font-weight: normal"
         class="link-secondary px-2"
         >Home</a
       >
@@ -41,7 +42,7 @@
       <a
         routerLinkActive="link-info"
         routerLink="stays"
-        style="text-decoration: none"
+        style="text-decoration: none; font-size: medium; font-weight: normal"
         class="link-secondary px-2"
         >Stays</a
       >
@@ -50,7 +51,7 @@
       <a
         routerLinkActive="link-info"
         routerLink="events"
-        style="text-decoration: none"
+        style="text-decoration: none; font-size: medium; font-weight: normal"
         class="link-secondary px-2"
         >Events</a
       >
@@ -65,12 +66,12 @@
         <a
           routerLink="signin"
           class="btn btn-outline-secondary rounded-circle me-1"
-          >Sign-in</a
+          ><i class="fas fa-user-plus"></i> Sign-in</a
         >
         <a
           routerLink="signup"
           class="btn btn-outline-secondary rounded-circle me-1"
-          >Sign-up</a
+          ><i class="fas fa-sign-in-alt"></i> Sign-up</a
         >
       </ng-container>
       <ng-container authorized>
@@ -81,6 +82,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
+            <i class="far fa-user"></i>
             {{ _securityService.getFieldFromJWT("userName") }}
           </button>
           <ul class="dropdown-menu text-center">
@@ -113,7 +115,7 @@
         <a
           (click)="logout()"
           class="btn btn-outline-secondary rounded-circle me-1"
-          >Log out</a
+          ><i class="fas fa-sign-out-alt"></i> Log out</a
         >
       </ng-container>
     </app-auth-view>

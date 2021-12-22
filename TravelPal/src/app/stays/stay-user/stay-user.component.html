@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>My Stays</h2>
+  <!-- <h2>My Stays</h2>
   <div class="container table-responsive py-5">
     <table class="table table-bordered table-hover">
       <thead class="thead-dark">
@@ -42,5 +42,112 @@
         <tr></tr>
       </tbody>
     </table>
+  </div>
+  <div class="text-end">
+    <a routerLink="/stays/create" class="btn btn-dark px-5 py-3 text-uppercase"
+      >Add new Stay!</a
+    >
+  </div> -->
+
+  <div class="mt-5">
+    <div class="container mt-5">
+      <!-- Table -->
+      <div class="col">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-0">Accommodations list</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stay of stays">
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <p class="avatar rounded-circle mr-3">
+                        <span class="mb-0 text-sm">{{ stay.name }}</span>
+                      </p>
+                    </div>
+                  </th>
+                  <td>
+                    {{ stay.price }}
+                  </td>
+                  <td>
+                    {{ stay.location.city }} ({{ stay.location.country }})
+                  </td>
+                  <td>
+                    <span class="ms-1">
+                      <button
+                        class="btn btn-info m-1"
+                        routerLink="/stays/details/{{ stay.id }}"
+                      >
+                        Details
+                      </button>
+                      <button
+                        class="btn btn-danger m-1"
+                        (click)="delete(stay.id)"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        class="btn btn-warning m-1"
+                        routerLink="/stays/edit/{{ stay.id }}"
+                      >
+                        Edit
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Footer -->
+          <div class="card-footer">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#"
+                    >2 <span class="sr-only"></span
+                  ></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-start mt-2">
+            <button class="btn btn-primary" routerLink="/">Go back</button>
+          </div>
+          <div class="col-6 mt-2 text-end">
+            <button class="btn btn-success ms-2" routerLink="/stays/create">
+              Add new
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

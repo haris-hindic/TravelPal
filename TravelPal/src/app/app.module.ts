@@ -11,7 +11,7 @@ import { StayDetailsComponent } from './stays/stay-details/stay-details.componen
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
@@ -23,11 +23,15 @@ import { JwtInterceptorService } from './security/jwt-interceptor.service';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { UserListComponent } from './admin/user-list/user-list.component';
 import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { MapComponent } from './helpers/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-multiple-markers.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,9 @@ import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-
       apiKey: 'AIzaSyAhH0kpOB9F5lpdzbVhi4c5mJyxIBtd43Q',
     }),
     AgmSnazzyInfoWindowModule,
+    MatStepperModule,
+    NoopAnimationsModule,
+    FormsModule,
   ],
   providers: [
     {

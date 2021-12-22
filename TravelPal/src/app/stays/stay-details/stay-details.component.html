@@ -1,22 +1,116 @@
-<p>Page to display details</p>
-<ng-container *ngIf="stay">
-  <div class="container">
-    <div class="row">
-      <div class="col-7">
-        <p>{{ stay.name }}</p>
-        <p>{{ stay.price | currency }}</p>
-        <p>{{ stay.location.address }}</p>
-        <p>{{ stay.location.country }}</p>
-        <p>{{ stay.location.city }}</p>
-        <p>{{ stay.user.userName }}</p>
-
-        <hr />
+<div class="container mt-4">
+  <div
+    id="carouselExampleFade"
+    class="carousel slide carousel-fade"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <div
+        class="carousel-item active"
+        *ngFor="let img of stay.images; let i = index"
+      >
+        <img width="1400" height="500" [src]="img.imagePath" alt="..." />
       </div>
-      <div class="col-5 mb-1">
-        <img *ngFor="let img of stay.images" [src]="img.imagePath" alt="" />
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleFade"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleFade"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <hr />
+  <div class="row mt-2">
+    <div class="col-7 m-2">
+      <h2>{{ stay.name }} ({{ stay.price | currency }} / night)</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam odio
+        lorem, iaculis non felis vel, faucibus efficitur dui. Aliquam erat
+        volutpat. Quisque hendrerit massa nec lobortis mollis. Nunc eu eros
+        efficitur, convallis enim ac, ultricies nisi. Lorem ipsum dolor sit
+        amet, consectetur adipiscing. Donec sollicitudin nulla risus, eget
+        luctus ipsum facilisis dictum. Integer ultricies sapien libero, sed
+        congue ligula hendrerit quis. Vivamus dolor mauris, mollis nec accumsan
+        sed, pulvinar id nisl. Aliquam vulputate ante purus, quis sollicitudin
+        augue euismod sit amet. Aliquam vehicula mi sit amet suscipit tincidunt.
+        Quisque sed lobortis metus, vitae efficitur felis.
+      </p>
+    </div>
+    <div class="col-2 offset-1">
+      <div class="card text-center">
+        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="" />
+        <h4>{{ stay.user.userName }}</h4>
+        <small>Travel Pal Super host</small>
+        <button type="reset">Connect</button>
+      </div>
+    </div>
+    <hr />
+    <div class="col-6 m-2">
+      <h4>Details</h4>
+      <div class="row align-items-center mt-4">
+        <div class="col"><i class="fas fa-parking"></i> Parking</div>
+        <div class="col"><i class="fas fa-fan"></i> Air Conditioning</div>
+        <div class="col"><i class="fas fa-paw"></i> Pet Friendly</div>
+      </div>
+      <div class="row align-items-center mt-4">
+        <div class="col"><i class="fas fa-wifi"></i> WiFi</div>
+        <div class="col"><i class="fas fa-archive"></i> Safe</div>
+        <div class="col"><i class="fas fa-drumstick-bite"></i> BBQ</div>
+      </div>
+      <div class="row align-items-center mt-4">
+        <div class="col"><i class="fas fa-shield-alt"></i> Mosquito Net</div>
+        <div class="col"><i class="fas fa-shower"></i> Shower</div>
+        <div class="col"><i class="fas fa-tshirt"></i> Dryer</div>
+      </div>
+      <div class="row align-items-center mt-4">
+        <div class="col"><i class="fas fa-icicles"></i> Refrigerator</div>
+        <div class="col"><i class="fas fa-glass-cheers"></i> Minibar</div>
+        <div class="col"><i class="fas fa-tv"></i> Flat Screen TV</div>
+      </div>
+    </div>
+    <div class="col-5 m-2">
+      <h2>Cancellation</h2>
+      <p>
+        Phasellus volutpat neque a tellus venenatis, a euismod augue facilisis.
+        Fusce ut metus mattis, consequat metus nec, luctus lectus. Pellentesque
+        orci quis hendrerit sed eu dolor. Cancel up to 10 days to get a full
+        refund.
+      </p>
+      <h2>House Rules</h2>
+      <ul>
+        <li>No smoking, parties or events.</li>
+        <li>Check-in time 1 PM - 4 PM, check-out by 11 AM.</li>
+      </ul>
+    </div>
+    <hr />
+    <div class="col-8 m-2">
+      <app-map
+        [coordinates]="{
+          lat: stay.location.latitude,
+          lng: stay.location.longitude
+        }"
+      ></app-map>
+    </div>
+    <div class="col-3 m-2 offset-4">
+      <div class="reserve">
+        <div class="reservation">
+          <button type="reset">Proceed to reservation</button>
+          <a routerLink="/stays" class="mt-2" id="back">Go back</a>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
-
-<a routerLink="/stays">Back</a>
+</div>
+<a>Back</a>

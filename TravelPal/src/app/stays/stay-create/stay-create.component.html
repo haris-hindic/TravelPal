@@ -5,322 +5,411 @@
     [errors]="errors"
   ></app-display-errors>
   <form class="row g-3" [formGroup]="form" (ngSubmit)="saveChanges()">
-    <div class="col-12">
-      <label class="form-label">Name</label>
-      <input
-        [ngClass]="
-          !form.get('name')?.valid && form.get('name')?.touched
-            ? 'border-danger'
-            : ''
-        "
-        type="text"
-        class="form-control"
-        formControlName="name"
-      />
-      <label
-        class="form-label text-danger"
-        *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
-        >The name is a required field!</label
-      >
-    </div>
-    <!-- <div class="col-md-6">
-      <label class="form-label">Rooms</label>
-      <input type="number" class="form-control" />
-    </div> -->
-    <div class="col-md-12">
-      <label class="form-label">Price</label>
-      <input
-        [ngClass]="
-          !form.get('price')?.valid && form.get('price')?.touched
-            ? 'border-danger'
-            : ''
-        "
-        type="number"
-        class="form-control"
-        formControlName="price"
-      />
-      <label
-        class="form-label text-danger"
-        *ngIf="!form.get('price')?.valid && form.get('price')?.touched"
-        >The price is a required field!</label
-      >
-    </div>
-    <div class="row g-3 mt-2" formGroupName="location">
-      <div class="col-4">
-        <label class="form-label">Country</label>
-        <input
-          [ngClass]="
-            !form.get('location.country')?.valid &&
-            form.get('location.country')?.touched
-              ? 'border-danger'
-              : ''
-          "
-          type="text"
-          class="form-control"
-          formControlName="country"
-        />
-        <label
-          class="form-label text-danger"
-          *ngIf="
-            !form.get('location.country')?.valid &&
-            form.get('location.country')?.touched
-          "
-          >The country is a required field!</label
-        >
-      </div>
-      <div class="col-4">
-        <label class="form-label">City</label>
-        <input
-          [ngClass]="
-            !form.get('location.city')?.valid &&
-            form.get('location.city')?.touched
-              ? 'border-danger'
-              : ''
-          "
-          type="text"
-          class="form-control"
-          formControlName="city"
-        />
-        <label
-          class="form-label text-danger"
-          *ngIf="
-            !form.get('location.city')?.valid &&
-            form.get('location.city')?.touched
-          "
-          >The city is a required field!</label
-        >
-      </div>
-      <div class="col-4">
-        <label class="form-label">Address</label>
-        <input
-          [ngClass]="
-            !form.get('location.address')?.valid &&
-            form.get('location.address')?.touched
-              ? 'border-danger'
-              : ''
-          "
-          type="text"
-          class="form-control"
-          formControlName="address"
-        />
-        <label
-          class="form-label text-danger"
-          *ngIf="
-            !form.get('location.address')?.valid &&
-            form.get('location.address')?.touched
-          "
-          >The Address is a required field!</label
-        >
-      </div>
-      <div class="col-8">
-        <app-map (onClicked)="mapClicked($event)"></app-map>
-      </div>
-      <div class="col-4">
-        <label class="form-label">Latitude</label>
-        <input
-          type="number"
-          class="form-control"
-          formControlName="latitude"
-          readonly
-        />
+    <mat-stepper orientation="vertical" [linear]="false" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Fill out the basic information</ng-template>
 
-        <label class="form-label">Longitude</label>
-        <input
-          type="number"
-          class="form-control"
-          formControlName="longitude"
-          readonly
-        />
-        <label
-          class="form-label text-danger"
-          *ngIf="
-            form.valid &&
-            form.get('location')?.get('latitude')?.value === 0 &&
-            form.get('location')?.get('longitude')?.value === 0
-          "
-          >Latitude and longitude are required!</label
-        >
-      </div>
-    </div>
-    <div class="row g-3 mt-2" formGroupName="accommodationDetails">
-      <div class="col-3">
-        <div class="form-check">
+        <div class="col-12">
+          <label class="form-label">Name</label>
           <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="parking"
+            [ngClass]="
+              !form.get('name')?.valid && form.get('name')?.touched
+                ? 'border-danger'
+                : ''
+            "
+            type="text"
+            class="form-control"
+            formControlName="name"
           />
-          <label class="form-check-label"> Parking </label>
+          <label
+            class="form-label text-danger"
+            *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+            >The name is a required field!</label
+          >
         </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
+        <!-- <div class="col-md-6">
+          <label class="form-label">Rooms</label>
+          <input type="number" class="form-control" />
+        </div> -->
+        <div class="col-md-12">
+          <label class="form-label">Price</label>
           <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="wiFi"
+            [ngClass]="
+              !form.get('price')?.valid && form.get('price')?.touched
+                ? 'border-danger'
+                : ''
+            "
+            type="number"
+            class="form-control"
+            formControlName="price"
           />
-          <label class="form-check-label"> WiFi </label>
+          <label
+            class="form-label text-danger"
+            *ngIf="!form.get('price')?.valid && form.get('price')?.touched"
+            >The price is a required field!</label
+          >
         </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="shower"
-          />
-          <label class="form-check-label"> Shower </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="minibar"
-          />
-          <label class="form-check-label"> Minibar </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="airConditioning"
-          />
-          <label class="form-check-label"> Air Conditioning </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="safe"
-          />
-          <label class="form-check-label"> Safe </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="dryer"
-          />
-          <label class="form-check-label"> Dryer </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="flatScreenTV"
-          />
-          <label class="form-check-label"> Flat screen TV </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="petFriendly"
-          />
-          <label class="form-check-label"> Pet Friendly </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="bbq"
-          />
-          <label class="form-check-label"> BBQ </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="refrigerator"
-          />
-          <label class="form-check-label"> Refrigerator </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="balcony"
-          />
-          <label class="form-check-label"> Balcony </label>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            formControlName="mosquitoNet"
-          />
-          <label class="form-check-label"> Mosquito Net </label>
-        </div>
-      </div>
-    </div>
-    <div class="col-12">
-      <label class="form-label">Select pictures</label>
-      <input
-        type="file"
-        class="form-control"
-        (change)="imageSelected($event)"
-        #img
-      />
-      <label
-        class="form-label text-danger"
-        *ngIf="imagesFiles.length === 0 && form.valid"
-        >Photos are required!</label
-      >
-    </div>
-    <div *ngIf="images && images.length > 0" class="row">
-      <div class="col-3 m-2" *ngFor="let img of images; let i = index">
-        <img
-          [src]="img"
-          alt=""
-          class="img-fluid m-2"
-          style="max-width: 500px; max-height: 200px"
-        />
 
-        <br />
-        <button
-          class="btn btn-danger mb-1"
-          [swal]="{
-            title: 'Confirmation',
-            text: 'Are you sure?',
-            showCancelButton: true
-          }"
-          (confirm)="deleteImage(i)"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-primary mt-1"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Fill out the address</ng-template>
 
-    <div class="col-12">
-      <a routerLink="/stays" class="btn btn-secondary me-2">Cancel</a>
-      <button
-        type="submit"
-        [disabled]="form.invalid || imagesFiles.length === 0"
-        class="btn btn-primary"
-      >
-        Create
-      </button>
-    </div>
+        <div class="row g-3 mt-2" formGroupName="location">
+          <div class="col-4">
+            <label class="form-label">Country</label>
+            <input
+              [ngClass]="
+                !form.get('location.country')?.valid &&
+                form.get('location.country')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="country"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('location.country')?.valid &&
+                form.get('location.country')?.touched
+              "
+              >The country is a required field!</label
+            >
+          </div>
+          <div class="col-4">
+            <label class="form-label">City</label>
+            <input
+              [ngClass]="
+                !form.get('location.city')?.valid &&
+                form.get('location.city')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="city"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('location.city')?.valid &&
+                form.get('location.city')?.touched
+              "
+              >The city is a required field!</label
+            >
+          </div>
+          <div class="col-4">
+            <label class="form-label">Address</label>
+            <input
+              [ngClass]="
+                !form.get('location.address')?.valid &&
+                form.get('location.address')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="address"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('location.address')?.valid &&
+                form.get('location.address')?.touched
+              "
+              >The Address is a required field!</label
+            >
+          </div>
+          <div class="col-8">
+            <app-map (onClicked)="mapClicked($event)"></app-map>
+          </div>
+          <div class="col-4">
+            <label class="form-label">Latitude</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="latitude"
+              readonly
+            />
+
+            <label class="form-label">Longitude</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="longitude"
+              readonly
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                form.valid &&
+                form.get('location')?.get('latitude')?.value === 0 &&
+                form.get('location')?.get('longitude')?.value === 0
+              "
+              >Latitude and longitude are required!</label
+            >
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-1 mt-1"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary me-1 mt-1"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Fill out the specific details</ng-template>
+
+        <div class="row g-3 mt-2" formGroupName="accommodationDetails">
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="parking"
+              />
+              <label class="form-check-label"> Parking </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="wiFi"
+              />
+              <label class="form-check-label"> WiFi </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="shower"
+              />
+              <label class="form-check-label"> Shower </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="minibar"
+              />
+              <label class="form-check-label"> Minibar </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="airConditioning"
+              />
+              <label class="form-check-label"> Air Conditioning </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="safe"
+              />
+              <label class="form-check-label"> Safe </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="dryer"
+              />
+              <label class="form-check-label"> Dryer </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="flatScreenTV"
+              />
+              <label class="form-check-label"> Flat screen TV </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="petFriendly"
+              />
+              <label class="form-check-label"> Pet Friendly </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="bbq"
+              />
+              <label class="form-check-label"> BBQ </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="refrigerator"
+              />
+              <label class="form-check-label"> Refrigerator </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="balcony"
+              />
+              <label class="form-check-label"> Balcony </label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="mosquitoNet"
+              />
+              <label class="form-check-label"> Mosquito Net </label>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-1 mt-1"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary me-1 mt-1"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Add images</ng-template>
+
+        <div class="col-12">
+          <label class="form-label">Select pictures</label>
+          <input
+            type="file"
+            class="form-control"
+            (change)="imageSelected($event)"
+            #img
+          />
+          <label
+            class="form-label text-danger"
+            *ngIf="imagesFiles.length === 0 && form.valid"
+            >Photos are required!</label
+          >
+        </div>
+        <div *ngIf="images && images.length > 0" class="row">
+          <div class="col-3 m-2" *ngFor="let img of images; let i = index">
+            <img
+              [src]="img"
+              alt=""
+              class="img-fluid m-2"
+              style="max-width: 500px; max-height: 200px"
+            />
+
+            <br />
+            <button
+              class="btn btn-danger mb-1"
+              [swal]="{
+                title: 'Confirmation',
+                text: 'Are you sure?',
+                showCancelButton: true
+              }"
+              (confirm)="deleteImage(i)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- <div class="col-12">
+          <a routerLink="/stays" class="btn btn-secondary me-2">Cancel</a>
+          <button
+            type="submit"
+            [disabled]="form.invalid || imagesFiles.length === 0"
+            class="btn btn-primary"
+          >
+            Create
+          </button>
+        </div> -->
+        <hr />
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-1"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger me-1"
+            (click)="stepper.reset()"
+          >
+            Reset
+          </button>
+          <!-- <a routerLink="/stays" class="btn btn-secondary me-2">Cancel</a> -->
+          <button
+            type="submit"
+            [disabled]="form.invalid || imagesFiles.length === 0"
+            class="btn btn-primary me-1"
+          >
+            Create
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
   </form>
 </div>

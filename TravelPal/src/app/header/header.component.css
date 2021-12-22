@@ -7,3 +7,38 @@ header {
   top: 0;
   z-index: 1000;
 }
+a.btn {
+  color: rgb(0, 0, 0);
+
+  border: 1px solid #464646;
+  padding: 10px;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+a.btn:hover {
+  background: #38ccd7;
+  border: 1px solid #38ccd7;
+  color: rgb(0, 0, 0);
+}
+button[type="submit"] {
+  background: #18b8c4;
+  border: 1px solid #38ccd7;
+  color: black;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #38ccd7;
+  border: 1px solid #38ccd7;
+  color: #0a0a0b;
+}
+
+i {
+  font-size: 1rem;
+}
