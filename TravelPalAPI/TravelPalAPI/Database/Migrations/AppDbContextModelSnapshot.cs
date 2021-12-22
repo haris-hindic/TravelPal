@@ -352,7 +352,7 @@ namespace TravelPalAPI.Database.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.EventImage", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.EventImages", b =>
                 {
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -526,9 +526,9 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.EventImage", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.EventImages", b =>
                 {
-                    b.HasOne("TravelPalAPI.Models.Event", null)
+                    b.HasOne("TravelPalAPI.Models.Event", "Event")
                         .WithMany("EventImages")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,6 +539,8 @@ namespace TravelPalAPI.Database.Migrations
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Event");
 
                     b.Navigation("Image");
                 });

@@ -1,8 +1,5 @@
 <div class="container">
-    <app-display-errors
-    *ngIf="errors.length > 0"
-    [errors]="errors"
-  ></app-display-errors>
+ <app-display-errors *ngIf="errors.length > 0" [errors]="errors"></app-display-errors>
 <form [formGroup]="groupData" (ngSubmit)="saveData()">
     <div class="mb-3">
 

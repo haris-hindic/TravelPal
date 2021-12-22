@@ -1,32 +1,50 @@
+<app-display-errors *ngIf="errors.length > 0" [errors]="errors"></app-display-errors>
 <div class="container">
     <form [formGroup]="groupData" (ngSubmit)="EditData()">
         <div class="mb-3">
             <label class="form-label" for="inputEmail">Name</label>
-            <input type="text" class="form-control" formControlName="name">
+            <input type="text" class="form-control" formControlName="name"
+            [class.is-invalid]='groupData.get("name")?.touched && groupData.get("name")?.errors'>
+        <div *ngIf="groupData.get('name')?.hasError('required')" class="invalid-feedback" >Please enter the name</div>
+        <div *ngIf="groupData.get('name')?.hasError('minlength')" class="invalid-feedback" > Name must be at least 3 characters</div>
         </div>
         <div class="mb-3">
             <label class="form-label" for="inputPassword">Price</label>
-            <input type="number" class="form-control" formControlName="price">
+            <input type="number" class="form-control" formControlName="price"
+            [class.is-invalid]='groupData.get("price")?.touched && groupData.get("price")?.errors'>
+            <div *ngIf="groupData.get('price')?.hasError('required')" class="invalid-feedback" >Please enter price</div>
         </div>
         <div class="mb-3">
             <label class="form-label" for="inputPassword">Date</label>
-            <input type="date" class="form-control" formControlName="date">
+            <input type="date" class="form-control" formControlName="date"
+             [class.is-invalid]='groupData.get("date")?.touched && groupData.get("date")?.errors'>
+            <div *ngIf="groupData.get('date')?.hasError('required')" class="invalid-feedback" >Please enter the date</div>
         </div>
         <div class="mb-3">
             <label class="form-label" for="inputPassword">Duration</label>
-            <input type="text" class="form-control" formControlName="duration">
+            <input type="text" class="form-control" formControlName="duration"
+            [class.is-invalid]='groupData.get("duration")?.touched && groupData.get("duration")?.errors'>
+            <div *ngIf="groupData.get('duration')?.hasError('required')" class="invalid-feedback" >Please enter the duration</div>
         </div>
         <div class="gridc" formGroupName="locationvm">
             <label class="form-label" id="grid">Country</label>
-            <input type="text" class="form-control" id="grid" formControlName="country">
+            <input type="text" class="form-control" id="grid" formControlName="country"
+            [class.is-invalid]='groupData.get("locationvm.country")?.touched && groupData.get("locationvm.country")?.errors'>
+            <div *ngIf="groupData.get('locationvm.country')?.hasError('required')" class="invalid-feedback" >Please enter the country</div>
             <label class="form-label" id="grid">City</label>
-            <input type="text" class="form-control" id="grid" formControlName="city">
+            <input type="text" class="form-control" id="grid" formControlName="city"
+            [class.is-invalid]='groupData.get("locationvm.city")?.touched && groupData.get("locationvm.city")?.errors'>
+            <div *ngIf="groupData.get('locationvm.city')?.hasError('required')" class="invalid-feedback" >Please enter the city</div>
             <label class="form-label" id="grid">Address</label>
-            <input type="text" class="form-control" id="grid" formControlName="address">
+            <input type="text" class="form-control" id="grid" formControlName="address"
+            [class.is-invalid]='groupData.get("locationvm.address")?.touched && groupData.get("locationvm.address")?.errors'>
+            <div *ngIf="groupData.get('locationvm.address')?.hasError('required')" class="invalid-feedback" >Please enter the address</div>
         </div>
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" formControlName="eventdescription" rows="3"></textarea>
+            <textarea class="form-control" formControlName="eventdescription" rows="3"
+            [class.is-invalid]='groupData.get("eventdescription")?.touched && groupData.get("eventdescription")?.errors'>
+            <div *ngIf="groupData.get('eventdescription')?.hasError('required')" class="invalid-feedback" >Please enter the description</div></textarea>
         </div>
         <div class="col-10 mb-3">
             <label class="form-label">Select picture</label>
