@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/helpers/image.service';
+import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { Image } from 'src/app/models/image.model';
 import { EventCreationVM, EventVM } from '../events.model';
@@ -20,6 +21,7 @@ export class EventsEditComponent implements OnInit {
   groupData!: FormGroup;
   formData = new FormData();
   event : any;
+  errors : string[] = [];
   imgBase64: string ='';
   currentImages: Image[] = [];
   images: string[] = [];
@@ -34,7 +36,7 @@ export class EventsEditComponent implements OnInit {
     
     this.groupData = this.builder.group(
       {
-        name: ['', {validators: [Validators.required]}],
+        name: ['', {validators: [Validators.required, Validators.minLength(3)]}],
         price: ['',{validators: [Validators.required]}],
         date: ['', {validators: [Validators.required]}],
         duration: ['', {validators: [Validators.required]}],
@@ -47,7 +49,6 @@ export class EventsEditComponent implements OnInit {
         }),
         }
     );
-
         this.aRouter.params.subscribe(params=>
           {
             this.es.getSpecific(params.id).subscribe((e: any)=>
@@ -89,10 +90,13 @@ export class EventsEditComponent implements OnInit {
           this.imageService.addImages(this.aRouter.snapshot.params.id as number, this.formData, 'events').subscribe(
             () => {
             }
-          )
-          }
+          )}
           this.router.navigateByUrl('events');
           this.toastr.info("Event edited!")
+        },
+        (err)=>
+        {
+          this.errors = parseWebAPiErrors(err);
         });
    
   }

@@ -39,7 +39,7 @@ namespace TravelPalAPI.Controllers
 
             foreach (var image in images.Images)
             {
-                _appDb.EventImages.Add(new EventImage
+                _appDb.EventImages.Add(new EventImages
                 {
                     EventId = id,
                     Image = new Image(){ ImagePath = fileStorageService.SaveFile(containerName, image) }

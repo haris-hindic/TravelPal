@@ -17,7 +17,7 @@ namespace TravelPalAPI.Models
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]
         public Location Location { get; set; }
-        public List<EventImage> EventImages { get; set; }
+        public List<EventImages> EventImages { get; set; }
 
     }
 }
