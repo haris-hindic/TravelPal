@@ -1,92 +1,35 @@
-/* #wrapper {
-  /* position: sticky; 
-  background-color: #ffffff;
-  padding: 5%;
-  width: 100%;
-  z-index: -1;
+a.btn {
+  color: rgb(0, 0, 0);
+
+  border: 1px solid #464646;
+  padding: 10px;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
-.logo {
-  float: left;
+a.btn:hover {
+  background: #38ccd7;
+  border: 1px solid #38ccd7;
+  color: rgb(0, 0, 0);
+}
 
-  height: 130px;
-  width: 130px;
-  background-color: #e4f9fd;
+button[type="submit"] {
+  background: #18b8c4;
+  border: 1px solid #38ccd7;
+  color: black;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
 }
-#lijevi {
-  float: left;
-  position: relative;
-  height: 100%;
-  width: 50%;
-  background-color: white;
-  box-shadow: 10px 3px 5px grey;
-  border-radius: 25px 0px 0px 25px;
+
+button[type="submit"]:hover {
+  background: #38ccd7;
+  border: 1px solid #38ccd7;
+  color: #0a0a0b;
 }
-#desni {
-  float: left;
-  position: relative;
-  height: 558px;
-  width: 50%;
-  padding: 2%;
-  background-color: #f1fdff;
-  box-shadow: 3px 3px 5px grey;
-  border-radius: 0px 25px 25px 0px;
+i {
+  font-size: 1rem;
 }
-#desniLogin {
-  float: left;
-  position: relative;
-  height: 437px;
-  width: 50%;
-  padding: 2%;
-  background-color: #e6fbff;
-  box-shadow: 3px 3px 5px grey;
-  border-radius: 0px 25px 25px 0px;
-}
-.registracija {
-  margin: 40px;
-  margin-bottom: 60px;
-}
-.lijeviLogin {
-  height: 337px;
-  border-radius: 25px 0px 0px 25px;
-}
-#registrovani {
-  position: relative;
-  float: left;
-  margin-left: 40px;
-  margin-top: 10px;
-  font-size: 14px;
-}
-#loginSlika {
-  height: 150px;
-  width: 200px;
-  position: relative;
-  left: 200px;
-}
-.regSlika {
-  width: 100%;
-  height: 100%;
-}
-#reg {
-  font-weight: bolder;
-  position: relative;
-  left: 33%;
-}
-#regLogin {
-  font-weight: bolder;
-  position: relative;
-  left: 40%;
-}
-#loginDugme {
-  position: relative;
-  left: 0px;
-  margin-top: 9px;
-}
-#zaReg {
-  position: absolute;
-}
-#resetPw {
-  color: blue;
-  background: none;
-  border: none;
-} */

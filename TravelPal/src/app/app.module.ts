@@ -32,6 +32,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-multiple-markers.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     UserListComponent,
     MapComponent,
     MapMultipleMarkersComponent,
+    StayHomepageComponent,
   ],
   imports: [
     BrowserModule,

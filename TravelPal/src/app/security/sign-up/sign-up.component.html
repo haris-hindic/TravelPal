@@ -1,4 +1,107 @@
-<div
+<div class="container">
+  <div
+    style="margin: 50px"
+    class="row align-items-center rounded-3 border shadow-lg"
+  >
+    <div class="col-6">
+      <app-display-errors
+        *ngIf="errors.length > 0"
+        [errors]="errors"
+      ></app-display-errors>
+      <h2>Sign Up</h2>
+      <form class="registracija" [formGroup]="form" (ngSubmit)="signUp()">
+        <div class="form-group">
+          <label class="form-label">Ime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite vaše ime"
+            formControlName="firstName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prezime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite vaše prezime"
+            formControlName="lastName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Korisničko ime</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unesite korisničko ime"
+            formControlName="userName"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Unesite email"
+            formControlName="email"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Broj telefona</label>
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="Unesite broj telefona"
+            formControlName="phoneNumber"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Šifra"
+            formControlName="password"
+          />
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-6 text-start">
+            <a
+              routerLink="/signin"
+              style="padding: 5px 10px 5px 10px"
+              class="btn text-start"
+              >Already registered?&nbsp;<i class="fas fa-sign-in-alt"></i> Sign
+              In</a
+            >
+          </div>
+          <div class="col-6 text-end">
+            <button type="submit" class="btn btn-primary text-end">
+              <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- <div class="col-5">
+      <img class="img-fluid mt-2" style="width: 600px; height: 500px" />
+    </div> -->
+
+    <div class="col-6 p-0 overflow-hidden shadow-lg">
+      <div class="lc-block">
+        <img
+          class="rounded-start"
+          src="https://images.pexels.com/photos/3935702/pexels-photo-3935702.jpeg"
+          alt="Photo by Diego PH"
+          width="920"
+          height="720"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div
   class="container rounded shadow-sm mt-5"
   style="border: 0.5px rgb(255, 245, 245) solid"
 >
@@ -63,27 +166,16 @@
             placeholder="Šifra"
             formControlName="password"
           />
-        </div>
+        </div></form>
 
-        <!-- <div class="form-group">
-          <label class="form-label">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Potvrdite šifru"
-          />
-        </div> -->
         <br />
         <button type="submit" class="btn btn-primary">Sign Up</button>
 
         <div><a class="btn">Already registered?&nbsp;Sign In</a></div>
-      </form>
+      
     </div>
     <div class="col-5">
-      <img
-        class="img-fluid mt-2"
-        style="width: 600px; height: 500px"
-      />
+      <img class="img-fluid mt-2" style="width: 600px; height: 500px" />
     </div>
   </div>
-</div>
+</div> -->

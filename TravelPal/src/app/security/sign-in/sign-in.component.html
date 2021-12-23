@@ -1,21 +1,21 @@
-<div
-  class="container rounded shadow-sm mt-5"
-  style="border: 0.5px rgb(255, 245, 245) solid"
->
-  <div class="row">
-    <div class="col-7">
+<div class="container">
+  <div
+    style="margin: 50px"
+    class="row align-items-center rounded-3 border shadow-lg"
+  >
+    <div class="col-6">
       <app-display-errors
         *ngIf="errors.length > 0"
         [errors]="errors"
       ></app-display-errors>
       <h2>Sign In</h2>
-      <form class="registracija" [formGroup]="form" (ngSubmit)="signIp()">
+      <form [formGroup]="form" (ngSubmit)="signIp()">
         <div class="form-group">
-          <label class="form-label">Korisničko ime</label>
+          <label class="form-label">Username</label>
           <input
             type="text"
             class="form-control"
-            placeholder="Unesite korisničko ime"
+            placeholder="Enter your username"
             formControlName="userName"
           />
         </div>
@@ -24,19 +24,39 @@
           <input
             type="password"
             class="form-control"
-            placeholder="Šifra"
+            placeholder="****"
             formControlName="password"
           />
         </div>
         <br />
-        <button type="submit" class="btn btn-primary">Sign In</button>
+        <div class="row">
+          <div class="col-6 text-start">
+            <a
+              routerLink="/signup"
+              style="padding: 5px 10px 5px 10px"
+              class="btn text-start"
+              >Not registered?&nbsp;<i class="fas fa-user-plus"></i> Sign Up</a
+            >
+          </div>
+          <div class="col-6 text-end">
+            <button type="submit" class="btn btn-primary text-end">
+              <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+          </div>
+        </div>
       </form>
     </div>
-    <div class="col-5">
-      <img
-        class="img-fluid mt-2"
-        style="width: 600px; height: 500px"
-      />
+
+    <div class="col-6 p-0 overflow-hidden shadow-lg">
+      <div class="lc-block">
+        <img
+          class="rounded-start"
+          src="https://images.pexels.com/photos/3935702/pexels-photo-3935702.jpeg"
+          alt="Photo by Diego PH"
+          width="920"
+          height="520"
+        />
+      </div>
     </div>
   </div>
 </div>
