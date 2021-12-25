@@ -6,6 +6,7 @@ import { EventsService } from '../events.service';
 import { ImageService } from 'src/app/helpers/image.service';   
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { ToastrService } from 'ngx-toastr';
+import { SecurityService } from 'src/app/security/security.service';
 
 @Component({
   selector: 'app-events-creation',
@@ -23,11 +24,12 @@ export class EventsCreationComponent implements OnInit {
 
 
   constructor(private es: EventsService, private builder: FormBuilder, private router: Router, private is: ImageService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private securityService: SecurityService) { }
 
   ngOnInit(): void {
     this.groupData = this.builder.group(
       {
+        hostId:[`${this.securityService.getFieldFromJWT('id')}`],
         name: ['', {validators: [Validators.required, Validators.minLength(3)]}],
         price: ['',{validators: [Validators.required]}],
         date: ['', {validators: [Validators.required]}],

@@ -6,6 +6,7 @@ import { AuthGuardGuard } from './auth-guard.guard';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
+import { EventsUserComponent } from './events/events-user/events-user.component';
 import { EventsComponent } from './events/events.component';
 import { HomeComponent } from './home/home.component';
 import { SignInComponent } from './security/sign-in/sign-in.component';
@@ -36,11 +37,12 @@ const appRoutes: Routes = [
     component: StayEditComponent,
     canActivate: [AuthGuardGuard],
   },
-
+  //events
   { path: 'events', component: EventsComponent },
-  { path: 'events/details/:id', component: EventsDetailsComponent },
-  { path: 'events/creation', component: EventsCreationComponent },
-  { path: 'events/edit/:id', component: EventsEditComponent },
+  { path: 'events/details/:id', component: EventsDetailsComponent},
+  { path: 'events/creation', component: EventsCreationComponent, canActivate: [AuthGuardGuard] },
+  { path: 'events/edit/:id', component: EventsEditComponent, canActivate: [AuthGuardGuard] },
+  { path: 'user-events/:id', component: EventsUserComponent, canActivate: [AuthGuardGuard]},
 
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },

@@ -93,8 +93,13 @@
                 }}"
                 class="btn btn-outline-success rounded-pill"
               >
-                My Stays</a
+                My Stays </a
               >
+            </li>
+            <li>
+              <a
+                routerLink="user-events/{{ _securityService.getFieldFromJWT('id')}}" class="btn btn-outline-info rounded-pill mt-1" >
+                My Events</a >
             </li>
             <li *ngIf="isAdmin()">
               <a

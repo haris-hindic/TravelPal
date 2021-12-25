@@ -55,6 +55,9 @@ namespace TravelPalAPI.Controllers
             foreach (var user in usersVM)
             {
                 user.StaysListed = appDb.Accommodations.Where(x => x.HostId == user.Id).Count();
+
+                user.EventsListed = appDb.Events.Where(e => e.HostId == user.Id).Count();
+
                 user.IsAdmin = appDb.UserClaims
                     .Any(x => x.UserId == user.Id && x.ClaimType == claimType && x.ClaimValue == claimValue);
             }

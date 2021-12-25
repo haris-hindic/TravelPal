@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Event;
+using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Controllers
@@ -57,6 +59,7 @@ namespace TravelPalAPI.Controllers
                 Date = e.Date,
                 Price = e.Price,
                 EventDescription = e.EventDescription,
+                User = mapper.Map<UserVM>(e.Host),
                 Duration = e.Duration,
                 LocationVM = mapper.Map<LocationVM>(e.Location),
                 Images = e.EventImages.Select(e => e.Image).ToList()
@@ -77,7 +80,7 @@ namespace TravelPalAPI.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet,AllowAnonymous]
         public IEnumerable<EventVM> GetAll()
         {
             return appDb.Events.Select(e => new EventVM
@@ -85,9 +88,9 @@ namespace TravelPalAPI.Controllers
                 Id = e.Id,
                 Date=e.Date,
                 Duration=e.Duration,
-                //Location=e.Location
                 LocationVM = mapper.Map<LocationVM>(e.Location),
                 EventDescription=e.EventDescription,
+                User = mapper.Map<UserVM>(e.Host),
                 Name=e.Name,
                 Price=e.Price,
                 Images = e.EventImages.Select(e => e.Image).ToList()

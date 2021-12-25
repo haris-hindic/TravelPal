@@ -42,9 +42,12 @@ namespace TravelPalAPI.Helpers
             CreateMap<EventCreationVM, Event>()
                 .ForMember(x => x.Location,
                 vm => vm.MapFrom(x => x.LocationVM));
+
             CreateMap<Event, EventVM>()
                 .ForMember(x => x.LocationVM,
-                vm => vm.MapFrom(x => x.Location));
+                vm => vm.MapFrom(x => x.Location))
+                .ForMember(x => x.User, vm => vm.MapFrom(x => x.Host));
+
             //User
             CreateMap<UserAccount, UserVM>()
                 .ForMember(x => x.Id, user => user.MapFrom(x => x.Id))

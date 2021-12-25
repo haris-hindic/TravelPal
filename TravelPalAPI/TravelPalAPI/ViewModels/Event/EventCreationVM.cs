@@ -11,12 +11,15 @@ namespace TravelPalAPI.ViewModels.Event
     {
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string HostId { get; set; }
         [Required, Range(5,200)]
         public double Price { get; set; }
         [Required]
         public DateTime Date { get; set; }
         [Required]
         public string Duration { get; set; }
+
         [Required]
         public string EventDescription { get; set; }
         [Required]
