@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class MapComponent implements OnInit {
   @Output() onClicked = new EventEmitter<{ lat: number; lng: number }>();
   @Input() coordinates!: { lat: number; lng: number };
+  @Input() readonly: boolean = false;
 
   constructor() {}
 
@@ -19,7 +20,9 @@ export class MapComponent implements OnInit {
   }
 
   mapClicked(event: MouseEvent) {
-    this.coordinates = { lat: event.coords.lat, lng: event.coords.lng };
-    this.onClicked.emit(this.coordinates);
+    if (!this.readonly) {
+      this.coordinates = { lat: event.coords.lat, lng: event.coords.lng };
+      this.onClicked.emit(this.coordinates);
+    }
   }
 }

@@ -31,7 +31,7 @@
       <hr />
       <div *ngFor="let stay of stays" class="card-trip">
         <img
-          routerLink="details/{{ stay.id }}"
+          routerLink="/stays/details/{{ stay.id }}"
           style="cursor: pointer"
           [src]="stay.images[0].imagePath"
         />

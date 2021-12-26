@@ -11,29 +11,29 @@
       <h2>Sign Up</h2>
       <form class="registracija" [formGroup]="form" (ngSubmit)="signUp()">
         <div class="form-group">
-          <label class="form-label">Ime</label>
+          <label class="form-label">First Name</label>
           <input
             type="text"
             class="form-control"
-            placeholder="Unesite vaše ime"
+            placeholder="John"
             formControlName="firstName"
           />
         </div>
         <div class="form-group">
-          <label class="form-label">Prezime</label>
+          <label class="form-label">Last Name</label>
           <input
             type="text"
             class="form-control"
-            placeholder="Unesite vaše prezime"
+            placeholder="Doe"
             formControlName="lastName"
           />
         </div>
         <div class="form-group">
-          <label class="form-label">Korisničko ime</label>
+          <label class="form-label">Username</label>
           <input
             type="text"
             class="form-control"
-            placeholder="Unesite korisničko ime"
+            placeholder="john.doe"
             formControlName="userName"
           />
         </div>
@@ -42,16 +42,16 @@
           <input
             type="email"
             class="form-control"
-            placeholder="Unesite email"
+            placeholder="johnny@doe.com"
             formControlName="email"
           />
         </div>
         <div class="form-group">
-          <label class="form-label">Broj telefona</label>
+          <label class="form-label">Phone Number</label>
           <input
             type="tel"
             class="form-control"
-            placeholder="Unesite broj telefona"
+            placeholder="+1(487)225-883"
             formControlName="phoneNumber"
           />
         </div>
@@ -60,7 +60,7 @@
           <input
             type="password"
             class="form-control"
-            placeholder="Šifra"
+            placeholder="******"
             formControlName="password"
           />
         </div>

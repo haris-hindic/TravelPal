@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Identity;
 
@@ -28,19 +29,19 @@ namespace TravelPalAPI.Controllers
         private readonly AppDbContext appDb;
         private readonly UserManager<UserAccount> userManager;
         private readonly SignInManager<UserAccount> signInManager;
-        private readonly IConfiguration configuration;
         private readonly IMapper mapper;
+        private readonly ITokenService tokenService;
         private readonly string claimType="role";
         private readonly string claimValue="admin";
 
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
-            SignInManager<UserAccount> signInManager,IConfiguration configuration,IMapper mapper)
+            SignInManager<UserAccount> signInManager,IMapper mapper,ITokenService tokenService )
         {
             this.appDb = appDb;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.configuration = configuration;
             this.mapper = mapper;
+            this.tokenService = tokenService;
         }
 
         [HttpGet("users"),Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme,Policy ="IsAdmin")]
@@ -92,7 +93,7 @@ namespace TravelPalAPI.Controllers
             var user = await userManager.FindByNameAsync(userCredentials.UserName);
 
             if (result.Succeeded)
-                return await BuildToken(user);
+                return await tokenService.BuildToken(user);
             else
                 return BadRequest("Incorrect Login");
         }
@@ -112,39 +113,9 @@ namespace TravelPalAPI.Controllers
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
             if (result.Succeeded)
-                return await BuildToken(user);
+                return await tokenService.BuildToken(user);
             else
                 return BadRequest(result.Errors);
         }
-
-        private async Task<AuthentificationResponse> BuildToken(UserAccount user)
-        {
-            var claims = new List<Claim>()
-            {
-                new Claim("userName",user.UserName),
-                new Claim("id",user.Id)
-            };
-
-            var claimsDB = await userManager.GetClaimsAsync(user);
-
-            claims.AddRange(claimsDB);
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var expiration = DateTime.UtcNow.AddHours(5);
-
-            var token = new JwtSecurityToken(
-                issuer: null, audience: null, claims: claims,
-                expires: expiration, signingCredentials: creds);
-
-            return new AuthentificationResponse()
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
-            };
-
-        }
-
     }
 }

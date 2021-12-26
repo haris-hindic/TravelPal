@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Extensions;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 
@@ -37,42 +38,12 @@ namespace TravelPalAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAppServices(Configuration);
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelPalAPI", Version = "v1" });
-            });
-
-            services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("AppDb")));
-
-            services.AddScoped<IFileStorageService, LocalImageStorage>();
             services.AddHttpContextAccessor();
+            services.AddControllers();
 
-            services.AddAutoMapper(typeof(Startup));
-
-            services.AddIdentity<UserAccount, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opts =>
-                {
-                    opts.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["keyjwt"])),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
-            });
+            services.AddIdentityServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

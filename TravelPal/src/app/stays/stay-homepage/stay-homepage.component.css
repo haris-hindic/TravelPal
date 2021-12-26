@@ -23,8 +23,7 @@
 .cover {
   font-family: "Lato", sans-serif;
   margin: 0;
-  background-image: url("https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg")
-    no-repeat center center fixed;
+  background-image: no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
