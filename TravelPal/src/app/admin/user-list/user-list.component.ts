@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { userVM } from 'src/app/models/user.model';
+import { userVM } from 'src/app/shared/models/user.model';
 import { AdminService } from '../admin.service';
 
 @Component({

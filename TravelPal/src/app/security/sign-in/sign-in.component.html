@@ -17,7 +17,19 @@
             class="form-control"
             placeholder="john.doe"
             formControlName="userName"
+            [ngClass]="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+            "
+            >The username is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -26,7 +38,19 @@
             class="form-control"
             placeholder="****"
             formControlName="password"
+            [ngClass]="
+              !form.get('password')?.valid && form.get('password')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('password')?.valid && form.get('password')?.touched
+            "
+            >The password is required!</label
+          >
         </div>
         <br />
         <div class="row">

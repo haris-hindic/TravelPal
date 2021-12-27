@@ -1,36 +1,5 @@
-<div class="container mt-4">
-  <div
-    id="carouselExampleFade"
-    class="carousel slide carousel-fade"
-    data-bs-ride="carousel"
-  >
-    <div class="carousel-inner">
-      <div
-        class="carousel-item active"
-        *ngFor="let img of stay.images; let i = index"
-      >
-        <img width="1400" height="500" [src]="img.imagePath" alt="..." />
-      </div>
-    </div>
-    <button
-      class="carousel-control-prev"
-      type="button"
-      data-bs-target="#carouselExampleFade"
-      data-bs-slide="prev"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button
-      class="carousel-control-next"
-      type="button"
-      data-bs-target="#carouselExampleFade"
-      data-bs-slide="next"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+<div class="container mt-4" *ngIf="stay">
+  <app-image-slider [images]="stay.images"></app-image-slider>
   <hr />
   <div class="row mt-2">
     <div class="col-7 m-2">
@@ -108,7 +77,9 @@
       <div class="reserve">
         <div class="reservation">
           <button type="reset">Proceed to reservation</button>
-          <a routerLink="/stays" type="reset" id="back" class="mt-2">Go Back</a>
+          <a routerLink="/stays/search" type="reset" id="back" class="mt-2"
+            >Go Back</a
+          >
           <!-- <button routerLink="/stays" class="mt-4" id="back">Go back</button> -->
         </div>
       </div>

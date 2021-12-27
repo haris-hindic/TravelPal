@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminGuard } from './admin.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { UserListComponent } from './admin/user-list/user-list.component';
-import { AuthGuardGuard } from './auth-guard.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
@@ -26,7 +26,7 @@ const appRoutes: Routes = [
   {
     path: 'stays/create',
     component: StayCreateComponent,
-    canActivate: [AuthGuardGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'stays/details/:id',
@@ -35,14 +35,26 @@ const appRoutes: Routes = [
   {
     path: 'stays/edit/:id',
     component: StayEditComponent,
-    canActivate: [AuthGuardGuard],
+    canActivate: [AuthGuard],
   },
   //events
   { path: 'events', component: EventsComponent },
-  { path: 'events/details/:id', component: EventsDetailsComponent},
-  { path: 'events/creation', component: EventsCreationComponent, canActivate: [AuthGuardGuard] },
-  { path: 'events/edit/:id', component: EventsEditComponent, canActivate: [AuthGuardGuard] },
-  { path: 'user-events/:id', component: EventsUserComponent, canActivate: [AuthGuardGuard]},
+  { path: 'events/details/:id', component: EventsDetailsComponent },
+  {
+    path: 'events/creation',
+    component: EventsCreationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'events/edit/:id',
+    component: EventsEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-events/:id',
+    component: EventsUserComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },

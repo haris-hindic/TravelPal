@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ImageService } from 'src/app/helpers/image.service';
 import { AccommodationService } from '../accommodation.service';
 import { AccommodationVM } from '../stays.model';
 
@@ -11,7 +10,6 @@ import { AccommodationVM } from '../stays.model';
 })
 export class StayDetailsComponent implements OnInit {
   stay!: AccommodationVM;
-
   constructor(
     private _route: ActivatedRoute,
     private _accommodationService: AccommodationService

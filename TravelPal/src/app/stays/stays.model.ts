@@ -1,6 +1,9 @@
-import { Image } from '../models/image.model';
-import { LocationCreationVM, LocationVM } from '../models/location.model';
-import { userVM } from '../models/user.model';
+import { Image } from '../shared/models/image.model';
+import {
+  LocationCreationVM,
+  LocationVM,
+} from '../shared/models/location.model';
+import { userVM } from '../shared/models/user.model';
 
 export interface AccommodationVM {
   id: number;

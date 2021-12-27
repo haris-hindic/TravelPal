@@ -17,7 +17,19 @@
             class="form-control"
             placeholder="John"
             formControlName="firstName"
+            [ngClass]="
+              !form.get('firstName')?.valid && form.get('firstName')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('firstName')?.valid && form.get('firstName')?.touched
+            "
+            >The first name is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Last Name</label>
@@ -26,7 +38,19 @@
             class="form-control"
             placeholder="Doe"
             formControlName="lastName"
+            [ngClass]="
+              !form.get('lastName')?.valid && form.get('lastName')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('lastName')?.valid && form.get('lastName')?.touched
+            "
+            >The last name is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Username</label>
@@ -35,7 +59,19 @@
             class="form-control"
             placeholder="john.doe"
             formControlName="userName"
+            [ngClass]="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+            "
+            >The username is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Email</label>
@@ -44,7 +80,17 @@
             class="form-control"
             placeholder="johnny@doe.com"
             formControlName="email"
+            [ngClass]="
+              !form.get('email')?.valid && form.get('email')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="!form.get('email')?.valid && form.get('email')?.touched"
+            >The email is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Phone Number</label>
@@ -53,7 +99,21 @@
             class="form-control"
             placeholder="+1(487)225-883"
             formControlName="phoneNumber"
+            [ngClass]="
+              !form.get('phoneNumber')?.valid &&
+              form.get('phoneNumber')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('phoneNumber')?.valid &&
+              form.get('phoneNumber')?.touched
+            "
+            >The phone number is required!</label
+          >
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -62,7 +122,19 @@
             class="form-control"
             placeholder="******"
             formControlName="password"
+            [ngClass]="
+              !form.get('password')?.valid && form.get('password')?.touched
+                ? 'border-danger'
+                : ''
+            "
           />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('password')?.valid && form.get('password')?.touched
+            "
+            >The phone number is required!</label
+          >
         </div>
         <br />
         <div class="row">

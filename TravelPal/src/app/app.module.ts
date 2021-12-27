@@ -9,7 +9,6 @@ import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { EventsDetailsComponent } from './events/events-details/events-details.component';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
@@ -22,18 +21,16 @@ import { SignInComponent } from './security/sign-in/sign-in.component';
 import { JwtInterceptorService } from './security/jwt-interceptor.service';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { UserListComponent } from './admin/user-list/user-list.component';
-import { ToastrModule } from 'ngx-toastr';
 import {
   BrowserAnimationsModule,
   NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import { MapComponent } from './helpers/map/map.component';
-import { AgmCoreModule } from '@agm/core';
-import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-multiple-markers.component';
-import { MatStepperModule } from '@angular/material/stepper';
 import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.component';
 import { EventsUserComponent } from './events/events-user/events-user.component';
+import { ImageSliderComponent } from './helpers/image-slider/image-slider.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -58,22 +55,17 @@ import { EventsUserComponent } from './events/events-user/events-user.component'
     MapMultipleMarkersComponent,
     StayHomepageComponent,
     EventsUserComponent,
+    ImageSliderComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    SweetAlert2Module.forRoot(),
-    ReactiveFormsModule,
-    ToastrModule.forRoot(),
-    BrowserAnimationsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAhH0kpOB9F5lpdzbVhi4c5mJyxIBtd43Q',
-    }),
-    AgmSnazzyInfoWindowModule,
-    MatStepperModule,
-    NoopAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule,
+    SharedModule,
   ],
   providers: [
     {

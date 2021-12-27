@@ -7,13 +7,16 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SecurityService } from './security/security.service';
+import { SecurityService } from '../security/security.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardGuard implements CanActivate {
-  constructor(private _security: SecurityService, private _router: Router) {}
+export class AdminGuard implements CanActivate {
+  constructor(
+    private _securityService: SecurityService,
+    private _router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,11 +26,13 @@ export class AuthGuardGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this._security.isAuthenticated()) {
-      return true;
-    }
+    if (this._securityService.isAdmin()) return true;
 
-    this._router.navigate(['signin']);
+    if (this._securityService.isAuthenticated()) {
+      this._router.navigate(['']);
+      return false;
+    }
+    this._router.navigate(['/signin']);
     return false;
   }
 }
