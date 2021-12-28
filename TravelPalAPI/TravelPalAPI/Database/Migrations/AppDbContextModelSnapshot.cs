@@ -307,15 +307,20 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationImage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("AccommodationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AccommodationId", "ImageId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("AccommodationId");
 
                     b.ToTable("AccommodationImages");
                 });
@@ -508,19 +513,13 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationImage", b =>
                 {
-                    b.HasOne("TravelPalAPI.Models.Accommodation", null)
+                    b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
                         .WithMany("AccommodationImages")
                         .HasForeignKey("AccommodationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TravelPalAPI.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
+                    b.Navigation("Accommodation");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>

@@ -69,7 +69,6 @@ export class SecurityService {
     const token = localStorage.getItem(this.tokenKey);
 
     if (!token) return '';
-
     const dataToken = JSON.parse(atob(token.split('.')[1]));
     return dataToken[field];
   }

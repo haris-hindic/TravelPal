@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
-namespace TravelPalAPI.Migrations
+namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211217133135_AddEventImage")]
-    partial class AddEventImage
+    [Migration("20211228202414_reshape-db")]
+    partial class reshapedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -309,15 +309,20 @@ namespace TravelPalAPI.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationImage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("AccommodationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AccommodationId", "ImageId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("AccommodationId");
 
                     b.ToTable("AccommodationImages");
                 });
@@ -338,6 +343,9 @@ namespace TravelPalAPI.Migrations
                     b.Property<string>("EventDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("HostId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
@@ -347,14 +355,19 @@ namespace TravelPalAPI.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<string>("TestMigracije")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("HostId");
 
                     b.HasIndex("LocationId");
 
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.EventImage", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.EventImages", b =>
                 {
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -399,6 +412,12 @@ namespace TravelPalAPI.Migrations
 
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -496,39 +515,47 @@ namespace TravelPalAPI.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationImage", b =>
                 {
-                    b.HasOne("TravelPalAPI.Models.Accommodation", null)
+                    b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
                         .WithMany("AccommodationImages")
                         .HasForeignKey("AccommodationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TravelPalAPI.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
+                    b.Navigation("Accommodation");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
+                    b.HasOne("TravelPalAPI.Models.UserAccount", "Host")
+                        .WithMany()
+                        .HasForeignKey("HostId");
+
                     b.HasOne("TravelPalAPI.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Host");
+
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.EventImage", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.EventImages", b =>
                 {
+                    b.HasOne("TravelPalAPI.Models.Event", "Event")
+                        .WithMany("EventImages")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TravelPalAPI.Models.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Event");
 
                     b.Navigation("Image");
                 });
@@ -536,6 +563,11 @@ namespace TravelPalAPI.Migrations
             modelBuilder.Entity("TravelPalAPI.Models.Accommodation", b =>
                 {
                     b.Navigation("AccommodationImages");
+                });
+
+            modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
+                {
+                    b.Navigation("EventImages");
                 });
 #pragma warning restore 612, 618
         }

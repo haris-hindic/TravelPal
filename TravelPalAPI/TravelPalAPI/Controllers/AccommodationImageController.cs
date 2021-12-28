@@ -35,10 +35,7 @@ namespace TravelPalAPI.Controllers
                 appDb.AccommodationImages.Add(new AccommodationImage
                 {
                     AccommodationId = id,
-                    Image = new Image
-                    {
-                        ImagePath = fileStorageService.SaveFile(containerName, img)
-                    }
+                    ImagePath = fileStorageService.SaveFile(containerName, img)
                 });
             }
 
@@ -49,7 +46,7 @@ namespace TravelPalAPI.Controllers
         [HttpDelete, Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var accImg = appDb.AccommodationImages.FirstOrDefault(x => x.ImageId == id);
+            var accImg = appDb.AccommodationImages.FirstOrDefault(x => x.Id == id);
             var img = appDb.Images.FirstOrDefault(x => x.Id == id);
 
             if (img==null) return NotFound();
@@ -57,7 +54,6 @@ namespace TravelPalAPI.Controllers
             fileStorageService.DeleteFile(img.ImagePath, containerName);
 
             appDb.AccommodationImages.Remove(accImg);
-            appDb.Images.Remove(img);
             appDb.SaveChanges();
             return Ok();
         }

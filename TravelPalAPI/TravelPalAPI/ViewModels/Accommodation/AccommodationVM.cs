@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.AccommodationDetails;
+using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
@@ -17,6 +18,6 @@ namespace TravelPalAPI.ViewModels.Accommodation
         public UserVM User { get; set; }
         public LocationVM Location { get; set; }
         public AccommodationDetailsVM AccommodationDetails { get; set; }
-        public List<Image> Images { get; set; }
+        public List<AccommodationImageVM> Images { get; set; }
     }
 }

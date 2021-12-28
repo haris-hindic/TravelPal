@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
+using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
@@ -17,6 +18,10 @@ namespace TravelPalAPI.Helpers
     
         public AutoMapperProfiles( )
         {
+            //AccommodationImage
+            CreateMap<AccommodationImage, AccommodationImageVM>()
+                .ForMember(x => x.Id, opts => opts.MapFrom(x => x.Id))
+                .ForMember(x => x.ImagePath, opts => opts.MapFrom(x => x.ImagePath));
             //AcommodationDetails
             CreateMap<AccommodationDetailsCreationVM, AccommodationDetails>().ReverseMap();
             CreateMap<AccommodationDetailsVM, AccommodationDetails>().ReverseMap();
@@ -37,7 +42,9 @@ namespace TravelPalAPI.Helpers
                 .ForMember(X => X.AccommodationDetails,
                 vm => vm.MapFrom(x => x.AccommodationDetails))
                  .ForMember(X => X.User,
-                vm => vm.MapFrom(x => x.Host));
+                vm => vm.MapFrom(x => x.Host))
+                 .ForMember(X => X.Images,
+                vm => vm.MapFrom(x => x.AccommodationImages));
             //Event
             CreateMap<EventCreationVM, Event>()
                 .ForMember(x => x.Location,

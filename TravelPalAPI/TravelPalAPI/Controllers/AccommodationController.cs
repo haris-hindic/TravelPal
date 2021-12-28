@@ -13,6 +13,7 @@ using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
+using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
@@ -77,7 +78,7 @@ namespace TravelPalAPI.Controllers
                    User= mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = x.AccommodationImages.Select(x => x.Image).ToList()
+                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
                }).ToList();
 
@@ -89,7 +90,7 @@ namespace TravelPalAPI.Controllers
         {
             if (!appDb.UserAccounts.Any(x => x.Id == id)) return BadRequest("No such user!");
 
-            var accommodations = appDb.Accommodations.Where(x=>x.HostId==id)
+            var accommodations = appDb.Accommodations.Where(x => x.HostId == id)
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,
@@ -98,7 +99,7 @@ namespace TravelPalAPI.Controllers
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = x.AccommodationImages.Select(x => x.Image).ToList()
+                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
                }).ToList();
 
@@ -121,7 +122,7 @@ namespace TravelPalAPI.Controllers
                     User= mapper.Map<UserVM>(x.Host),
                     Location = mapper.Map<LocationVM>(x.Location),
                     AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                    Images = x.AccommodationImages.Select(x => x.Image).ToList()
+                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
                 }).FirstOrDefault(x => x.Id == id);
 
 
@@ -132,11 +133,9 @@ namespace TravelPalAPI.Controllers
         public IActionResult Delete(int id)
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
-            var accommodationDetails = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
+            var details = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
             var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id== accommodation.LocationId);
-            IEnumerable<AccommodationImage> accommodationImages = appDb.AccommodationImages.Where(x => x.AccommodationId == accommodation.Id).ToList();
-            var imageIds = accommodationImages.Select(x => x.ImageId).ToList();
-            var images = appDb.Images.Where(x => imageIds.Contains(x.Id)).ToList();
+            var images = appDb.AccommodationImages.Where(x => x.AccommodationId == id).ToList();
 
             foreach (var img in images)
             {
@@ -144,9 +143,7 @@ namespace TravelPalAPI.Controllers
             }
 
             appDb.Accommodations.Remove(accommodation);
-            appDb.AccommodationDetails.Remove(accommodationDetails);
-            appDb.AccommodationImages.RemoveRange(accommodationImages);
-            appDb.Images.RemoveRange(images);
+            appDb.AccommodationDetails.Remove(details);
             appDb.Locations.Remove(accommodationLocation);
             appDb.SaveChanges();
             return Ok();

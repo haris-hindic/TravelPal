@@ -14,7 +14,6 @@ namespace TravelPalAPI.Models
         public string Name { get; set; }
         public double Price { get; set; }
         public int LocationId { get; set; }
-        [ForeignKey(nameof(LocationId))]
         public Location Location { get; set; }
         public int AccommodationDetailsId { get; set; }
         public AccommodationDetails AccommodationDetails { get; set; }
