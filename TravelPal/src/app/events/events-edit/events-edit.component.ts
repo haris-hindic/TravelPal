@@ -50,6 +50,10 @@ export class EventsEditComponent implements OnInit {
         address: ['', { validators: [Validators.required] }],
       }),
     });
+    this.loadData();
+  }
+  loadData()
+  {
     this.aRouter.params.subscribe((params) => {
       this.es.getSpecific(params.id).subscribe((e: any) => {
         this.fillInputs(e);
@@ -124,6 +128,8 @@ export class EventsEditComponent implements OnInit {
   deleteImage(id: number) {
     this.imageService.deleteImage(id, 'events').subscribe((a) => {
       this.toastr.error('Image deleted!');
+      this.loadData();
+
     });
   }
 
