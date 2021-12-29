@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace TravelPalAPI.ViewModels.EventImages
 {
-    public class EventImages
+    public class EventImagesVM
     {
+        public int Id { get; set; }
+        public string ImagePath { get; set; }
     }
 }

@@ -13,7 +13,7 @@ using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Event;
-using TravelPalAPI.ViewModels.EventImage;
+using TravelPalAPI.ViewModels.EventImages;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
@@ -34,7 +34,7 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpPost]
-        public ActionResult<int>Post(EventCreationVM _eventCreation)
+        public ActionResult<int>Post([FromBody] EventCreationVM _eventCreation)
         {
             var _event = mapper.Map<Event>(_eventCreation);
 
@@ -63,7 +63,7 @@ namespace TravelPalAPI.Controllers
                 User = mapper.Map<UserVM>(e.Host),
                 Duration = e.Duration,
                 LocationVM = mapper.Map<LocationVM>(e.Location),
-                Images = mapper.Map<List<EventImageVM>>(e.EventImages)
+                Images = mapper.Map<List<EventImagesVM>>(e.EventImages)
 
             }).FirstOrDefault(x => x.Id == _id);
         }
@@ -94,7 +94,7 @@ namespace TravelPalAPI.Controllers
                 User = mapper.Map<UserVM>(e.Host),
                 Name=e.Name,
                 Price=e.Price,
-                Images = mapper.Map<List<EventImageVM>>(e.EventImages)
+                Images = mapper.Map<List<EventImagesVM>>(e.EventImages)
 
             });
 
