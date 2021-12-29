@@ -8,31 +8,6 @@ namespace TravelPalAPI.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AccommodationDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Parking = table.Column<bool>(type: "bit", nullable: false),
-                    WiFi = table.Column<bool>(type: "bit", nullable: false),
-                    Shower = table.Column<bool>(type: "bit", nullable: false),
-                    Minibar = table.Column<bool>(type: "bit", nullable: false),
-                    AirConditioning = table.Column<bool>(type: "bit", nullable: false),
-                    Safe = table.Column<bool>(type: "bit", nullable: false),
-                    Dryer = table.Column<bool>(type: "bit", nullable: false),
-                    FlatScreenTV = table.Column<bool>(type: "bit", nullable: false),
-                    PetFriendly = table.Column<bool>(type: "bit", nullable: false),
-                    BBQ = table.Column<bool>(type: "bit", nullable: false),
-                    Refrigerator = table.Column<bool>(type: "bit", nullable: false),
-                    Balcony = table.Column<bool>(type: "bit", nullable: false),
-                    MosquitoNet = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccommodationDetails", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -219,18 +194,11 @@ namespace TravelPalAPI.Database.Migrations
                     HostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    AccommodationDetailsId = table.Column<int>(type: "int", nullable: false)
+                    LocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accommodations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Accommodations_AccommodationDetails_AccommodationDetailsId",
-                        column: x => x.AccommodationDetailsId,
-                        principalTable: "AccommodationDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Accommodations_AspNetUsers_HostId",
                         column: x => x.HostId,
@@ -273,6 +241,36 @@ namespace TravelPalAPI.Database.Migrations
                         name: "FK_Events_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccommodationDetails",
+                columns: table => new
+                {
+                    AccommodationDetailsId = table.Column<int>(type: "int", nullable: false),
+                    Parking = table.Column<bool>(type: "bit", nullable: false),
+                    WiFi = table.Column<bool>(type: "bit", nullable: false),
+                    Shower = table.Column<bool>(type: "bit", nullable: false),
+                    Minibar = table.Column<bool>(type: "bit", nullable: false),
+                    AirConditioning = table.Column<bool>(type: "bit", nullable: false),
+                    Safe = table.Column<bool>(type: "bit", nullable: false),
+                    Dryer = table.Column<bool>(type: "bit", nullable: false),
+                    FlatScreenTV = table.Column<bool>(type: "bit", nullable: false),
+                    PetFriendly = table.Column<bool>(type: "bit", nullable: false),
+                    BBQ = table.Column<bool>(type: "bit", nullable: false),
+                    Refrigerator = table.Column<bool>(type: "bit", nullable: false),
+                    Balcony = table.Column<bool>(type: "bit", nullable: false),
+                    MosquitoNet = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccommodationDetails", x => x.AccommodationDetailsId);
+                    table.ForeignKey(
+                        name: "FK_AccommodationDetails_Accommodations_AccommodationDetailsId",
+                        column: x => x.AccommodationDetailsId,
+                        principalTable: "Accommodations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -325,11 +323,6 @@ namespace TravelPalAPI.Database.Migrations
                 name: "IX_AccommodationImages_AccommodationId",
                 table: "AccommodationImages",
                 column: "AccommodationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accommodations_AccommodationDetailsId",
-                table: "Accommodations",
-                column: "AccommodationDetailsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accommodations_HostId",
@@ -399,6 +392,9 @@ namespace TravelPalAPI.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AccommodationDetails");
+
+            migrationBuilder.DropTable(
                 name: "AccommodationImages");
 
             migrationBuilder.DropTable(
@@ -430,9 +426,6 @@ namespace TravelPalAPI.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
-
-            migrationBuilder.DropTable(
-                name: "AccommodationDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -15,7 +15,7 @@ namespace TravelPalAPI.Models
         public double Price { get; set; }
         public int LocationId { get; set; }
         public Location Location { get; set; }
-        public int AccommodationDetailsId { get; set; }
+        //public int AccommodationDetailsId { get; set; }
         public AccommodationDetails AccommodationDetails { get; set; }
         public ICollection<AccommodationImage> AccommodationImages { get; set; }
     }

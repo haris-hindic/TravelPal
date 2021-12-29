@@ -7,7 +7,7 @@ namespace TravelPalAPI.ViewModels.AccommodationDetails
 {
     public class AccommodationDetailsVM
     {
-        public int Id { get; set; }
+        public int AccommodationDetailsId { get; set; }
         public bool Parking { get; set; }
         public bool WiFi { get; set; }
         public bool Shower { get; set; }
@@ -21,5 +21,6 @@ namespace TravelPalAPI.ViewModels.AccommodationDetails
         public bool Refrigerator { get; set; }
         public bool Balcony { get; set; }
         public bool MosquitoNet { get; set; }
+
     }
 }

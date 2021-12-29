@@ -43,7 +43,7 @@ export class StayEditComponent implements OnInit {
         longitude: ['', { validators: [Validators.required] }],
       }),
       accommodationDetails: this._formBuilder.group({
-        id: 0,
+        accommodationDetailsId: 0,
         parking: false,
         wiFi: false,
         shower: false,
@@ -68,6 +68,16 @@ export class StayEditComponent implements OnInit {
         .getById(params.id)
         .subscribe((data: AccommodationVM) => {
           this.patchValues(data);
+          this.images = data.images;
+        });
+    });
+  }
+
+  loadImages() {
+    this._route.params.subscribe((params) => {
+      this._accommodationService
+        .getById(params.id)
+        .subscribe((data: AccommodationVM) => {
           this.images = data.images;
         });
     });
@@ -109,8 +119,8 @@ export class StayEditComponent implements OnInit {
 
   deleteImage(id: number) {
     this._imageService
-      .deleteImage(id, 'stays')
-      .subscribe(() => this.loadData());
+      .deleteImage(id, 'accommodations')
+      .subscribe(() => this.loadImages());
   }
 
   imageSelected(event: any) {
@@ -155,8 +165,8 @@ export class StayEditComponent implements OnInit {
       ?.patchValue(data.location.longitude);
     this.form
       .get('accommodationDetails')
-      ?.get('id')
-      ?.patchValue(data.accommodationDetails.id);
+      ?.get('accommodationDetailsId')
+      ?.patchValue(data.accommodationDetails.accommodationDetailsId);
     this.form
       .get('accommodationDetails')
       ?.get('parking')
