@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TravelPalAPI.Database.Migrations
+namespace TravelPalAPI.Migrations
 {
-    public partial class reshapedb : Migration
+    public partial class FixDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -282,7 +282,8 @@ namespace TravelPalAPI.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccommodationId = table.Column<int>(type: "int", nullable: false)
+                    AccommodationId = table.Column<int>(type: "int", nullable: false),
+                    MyProperty = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -299,22 +300,18 @@ namespace TravelPalAPI.Database.Migrations
                 name: "EventImages",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventImages", x => new { x.EventId, x.ImageId });
+                    table.PrimaryKey("PK_EventImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_EventImages_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EventImages_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -374,9 +371,9 @@ namespace TravelPalAPI.Database.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventImages_ImageId",
+                name: "IX_EventImages_EventId",
                 table: "EventImages",
-                column: "ImageId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_HostId",
@@ -416,6 +413,9 @@ namespace TravelPalAPI.Database.Migrations
                 name: "EventImages");
 
             migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
                 name: "Accommodations");
 
             migrationBuilder.DropTable(
@@ -423,9 +423,6 @@ namespace TravelPalAPI.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Events");
-
-            migrationBuilder.DropTable(
-                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

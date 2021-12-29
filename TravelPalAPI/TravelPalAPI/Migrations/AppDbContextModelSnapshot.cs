@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
-namespace TravelPalAPI.Database.Migrations
+namespace TravelPalAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211229183134_reshape-db")]
-    partial class reshapedb
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,6 +311,9 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AccommodationId");
@@ -362,15 +363,20 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.EventImages", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EventId", "ImageId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("EventId");
 
                     b.ToTable("EventImages");
                 });
@@ -545,15 +551,7 @@ namespace TravelPalAPI.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TravelPalAPI.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Event");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Accommodation", b =>

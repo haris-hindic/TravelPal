@@ -26,7 +26,6 @@ namespace TravelPalAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<AccommodationImage>().HasKey(k => new { k.AccommodationId,k.ImageId});
-            modelBuilder.Entity<EventImages>().HasKey(e => new { e.EventId, e.ImageId});
 
             base.OnModelCreating(modelBuilder);
         }

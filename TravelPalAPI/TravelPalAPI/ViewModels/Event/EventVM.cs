@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Models;
+using TravelPalAPI.ViewModels.EventImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
@@ -18,7 +19,8 @@ namespace TravelPalAPI.ViewModels.Event
         public string Duration { get; set; }
         public string EventDescription { get; set; }
         public LocationVM LocationVM { get; set; }
-        public List<Image> Images { get; set; }
+        public List<EventImageVM> Images { get; set; }
+
 
 
     }

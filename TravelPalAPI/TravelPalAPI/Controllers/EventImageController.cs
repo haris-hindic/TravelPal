@@ -42,7 +42,7 @@ namespace TravelPalAPI.Controllers
                 _appDb.EventImages.Add(new EventImages
                 {
                     EventId = id,
-                    Image = new Image(){ ImagePath = fileStorageService.SaveFile(containerName, image) }
+                    ImagePath = fileStorageService.SaveFile(containerName, image)
                 }
             );
             }
@@ -54,17 +54,10 @@ namespace TravelPalAPI.Controllers
         [Route("{id}")]
         public ActionResult Delete(int id)
         {
-            if(!_appDb.Images.Any(e=> e.Id == id) || !_appDb.EventImages.Any(e=> e.ImageId==id))
-            {
-                return NotFound();
-            }
-
-            var img = _appDb.Images.SingleOrDefault(e => e.Id == id);
-            var imgEvent = _appDb.EventImages.SingleOrDefault(e => e.ImageId == id);
+            var img = _appDb.EventImages.SingleOrDefault(e => e.Id == id);
 
             fileStorageService.DeleteFile(img.ImagePath, containerName);
-            _appDb.Images.Remove(img);
-            _appDb.EventImages.Remove(imgEvent);
+            _appDb.EventImages.Remove(img);
 
             _appDb.SaveChanges();
             return Ok();
