@@ -47,11 +47,10 @@ namespace TravelPalAPI.Controllers
         public IActionResult Delete(int id)
         {
             var accImg = appDb.AccommodationImages.FirstOrDefault(x => x.Id == id);
-            var img = appDb.Images.FirstOrDefault(x => x.Id == id);
 
-            if (img==null) return NotFound();
+            if (accImg==null) return NotFound();
 
-            fileStorageService.DeleteFile(img.ImagePath, containerName);
+            fileStorageService.DeleteFile(accImg.ImagePath, containerName);
 
             appDb.AccommodationImages.Remove(accImg);
             appDb.SaveChanges();

@@ -31,7 +31,7 @@ export interface AccommodationEditVM {
 }
 
 export interface AccommodationDetailsVM {
-  id: number;
+  accommodationDetailsId: number;
   parking: boolean;
   wifi: boolean;
   shower: boolean;

@@ -59,8 +59,10 @@ namespace TravelPalAPI.Controllers
             x.Name = accommodationEditVM.Name;
             x.Price = accommodationEditVM.Price;
             x.Location = mapper.Map<Location>(accommodationEditVM.Location);
-            x.AccommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
+            //x.AccommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
+            var accommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
 
+            appDb.Update(accommodationDetails);
             appDb.Update(x);
             appDb.SaveChanges();
             return NoContent();
@@ -133,7 +135,7 @@ namespace TravelPalAPI.Controllers
         public IActionResult Delete(int id)
         {
             var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
-            var details = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
+            //var details = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
             var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id== accommodation.LocationId);
             var images = appDb.AccommodationImages.Where(x => x.AccommodationId == id).ToList();
 
@@ -143,7 +145,7 @@ namespace TravelPalAPI.Controllers
             }
 
             appDb.Accommodations.Remove(accommodation);
-            appDb.AccommodationDetails.Remove(details);
+            //appDb.AccommodationDetails.Remove(details);
             appDb.Locations.Remove(accommodationLocation);
             appDb.SaveChanges();
             return Ok();

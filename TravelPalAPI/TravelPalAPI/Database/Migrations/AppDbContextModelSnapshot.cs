@@ -228,9 +228,6 @@ namespace TravelPalAPI.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccommodationDetailsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("HostId")
                         .HasColumnType("nvarchar(450)");
 
@@ -245,8 +242,6 @@ namespace TravelPalAPI.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccommodationDetailsId");
-
                     b.HasIndex("HostId");
 
                     b.HasIndex("LocationId");
@@ -256,10 +251,8 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationDetails", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("AccommodationDetailsId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("AirConditioning")
                         .HasColumnType("bit");
@@ -300,7 +293,7 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<bool>("WiFi")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("AccommodationDetailsId");
 
                     b.ToTable("AccommodationDetails");
                 });
@@ -488,12 +481,6 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.Accommodation", b =>
                 {
-                    b.HasOne("TravelPalAPI.Models.AccommodationDetails", "AccommodationDetails")
-                        .WithMany()
-                        .HasForeignKey("AccommodationDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TravelPalAPI.Models.UserAccount", "Host")
                         .WithMany()
                         .HasForeignKey("HostId");
@@ -504,11 +491,20 @@ namespace TravelPalAPI.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccommodationDetails");
-
                     b.Navigation("Host");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("TravelPalAPI.Models.AccommodationDetails", b =>
+                {
+                    b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
+                        .WithOne("AccommodationDetails")
+                        .HasForeignKey("TravelPalAPI.Models.AccommodationDetails", "AccommodationDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Accommodation");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.AccommodationImage", b =>
@@ -560,6 +556,8 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.Accommodation", b =>
                 {
+                    b.Navigation("AccommodationDetails");
+
                     b.Navigation("AccommodationImages");
                 });
 

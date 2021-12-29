@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace TravelPalAPI.Models
 {
     public class AccommodationDetails
     {
-        public int Id { get; set; }
+        [ForeignKey(nameof(Accommodation))]
+        public int AccommodationDetailsId { get; set; }
         public bool Parking { get; set; }
         public bool WiFi { get; set; }
         public bool Shower { get; set; }
@@ -21,5 +23,7 @@ namespace TravelPalAPI.Models
         public bool Refrigerator { get; set; }
         public bool Balcony { get; set; }
         public bool MosquitoNet { get; set; }
+
+        public Accommodation Accommodation { get; set; }
     }
 }
