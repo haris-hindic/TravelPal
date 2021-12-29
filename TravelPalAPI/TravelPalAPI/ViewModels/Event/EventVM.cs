@@ -21,7 +21,5 @@ namespace TravelPalAPI.ViewModels.Event
         public LocationVM LocationVM { get; set; }
         public List<EventImageVM> Images { get; set; }
 
-
-
     }
 }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
+using TravelPalAPI.Repositories;
+using TravelPalAPI.Repositories.Implementation;
 
 namespace TravelPalAPI.Extensions
 {
@@ -24,8 +26,9 @@ namespace TravelPalAPI.Extensions
 
             services.AddScoped<IFileStorageService, LocalImageStorage>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAccommodationRepository, AccommodationRepository>();
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             return services;
         }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
+using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
@@ -24,131 +25,63 @@ namespace TravelPalAPI.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme )]
     public class AccommodationController : ControllerBase
     {
-        private readonly IMapper mapper;
-        private readonly IFileStorageService imageService;
-        private readonly string containerName = "Accommodation";
+        private readonly IAccommodationRepository accommodationRepo;
 
-        private readonly AppDbContext appDb;
 
-        public AccommodationController(AppDbContext appDb,IMapper mapper,IFileStorageService imageService)
+        public AccommodationController(IAccommodationRepository accommodationRepo)
         {
-            this.appDb = appDb;
-            this.mapper = mapper;
-            this.imageService = imageService;
+            this.accommodationRepo = accommodationRepo;
         }
 
         [HttpPost]
         public ActionResult<int> Post([FromBody] AccommodationCreationVM creationVM)
         {
-            var obj = mapper.Map<Accommodation>(creationVM);
-            
-
-            appDb.Accommodations.Add(obj);
-            appDb.SaveChanges();
+            var obj = accommodationRepo.Add(creationVM);
+            accommodationRepo.SaveChanges();
             return obj.Id;
         }
 
         [HttpPut,Route("{id}")]
         public IActionResult Update(int id, [FromBody] AccommodationEditVM accommodationEditVM)
         {
-            var x =appDb.Accommodations.FirstOrDefault(x => x.Id == id);
-            
-            if (x==null) NotFound();
+            var res = accommodationRepo.Update(id, accommodationEditVM);
+            if (res == false) return NotFound();
 
-
-            x.Name = accommodationEditVM.Name;
-            x.Price = accommodationEditVM.Price;
-            x.Location = mapper.Map<Location>(accommodationEditVM.Location);
-            //x.AccommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
-            var accommodationDetails = mapper.Map<AccommodationDetails>(accommodationEditVM.AccommodationDetails);
-
-            appDb.Update(accommodationDetails);
-            appDb.Update(x);
-            appDb.SaveChanges();
+            accommodationRepo.SaveChanges();
             return NoContent();
         }
 
         [HttpGet,AllowAnonymous]
         public ActionResult<IEnumerable<AccommodationVM>> Get()
         {
-            var accommodations = appDb.Accommodations
-               .Select(x => new AccommodationVM
-               {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Price = x.Price,
-                   User= mapper.Map<UserVM>(x.Host),
-                   Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
-
-               }).ToList();
-
-            return accommodations;
+            return Ok(accommodationRepo.GetAll());
         }
 
         [HttpGet, Route("user/{id}")]
         public ActionResult<IEnumerable<AccommodationVM>> GetByUser(string id)
         {
-            if (!appDb.UserAccounts.Any(x => x.Id == id)) return BadRequest("No such user!");
+            var accommodations = accommodationRepo.GetByUserId(id);
+            if (accommodations == null) return NotFound();
 
-            var accommodations = appDb.Accommodations.Where(x => x.HostId == id)
-               .Select(x => new AccommodationVM
-               {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Price = x.Price,
-                   User = mapper.Map<UserVM>(x.Host),
-                   Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
-
-               }).ToList();
-
-            return accommodations;
+            return Ok(accommodations);
         }
 
 
         [HttpGet,Route("{id}"), AllowAnonymous]
         public ActionResult<AccommodationVM> Get(int id)
         {
-            if (appDb.Accommodations.Any(x => x.Id == id))
-                NotFound();
+            var accommodations = accommodationRepo.GetById(id);
+            if (accommodations == null) return NotFound();
 
-            var accommodation = appDb.Accommodations
-                .Select(x => new AccommodationVM
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price,
-                    User= mapper.Map<UserVM>(x.Host),
-                    Location = mapper.Map<LocationVM>(x.Location),
-                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
-                }).FirstOrDefault(x => x.Id == id);
-
-
-            return accommodation;
+            return Ok(accommodations);
         }
 
         [HttpDelete,Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
-            //var details = appDb.AccommodationDetails.FirstOrDefault(x => x.Id == accommodation.AccommodationDetailsId);
-            var accommodationLocation = appDb.Locations.FirstOrDefault(x => x.Id== accommodation.LocationId);
-            var images = appDb.AccommodationImages.Where(x => x.AccommodationId == id).ToList();
-
-            foreach (var img in images)
-            {
-                imageService.DeleteFile(img.ImagePath, containerName);
-            }
-
-            appDb.Accommodations.Remove(accommodation);
-            //appDb.AccommodationDetails.Remove(details);
-            appDb.Locations.Remove(accommodationLocation);
-            appDb.SaveChanges();
-            return Ok();
+            accommodationRepo.Delete(id);
+            accommodationRepo.SaveChanges();
+            return NoContent();
         }
     }
 }
