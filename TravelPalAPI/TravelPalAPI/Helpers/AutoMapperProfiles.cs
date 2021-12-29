@@ -8,7 +8,7 @@ using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Event;
-using TravelPalAPI.ViewModels.EventImage;
+using TravelPalAPI.ViewModels.EventImages;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
@@ -59,7 +59,7 @@ namespace TravelPalAPI.Helpers
                 .ForMember(x => x.Images,
                 vm => vm.MapFrom(x => x.EventImages));
 
-            CreateMap<EventImages, EventImageVM>()
+            CreateMap<EventImages, EventImagesVM>()
                 .ForMember(x => x.Id, 
                 vm => vm.MapFrom(x => x.Id))
                .ForMember(x => x.ImagePath,
