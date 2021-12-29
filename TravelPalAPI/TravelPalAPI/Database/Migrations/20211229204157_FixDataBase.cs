@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TravelPalAPI.Migrations
+namespace TravelPalAPI.Database.Migrations
 {
     public partial class FixDataBase : Migration
     {
