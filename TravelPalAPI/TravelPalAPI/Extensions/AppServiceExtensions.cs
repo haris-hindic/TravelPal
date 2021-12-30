@@ -27,6 +27,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<IFileStorageService, LocalImageStorage>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccommodationRepository, AccommodationRepository>();
+            services.AddScoped<IAccommodationImageRepository, AccommodationImageRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

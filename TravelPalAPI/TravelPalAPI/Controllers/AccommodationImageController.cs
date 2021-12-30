@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
+using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Accommodation;
 
 namespace TravelPalAPI.Controllers
@@ -15,45 +16,30 @@ namespace TravelPalAPI.Controllers
     [ApiController]
     public class AccommodationImageController : ControllerBase
     {
-        private readonly AppDbContext appDb;
-        private readonly IFileStorageService fileStorageService;
-        private readonly string containerName = "Accommodation";
+        private readonly IAccommodationImageRepository imageRepo;
 
-        public AccommodationImageController(AppDbContext appDb, IFileStorageService fileStorageService)
+        public AccommodationImageController(IAccommodationImageRepository imageRepo)
         {
-            this.appDb = appDb;
-            this.fileStorageService = fileStorageService;
+            this.imageRepo = imageRepo;
         }
 
         [HttpPost, Route("{id}")]
         public IActionResult AddImages(int id, [FromForm] AccommodationImageCreationVM creationVM)
         {
-            if (!appDb.Accommodations.Any(x => x.Id == id)) return NotFound();
+            var result = imageRepo.AddImages(id, creationVM);
+            if (result == false) return NotFound("No such accommodation!");
 
-            foreach (var img in creationVM.Images)
-            {
-                appDb.AccommodationImages.Add(new AccommodationImage
-                {
-                    AccommodationId = id,
-                    ImagePath = fileStorageService.SaveFile(containerName, img)
-                });
-            }
-
-            appDb.SaveChanges();
+            imageRepo.SaveChanges();
             return Ok();
         }
 
         [HttpDelete, Route("{id}")]
         public IActionResult Delete(int id)
         {
-            var accImg = appDb.AccommodationImages.FirstOrDefault(x => x.Id == id);
+            var result = imageRepo.DeleteImage(id);
+            if (result == false) return NotFound("No such image!");
 
-            if (accImg==null) return NotFound();
-
-            fileStorageService.DeleteFile(accImg.ImagePath, containerName);
-
-            appDb.AccommodationImages.Remove(accImg);
-            appDb.SaveChanges();
+            imageRepo.SaveChanges();
             return Ok();
         }
     }
