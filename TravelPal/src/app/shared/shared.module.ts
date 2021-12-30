@@ -6,6 +6,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { ToastrModule } from 'ngx-toastr';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
     AgmSnazzyInfoWindowModule,
     MatStepperModule,
     NgImageSliderModule,
+    MatMenuModule,
   ],
   exports: [
     SweetAlert2Module,
@@ -27,6 +29,7 @@ import { ToastrModule } from 'ngx-toastr';
     AgmSnazzyInfoWindowModule,
     MatStepperModule,
     NgImageSliderModule,
+    MatMenuModule,
   ],
 })
 export class SharedModule {}
