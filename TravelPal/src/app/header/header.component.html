@@ -75,48 +75,68 @@
         >
       </ng-container>
       <ng-container authorized>
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-outline-primary rounded-pill me-1 dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="far fa-user"></i>
-            {{ _securityService.getFieldFromJWT("userName") }}
+        <a
+          class="btn btn-outline-secondary rounded-pill me-1"
+          [matMenuTriggerFor]="user"
+        >
+          <i class="fas fa-street-view"></i>
+          {{ _securityService.getFieldFromJWT("userName") }}
+        </a>
+        <mat-menu #user="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="stays">
+            <i class="fas fa-home"></i> My Stays
           </button>
-          <ul class="dropdown-menu text-center">
-            <li>
-              <a
-                routerLink="user-stays/{{
-                  _securityService.getFieldFromJWT('id')
-                }}"
-                class="btn btn-outline-success rounded-pill"
-              >
-                My Stays </a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="user-events/{{ _securityService.getFieldFromJWT('id')}}" class="btn btn-outline-info rounded-pill mt-1" >
-                My Events</a >
-            </li>
-            <li *ngIf="isAdmin()">
-              <a
-                routerLink="admin/users"
-                class="btn btn-outline-secondary rounded-pill mt-2"
-                href="#"
-                >Manage Users</a
-              >
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="btn btn-outline-info rounded-pill" href="#"
-                >Separated link</a
-              >
-            </li>
-          </ul>
-        </div>
+          <button mat-menu-item [matMenuTriggerFor]="events">
+            <i class="fas fa-hiking"></i> My Events
+          </button>
+          <button mat-menu-item [matMenuTriggerFor]="myProfile">
+            <i class="far fa-user-circle"></i> My Profile
+          </button>
+          <button
+            *ngIf="isAdmin()"
+            mat-menu-item
+            [matMenuTriggerFor]="adminMenu"
+          >
+            <i class="fas fa-user-secret"></i> All Users
+          </button>
+        </mat-menu>
+
+        <mat-menu #stays="matMenu">
+          <a
+            routerLink="user-stays/{{ _securityService.getFieldFromJWT('id') }}"
+            mat-menu-item
+            ><i class="fas fa-list-ul"></i> Listed stays</a
+          >
+          <a routerLink="/stays/create" mat-menu-item
+            ><i class="fas fa-plus"></i> List new</a
+          >
+        </mat-menu>
+
+        <mat-menu #events="matMenu">
+          <a
+            routerLink="user-events/{{
+              _securityService.getFieldFromJWT('id')
+            }}"
+            mat-menu-item
+            ><i class="fas fa-list-ul"></i> Listed events</a
+          >
+          <a routerLink="/events/creation" mat-menu-item
+            ><i class="fas fa-plus"></i> List new</a
+          >
+        </mat-menu>
+
+        <mat-menu #myProfile="matMenu">
+          <button mat-menu-item>
+            <i class="fas fa-info"></i> View profile
+          </button>
+          <button mat-menu-item>
+            <i class="far fa-edit"></i> Edit profile
+          </button>
+        </mat-menu>
+        <mat-menu #adminMenu="matMenu">
+          <a routerLink="admin/users" mat-menu-item>View users</a>
+        </mat-menu>
+
         <a
           (click)="logout()"
           class="btn btn-outline-secondary rounded-circle me-1"
