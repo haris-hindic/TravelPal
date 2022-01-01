@@ -93,10 +93,11 @@ p {
     text-transform: uppercase
 }
 
-.table td,
+.table td, .table th,
 .jsgrid .jsgrid-table td {
     font-size: 0.875rem;
-    padding: .875rem 0.9375rem
+    padding-left: 2rem;
+    padding-top: 1rem;
 }
 
 .badge {

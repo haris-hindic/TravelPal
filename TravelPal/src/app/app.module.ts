@@ -31,6 +31,7 @@ import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.compo
 import { EventsUserComponent } from './events/events-user/events-user.component';
 import { ImageSliderComponent } from './helpers/image-slider/image-slider.component';
 import { SharedModule } from './shared/shared.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     NoopAnimationsModule,
     SharedModule,
+    NgxPaginationModule
   ],
   providers: [
     {
