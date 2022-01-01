@@ -57,7 +57,7 @@ namespace TravelPalAPI.Helpers
                 .ForMember(x => x.User, 
                 vm => vm.MapFrom(x => x.Host))
                 .ForMember(x => x.Images,
-                vm => vm.MapFrom(x => x.EventImages));
+                vm => vm.MapFrom(x => x.Images));
 
             CreateMap<EventImages, EventImagesVM>()
                 .ForMember(x => x.Id, 

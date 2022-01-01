@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from 'src/app/security/security.service';
+import { EventVM } from '../events.model';
 import { EventsService } from '../events.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { EventsService } from '../events.service';
 export class EventsUserComponent implements OnInit {
 
   name: string = '-1';
-  id: string =  '';
+  id: string =  '-1';
+  events!: any;
 
   constructor(public securityService: SecurityService, activeRoute: ActivatedRoute, private eventService: EventsService) { }
 
@@ -22,6 +24,17 @@ export class EventsUserComponent implements OnInit {
     this.loadEvents();
   }
   
-  loadEvents(){}
+  loadEvents()
+  {
+    this.eventService.getUserEvents(this.id).subscribe((e: any) =>
+      {
+        this.events = e;
+      })
+  }
+
+  deleteEvent(id: number)
+  {
+    this.eventService.delete(id).subscribe(()=> this.loadEvents());
+  }
 
 }

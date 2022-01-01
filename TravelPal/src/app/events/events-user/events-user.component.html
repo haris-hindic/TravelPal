@@ -1,7 +1,7 @@
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-            <div class="col-lg-8 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Hello, {{name}}</h4>
@@ -11,21 +11,47 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>ID No.</th>
-                                        <th>Created On</th>
-                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Price</th>
+                                        <th>Location</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody *ngFor="let event of events">
                                     <tr>
-                                        <td>Samso Park</td>
-                                        <td>34424433</td>
-                                        <td>12 May 2017</td>
-                                        <td><label class="badge badge-danger">Pending</label></td>
+                                        <td>{{event.name}}</td>
+                                        <td>{{event.date | date}}</td>
+                                        <td>{{event.price}}</td>
+                                        <td>{{event.locationVM.city}}-{{event.locationVM.country}}</td>
+                                        <td>
+                                            <button class="btn btn-outline-success m-1 mt-0" routerLink='../../events/details/{{event.id}}'>Details</button>
+                                            <button class="btn btn-outline-warning m-1 mt-0" routerLink='../../events/edit/{{event.id}}'>Edit</button>
+                                            <button class="btn btn-outline-danger mt-0 m-1" (click)="deleteEvent(event.id)">Delete</button>
+                                        </td>
                                     </tr>
                                 </tbody>
+                               
                             </table>
                         </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                              <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
+                        <div class="row">
+                            <div class="col-6 text-start">
+                        <button class="btn btn-info" routerLink='../../events'>All events</button></div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-success" routerLink='../../events/creation'>Create new event</button></div>
+                    </div>
                     </div>
                 </div>
             </div>

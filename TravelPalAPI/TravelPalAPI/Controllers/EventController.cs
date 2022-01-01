@@ -63,7 +63,7 @@ namespace TravelPalAPI.Controllers
                 User = mapper.Map<UserVM>(e.Host),
                 Duration = e.Duration,
                 LocationVM = mapper.Map<LocationVM>(e.Location),
-                Images = mapper.Map<List<EventImagesVM>>(e.EventImages)
+                Images = mapper.Map<List<EventImagesVM>>(e.Images)
 
             }).FirstOrDefault(x => x.Id == _id);
         }
@@ -94,10 +94,35 @@ namespace TravelPalAPI.Controllers
                 User = mapper.Map<UserVM>(e.Host),
                 Name=e.Name,
                 Price=e.Price,
-                Images = mapper.Map<List<EventImagesVM>>(e.EventImages)
+                Images = mapper.Map<List<EventImagesVM>>(e.Images)
 
             });
 
+        }
+
+        [HttpGet]
+        [Route("user/{id}")]
+        public ActionResult<List<EventVM>> GetByUserId(string id)
+        {
+            if (!appDb.Events.Any(e => e.HostId == id))
+                return NotFound("nema tog usera");
+
+            var tempEvent = appDb.Events.Where(e => e.HostId == id).Select(e =>
+                new EventVM()
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Images = mapper.Map<List<EventImagesVM>>(e.Images),
+                    EventDescription = e.EventDescription,
+                    Date = e.Date,
+                    Duration = e.Duration,
+                    LocationVM = mapper.Map<LocationVM>(e.Location),
+                    Price = e.Price,
+                    User = mapper.Map<UserVM>(e.Host)
+                }).ToList();
+
+        
+            return tempEvent;
         }
 
         [HttpPut, Route("{_id}")]

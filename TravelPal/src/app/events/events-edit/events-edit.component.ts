@@ -19,7 +19,7 @@ export class EventsEditComponent implements OnInit {
   id!: number;
   groupData!: FormGroup;
   formData = new FormData();
-  event: any;
+  event!: EventVM;
   errors: string[] = [];
   imgBase64: string = '';
   currentImages: Image[] = [];
@@ -60,6 +60,7 @@ export class EventsEditComponent implements OnInit {
         this.currentImages = e.images;
       });
     });
+    console.log(event);
   }
 
   EditData() {
