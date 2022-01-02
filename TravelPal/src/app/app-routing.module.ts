@@ -65,7 +65,7 @@ const appRoutes: Routes = [
     component: UserListComponent,
     canActivate: [AdminGuard],
   },
-  //{ path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '' },
   {
     path:'authentication/emailconfirmation',
     component: EmailConfirmationComponent
