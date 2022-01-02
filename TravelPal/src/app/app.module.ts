@@ -32,8 +32,6 @@ import { EventsUserComponent } from './events/events-user/events-user.component'
 import { ImageSliderComponent } from './helpers/image-slider/image-slider.component';
 import { SharedModule } from './shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
 
 @NgModule({
@@ -72,14 +70,6 @@ import { EmailConfirmationComponent } from './email/email-confirmation/email-con
     NoopAnimationsModule,
     SharedModule,
     NgxPaginationModule,
-    AngularFireModule.initializeApp({
-      apiKey: "AIzaSyCLhYY3ZNYRhfDhxsKjLOnh2ipEHKk0SWw",
-      authDomain: "fir-angular-auth-7122a.firebaseapp.com",
-      projectId: "fir-angular-auth-7122a",
-      storageBucket: "fir-angular-auth-7122a.appspot.com",
-      messagingSenderId: "103937755552",
-      appId: "1:103937755552:web:b32b9ada92490f72d67cc5"
-    })
   ],
   providers: [
     {
