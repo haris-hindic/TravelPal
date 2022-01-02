@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { SecurityService } from '../security.service';
 
@@ -16,7 +17,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _securityService: SecurityService,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +29,7 @@ export class SignUpComponent implements OnInit {
       firstName: ['', { validators: [Validators.required] }],
       lastName: ['', { validators: [Validators.required] }],
       phoneNumber: ['', { validators: [Validators.required] }],
+      clientUri: 'http://localhost:4200/authentication/emailconfirmation'
     });
   }
 
@@ -36,8 +39,8 @@ export class SignUpComponent implements OnInit {
 
     this._securityService.signUp(this.form.value).subscribe(
       (res) => {
-        this._securityService.saveToken(res);
-        this._router.navigate(['']);
+        this._toastr.success("Please verify your email address!")
+        this._router.navigate(['signin']);
       },
       (err) => (this.errors = parseWebAPiErrors(err))
     );

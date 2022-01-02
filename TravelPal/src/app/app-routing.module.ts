@@ -17,6 +17,7 @@ import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
 import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.component';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { StaysComponent } from './stays/stays.component';
+import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -64,7 +65,11 @@ const appRoutes: Routes = [
     component: UserListComponent,
     canActivate: [AdminGuard],
   },
-  { path: '**', redirectTo: '' },
+  //{ path: '**', redirectTo: '' },
+  {
+    path:'authentication/emailconfirmation',
+    component: EmailConfirmationComponent
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],

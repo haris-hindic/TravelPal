@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CustomEncoder } from '../helpers/custom-encode/custom-encode.component.spec';
 import {
   authResponse,
   signInCredentials,
@@ -37,6 +38,15 @@ export class SecurityService {
     if (role === 'admin') return true;
 
     return false;
+  }
+
+    public confirmEmailroute( route : string, token: string, email: string)
+     {
+    let params = new HttpParams({ encoder: new CustomEncoder () })
+    params = params.append('token', token);
+    params = params.append('email', email);
+
+    return this._http.get('https://localhost:44325/' + route, { params: params });
   }
 
   signUp(credentials: signUpCredentials) {

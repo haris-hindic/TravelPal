@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -33,15 +34,19 @@ namespace TravelPalAPI.Controllers
         private readonly ITokenService tokenService;
         private readonly string claimType="role";
         private readonly string claimValue="admin";
+        private IConfiguration configuration;
+
 
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
-            SignInManager<UserAccount> signInManager,IMapper mapper,ITokenService tokenService )
+            SignInManager<UserAccount> signInManager,IMapper mapper,ITokenService tokenService,
+            IConfiguration configuration)
         {
             this.appDb = appDb;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.mapper = mapper;
             this.tokenService = tokenService;
+            this.configuration = configuration;
         }
 
         [HttpGet("users"),Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme,Policy ="IsAdmin")]
@@ -87,35 +92,82 @@ namespace TravelPalAPI.Controllers
         [HttpPost("signIn")]
         public async Task<ActionResult<AuthentificationResponse>> SignIn([FromBody] LogInUserCredentials userCredentials)
         {
+            var user = await userManager.FindByNameAsync(userCredentials.UserName);
+
+
             var result = await signInManager.PasswordSignInAsync(userCredentials.UserName, 
                 userCredentials.Password, isPersistent: false, lockoutOnFailure: false);
 
-            var user = await userManager.FindByNameAsync(userCredentials.UserName);
+
 
             if (result.Succeeded)
+            {
+                if (!await userManager.IsEmailConfirmedAsync(user))
+                    return Unauthorized("Email is not confirmed");
                 return await tokenService.BuildToken(user);
+            }
             else
                 return BadRequest("Incorrect Login");
+
+
         }
 
 
         [HttpPost("signUp")]
         public async Task<ActionResult<AuthentificationResponse>> SignUp([FromBody]UserCredentials userCredentials)
         {
+            if(appDb.Users.Any(x=>x.Email == userCredentials.Email))
+            {
+                return BadRequest("Email already exist");
+            }
+
+
             var user = new UserAccount
             {
                 UserName = userCredentials.UserName,
                 Email = userCredentials.Email,
                 FirstName = userCredentials.FirstName,
                 LastName = userCredentials.LastName,
-                PhoneNumber = userCredentials.PhoneNumber
+                PhoneNumber = userCredentials.PhoneNumber,
+                ClientURI = userCredentials.ClientURI
             };
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var info = new Dictionary<string, string>
+            {
+                {"token", token },
+                {"email", user.Email }
+            };
+
+            var callback = QueryHelpers.AddQueryString(user.ClientURI, info);
+
             if (result.Succeeded)
-                return await tokenService.BuildToken(user);
+            {
+                EmailSettings.SendEmail(configuration, "Test", user.Email, "Confirmation",
+                    $"Welcome {user.FirstName} {user.LastName} Just one more step before you get to the fun part.\n"
+                   +$"Confirm your email address with this link:\n\n" +
+                   $"{callback}");
+                return await tokenService.BuildToken(user); }
             else
                 return BadRequest(result.Errors);
+
+            return Ok();
+        }
+        [HttpGet("emailconfirmation")]
+        public async Task<IActionResult> EmailConfirmation([FromQuery] string email, [FromQuery] string token)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest();
+
+            var confirmResult = await userManager.ConfirmEmailAsync(user, token);
+
+            if (!confirmResult.Succeeded)
+                return BadRequest();
+
+            return Ok();
         }
     }
 }

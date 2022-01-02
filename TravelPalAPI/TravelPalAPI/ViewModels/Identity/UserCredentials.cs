@@ -18,5 +18,9 @@ namespace TravelPalAPI.ViewModels.Identity
         public string LastName { get; set; }
         [Phone]
         public string PhoneNumber { get; set; }
+        public int EmailConfirmed { get; set; }
+        public string ClientURI { get; set; }
+
+
     }
 }
