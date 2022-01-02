@@ -10,7 +10,6 @@ namespace TravelPalAPI.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int EmailConfirmed { get; set; }
         public string ClientURI { get; set; }
     }
 }

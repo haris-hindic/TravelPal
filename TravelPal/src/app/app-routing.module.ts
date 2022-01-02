@@ -65,11 +65,12 @@ const appRoutes: Routes = [
     component: UserListComponent,
     canActivate: [AdminGuard],
   },
-  { path: '**', redirectTo: '' },
   {
     path:'authentication/emailconfirmation',
     component: EmailConfirmationComponent
-  }
+  },
+  { path: '**', redirectTo: '' },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
