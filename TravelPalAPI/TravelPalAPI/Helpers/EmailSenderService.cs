@@ -5,9 +5,9 @@ using MailKit.Net.Smtp;
 
 namespace TravelPalAPI.Helpers
 {
-    public static class EmailSettings
+    public class EmailSenderService : IEmailSenderService
     {
-        public static void SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message)
+        public void SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message)
         {
             var email = new MimeMessage();
 

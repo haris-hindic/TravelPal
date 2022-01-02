@@ -32,6 +32,7 @@ namespace TravelPalAPI.Controllers
         private readonly SignInManager<UserAccount> signInManager;
         private readonly IMapper mapper;
         private readonly ITokenService tokenService;
+        private readonly IEmailSenderService emailService;
         private readonly string claimType="role";
         private readonly string claimValue="admin";
         private IConfiguration configuration;
@@ -39,7 +40,7 @@ namespace TravelPalAPI.Controllers
 
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
             SignInManager<UserAccount> signInManager,IMapper mapper,ITokenService tokenService,
-            IConfiguration configuration)
+            IConfiguration configuration, IEmailSenderService emailService)
         {
             this.appDb = appDb;
             this.userManager = userManager;
@@ -47,6 +48,7 @@ namespace TravelPalAPI.Controllers
             this.mapper = mapper;
             this.tokenService = tokenService;
             this.configuration = configuration;
+            this.emailService = emailService;
         }
 
         [HttpGet("users"),Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme,Policy ="IsAdmin")]
@@ -145,11 +147,11 @@ namespace TravelPalAPI.Controllers
 
             if (result.Succeeded)
             {
-                EmailSettings.SendEmail(configuration, "Test", user.Email, "Confirmation",
-                    $"Welcome {user.FirstName} {user.LastName} Just one more step before you get to the fun part.\n"
+                emailService.SendEmail(configuration, "Test", user.Email, "Confirmation",
+                    $"Welcome {user.FirstName} {user.LastName}\nJust one more step before you get to the fun part.\n"
                    +$"Confirm your email address with this link:\n\n" +
                    $"{callback}");
-                return await tokenService.BuildToken(user); }
+                 }
             else
                 return BadRequest(result.Errors);
 
