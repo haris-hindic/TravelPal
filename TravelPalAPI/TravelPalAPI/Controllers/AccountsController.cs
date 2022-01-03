@@ -33,6 +33,7 @@ namespace TravelPalAPI.Controllers
         private readonly IMapper mapper;
         private readonly ITokenService tokenService;
         private readonly IEmailSenderService emailService;
+        private readonly IPhoneVerificationService phoneVerification;
         private readonly string claimType="role";
         private readonly string claimValue="admin";
         private readonly string clientURI= "http://localhost:4200/authentication/emailconfirmation";
@@ -41,7 +42,8 @@ namespace TravelPalAPI.Controllers
 
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
             SignInManager<UserAccount> signInManager,IMapper mapper,ITokenService tokenService,
-            IConfiguration configuration, IEmailSenderService emailService)
+            IConfiguration configuration, IEmailSenderService emailService,
+            IPhoneVerificationService phoneVerification)
         {
             this.appDb = appDb;
             this.userManager = userManager;
@@ -50,6 +52,7 @@ namespace TravelPalAPI.Controllers
             this.tokenService = tokenService;
             this.configuration = configuration;
             this.emailService = emailService;
+            this.phoneVerification = phoneVerification;
         }
 
         [HttpGet("users"),Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme,Policy ="IsAdmin")]
@@ -209,6 +212,40 @@ namespace TravelPalAPI.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PhoneNumberVerified=user.PhoneNumberConfirmed
             };
+        }
+
+        [HttpGet("phone-verification")]
+        public async Task<IActionResult> StartPhoneVerification([FromQuery] string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return BadRequest("User not found!");
+
+            var result = await phoneVerification.StartVerificationAsync(user.PhoneNumber);
+
+            if (result.Errors != null)
+                return BadRequest(result.Errors);
+
+
+            return Ok(result);
+        }
+
+        [HttpGet("check-phone-verification")]
+        public async Task<IActionResult> StartPhoneVerification([FromQuery] string id,[FromQuery]string code)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return BadRequest("User not found!");
+
+            var result = await phoneVerification.CheckVerificationAsync(user.PhoneNumber,code);
+
+            if (result.Errors != null)
+                return BadRequest(result.Errors);
+
+            user.PhoneNumberConfirmed = true;
+            appDb.UserAccounts.Update(user);
+            await appDb.SaveChangesAsync();
+            return Ok(result);
         }
     }
 }

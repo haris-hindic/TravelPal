@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="MimeKit" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Twilio" Version="5.69.0" />
   </ItemGroup>
 
   <ItemGroup>

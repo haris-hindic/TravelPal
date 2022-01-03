@@ -9,4 +9,11 @@
   <hr />
   {{ user.phoneNumber }}
   <span *ngIf="user.phoneNumberVerified">Verified!</span>
+  <div *ngIf="!user.phoneNumberVerified">
+    <button (click)="sendPhoneVerification()">Send verification code</button>
+
+    <label class="form-label">Enter the code:</label>
+    <input [(ngModel)]="code" type="number" class="form-control" />
+    <button type="button" (click)="submitCode()">Submit code</button>
+  </div>
 </div>

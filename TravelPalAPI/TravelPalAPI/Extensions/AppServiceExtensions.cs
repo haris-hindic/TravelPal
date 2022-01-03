@@ -29,6 +29,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<IAccommodationRepository, AccommodationRepository>();
             services.AddScoped<IAccommodationImageRepository, AccommodationImageRepository>();
             services.AddScoped<IEmailSenderService, EmailSenderService>();
+            services.AddScoped<IPhoneVerificationService, PhoneVerificationService>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

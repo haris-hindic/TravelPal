@@ -16,6 +16,7 @@ import { userProfileVM } from 'src/app/shared/models/user.model';
 })
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
+  code!: string;
 
   constructor(
     private _security: SecurityService,
@@ -24,6 +25,10 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.LoadData();
+  }
+
+  LoadData() {
     const id = this._security.getFieldFromJWT('id');
     this._http
       .get<userProfileVM>(
@@ -31,6 +36,7 @@ export class MyProfileComponent implements OnInit {
       )
       .subscribe((res) => {
         this.user = res;
+        console.log(res);
       });
   }
 
@@ -41,6 +47,31 @@ export class MyProfileComponent implements OnInit {
       )
       .subscribe(() => {
         this._toastr.success('Please check your email.');
+      });
+  }
+
+  sendPhoneVerification() {
+    const id = this._security.getFieldFromJWT('id');
+    this._http
+      .get<userProfileVM>(
+        `https://localhost:44325/api/Accounts/phone-verification?id=${id}`
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this._toastr.success('Check your inbox!');
+      });
+  }
+
+  submitCode() {
+    const id = this._security.getFieldFromJWT('id');
+    this._http
+      .get<userProfileVM>(
+        `https://localhost:44325/api/Accounts/check-phone-verification?id=${id}&code=${this.code}`
+      )
+      .subscribe((res) => {
+        this.LoadData();
+        console.log(res);
+        this._toastr.success('Success!');
       });
   }
 }
