@@ -18,9 +18,11 @@ import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.compo
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { StaysComponent } from './stays/stays.component';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
+import { MyProfileComponent } from './user/my-profile/my-profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
+  //stays
   { path: 'stays', component: StayHomepageComponent },
   { path: 'stays/search', component: StaysComponent },
   { path: 'user-stays/:id', component: StayUserComponent },
@@ -56,7 +58,7 @@ const appRoutes: Routes = [
     component: EventsUserComponent,
     canActivate: [AuthGuard],
   },
-
+  //auth
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
 
@@ -65,12 +67,13 @@ const appRoutes: Routes = [
     component: UserListComponent,
     canActivate: [AdminGuard],
   },
+  //profile
+  { path: 'user/profile', component: MyProfileComponent },
   {
-    path:'authentication/emailconfirmation',
-    component: EmailConfirmationComponent
+    path: 'authentication/emailconfirmation',
+    component: EmailConfirmationComponent,
   },
   { path: '**', redirectTo: '' },
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],

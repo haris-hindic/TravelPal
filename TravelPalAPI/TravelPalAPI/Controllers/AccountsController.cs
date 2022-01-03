@@ -19,7 +19,7 @@ using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Identity;
-
+using TravelPalAPI.ViewModels.User;
 
 namespace TravelPalAPI.Controllers
 {
@@ -35,6 +35,7 @@ namespace TravelPalAPI.Controllers
         private readonly IEmailSenderService emailService;
         private readonly string claimType="role";
         private readonly string claimValue="admin";
+        private readonly string clientURI= "http://localhost:4200/authentication/emailconfirmation";
         private IConfiguration configuration;
 
 
@@ -104,34 +105,25 @@ namespace TravelPalAPI.Controllers
 
             if (result.Succeeded)
             {
-                if (!await userManager.IsEmailConfirmedAsync(user))
-                    return Unauthorized("Email is not confirmed");
+                //if (!await userManager.IsEmailConfirmedAsync(user))
+                //    return Unauthorized("Email is not confirmed");
                 return await tokenService.BuildToken(user);
             }
             else
                 return BadRequest("Incorrect Login");
-
-
         }
 
 
         [HttpPost("signUp")]
         public async Task<ActionResult<AuthentificationResponse>> SignUp([FromBody]UserCredentials userCredentials)
         {
-            if(appDb.Users.Any(x=>x.Email == userCredentials.Email))
-            {
-                return BadRequest("Email already exist");
-            }
-
-
             var user = new UserAccount
             {
                 UserName = userCredentials.UserName,
                 Email = userCredentials.Email,
                 FirstName = userCredentials.FirstName,
                 LastName = userCredentials.LastName,
-                PhoneNumber = userCredentials.PhoneNumber,
-                ClientURI = userCredentials.ClientURI
+                PhoneNumber = userCredentials.PhoneNumber
             };
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
@@ -143,20 +135,21 @@ namespace TravelPalAPI.Controllers
                 {"email", user.Email }
             };
 
-            var callback = QueryHelpers.AddQueryString(user.ClientURI, info);
+            var callback = QueryHelpers.AddQueryString(clientURI, info);
 
             if (result.Succeeded)
             {
-                emailService.SendEmail(configuration, "Test", user.Email, "Confirmation",
+                emailService.SendEmail(configuration, user.UserName, user.Email, "Confirmation",
                     $"Welcome {user.FirstName} {user.LastName}\nJust one more step before you get to the fun part.\n"
                    +$"Confirm your email address with this link:\n\n" +
                    $"{callback}");
-                 }
+                return await tokenService.BuildToken(user);
+            }
+
             else
                 return BadRequest(result.Errors);
-
-            return Ok();
         }
+
         [HttpGet("emailconfirmation")]
         public async Task<IActionResult> EmailConfirmation([FromQuery] string email, [FromQuery] string token)
         {
@@ -169,7 +162,53 @@ namespace TravelPalAPI.Controllers
             if (!confirmResult.Succeeded)
                 return BadRequest();
 
+            //await userManager.AddClaimAsync(user,new Claim("status","verified"))
+
             return Ok();
+        }
+
+        [HttpGet("resend-email")]
+        public async Task<ActionResult> ResendEmailVerification([FromQuery] string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest();
+
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var info = new Dictionary<string, string>
+            {
+                {"token", token },
+                {"email", user.Email }
+            };
+
+            var callback = QueryHelpers.AddQueryString(clientURI, info);
+
+            emailService.SendEmail(configuration, user.UserName, user.Email, "Confirmation",
+                    $"Welcome {user.FirstName} {user.LastName}\nJust one more step before you get to the fun part.\n"
+                   + $"Confirm your email address with this link:\n\n" +
+                   $"{callback}");
+
+            return Ok();
+        }
+
+        [HttpGet("profile")]
+        public async Task<ActionResult<UserProfileVM>> UserProfile([FromQuery]string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return BadRequest("User not found!");
+
+            return new UserProfileVM
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                EmailVerified=user.EmailConfirmed,
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberVerified=user.PhoneNumberConfirmed
+            };
         }
     }
 }

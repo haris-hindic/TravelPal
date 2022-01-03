@@ -33,6 +33,7 @@ import { ImageSliderComponent } from './helpers/image-slider/image-slider.compon
 import { SharedModule } from './shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
+import { MyProfileComponent } from './user/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { EmailConfirmationComponent } from './email/email-confirmation/email-con
     StayHomepageComponent,
     EventsUserComponent,
     ImageSliderComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,

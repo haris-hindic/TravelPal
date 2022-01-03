@@ -17,7 +17,7 @@ namespace TravelPalAPI.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<UserAccount, IdentityRole>()
+            services.AddIdentity<UserAccount, IdentityRole>(opts=> { opts.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 

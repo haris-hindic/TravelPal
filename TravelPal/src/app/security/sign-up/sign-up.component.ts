@@ -29,7 +29,6 @@ export class SignUpComponent implements OnInit {
       firstName: ['', { validators: [Validators.required] }],
       lastName: ['', { validators: [Validators.required] }],
       phoneNumber: ['', { validators: [Validators.required] }],
-      clientUri: 'http://localhost:4200/authentication/emailconfirmation'
     });
   }
 
@@ -39,8 +38,9 @@ export class SignUpComponent implements OnInit {
 
     this._securityService.signUp(this.form.value).subscribe(
       (res) => {
-        this._toastr.success("Please verify your email address!")
-        this._router.navigate(['signin']);
+        this._toastr.success('Please verify your email address!');
+        this._securityService.saveToken(res);
+        this._router.navigate(['']);
       },
       (err) => (this.errors = parseWebAPiErrors(err))
     );

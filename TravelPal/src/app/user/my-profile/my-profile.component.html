@@ -1,0 +1,12 @@
+<div class="container" *ngIf="user">
+  {{ user.userName }}
+  <hr />
+  {{ user.email }}
+  <span *ngIf="user.emailVerified">Verified!</span>
+  <span *ngIf="!user.emailVerified"
+    ><button (click)="resend()">Resend verification code</button></span
+  >
+  <hr />
+  {{ user.phoneNumber }}
+  <span *ngIf="user.phoneNumberVerified">Verified!</span>
+</div>

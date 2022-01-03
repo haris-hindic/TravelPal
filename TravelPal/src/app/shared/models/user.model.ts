@@ -5,3 +5,13 @@ export interface userVM {
   eventsListed: number;
   isAdmin: boolean;
 }
+
+export interface userProfileVM {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailVerified: boolean;
+  phoneNumber: string;
+  phoneNumberVerified: boolean;
+}
