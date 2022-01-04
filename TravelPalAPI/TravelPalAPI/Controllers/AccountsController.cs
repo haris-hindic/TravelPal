@@ -170,7 +170,7 @@ namespace TravelPalAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("resend-email")]
+        [HttpGet("send-email")]
         public async Task<ActionResult> ResendEmailVerification([FromQuery] string email)
         {
             var user = await userManager.FindByEmailAsync(email);

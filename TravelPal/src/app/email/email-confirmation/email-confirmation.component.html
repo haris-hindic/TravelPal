@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container mt-4">
   <div class="card">
     <div class="card-body">
       <h1 class="card-title">Account confirmation</h1>
       <div *ngIf="showError" class="alert alert-danger">Invalid token</div>
 
       <div *ngIf="showSuccess" class="alert alert-success">
-        Your email has been successfully confirmed. Check it out
+        Your email has been successfully confirmed.
         <a [routerLink]="['/user/profile']">
-          click here to see your profile.
+          Click here to see your profile.
         </a>
       </div>
     </div>
