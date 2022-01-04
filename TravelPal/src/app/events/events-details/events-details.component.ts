@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/helpers/image.service';
+import { EventVM } from '../events.model';
 import { EventsService } from '../events.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { EventsService } from '../events.service';
 export class EventsDetailsComponent implements OnInit {
 
   url = 'https://localhost:44325/api/Event';
-  event: any;
+  event!: EventVM;
   eventLoad = false;
 
   constructor(private http: HttpClient, private activeRouter: ActivatedRoute, private es: EventsService, private route: Router,
@@ -27,7 +28,7 @@ export class EventsDetailsComponent implements OnInit {
   loadData()
   {
     this.aRoute.params.subscribe((params) => {
-      this.es.getSpecific(params.id).subscribe((value) => 
+      this.es.getSpecific(params.id).subscribe((value: EventVM) => 
       {
           this.event = value;
           this.eventLoad=true;
