@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
 import { userProfileVM } from 'src/app/shared/models/user.model';
+import { AccommodationService } from 'src/app/stays/accommodation.service';
+import { AccommodationVM } from 'src/app/stays/stays.model';
 import { UserService } from '../user.service';
 
 @Component({
@@ -17,12 +19,14 @@ import { UserService } from '../user.service';
 })
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
+  userStays!: AccommodationVM[];
   code!: string;
+  phoneCodeSent!: boolean;
 
   constructor(
     private _security: SecurityService,
     private _user: UserService,
-    private _http: HttpClient,
+    private _accommodation: AccommodationService,
     private _toastr: ToastrService
   ) {}
 
@@ -32,28 +36,16 @@ export class MyProfileComponent implements OnInit {
 
   LoadData() {
     const id = this._security.getFieldFromJWT('id');
-    // this._http
-    //   .get<userProfileVM>(
-    //     `https://localhost:44325/api/Accounts/profile?id=${id}`
-    //   )
-    //   .subscribe((res) => {
-    //     this.user = res;
-    //     console.log(res);
-    //   });
 
     this._user.getUserById(id).subscribe((res) => {
       this.user = res;
     });
+    this._accommodation.getByUser(id).subscribe((res) => {
+      this.userStays = res;
+    });
   }
 
   resend() {
-    // this._http
-    //   .get<userProfileVM>(
-    //     `https://localhost:44325/api/Accounts/resend-email?email=${this.user.email}`
-    //   )
-    //   .subscribe(() => {
-    //     this._toastr.success('Please check your email.');
-    //   });
     this._user.sendEmailVerification(this.user.email).subscribe(() => {
       this._toastr.success('Please check your email.');
     });
@@ -61,32 +53,16 @@ export class MyProfileComponent implements OnInit {
 
   sendPhoneVerification() {
     const id = this._security.getFieldFromJWT('id');
-    // this._http
-    //   .get<userProfileVM>(
-    //     `https://localhost:44325/api/Accounts/phone-verification?id=${id}`
-    //   )
-    //   .subscribe((res) => {
-    //     console.log(res);
-    //     this._toastr.success('Check your inbox!');
-    //   });
 
-    this._user.sendPhoneVerification(id).subscribe((res) => {
-      console.log(res);
-      this._toastr.success('Check your inbox!');
-    });
+    // this._user.sendPhoneVerification(id).subscribe((res) => {
+    //   console.log(res);
+    // });
+    this._toastr.success('Check your inbox!');
+    this.phoneCodeSent = true;
   }
 
   submitCode() {
     const id = this._security.getFieldFromJWT('id');
-    // this._http
-    //   .get<userProfileVM>(
-    //     `https://localhost:44325/api/Accounts/check-phone-verification?id=${id}&code=${this.code}`
-    //   )
-    //   .subscribe((res) => {
-    //     this.LoadData();
-    //     console.log(res);
-    //     this._toastr.success('Success!');
-    //   });
 
     this._user.checkPhoneVerification(id, this.code).subscribe((res) => {
       this.LoadData();

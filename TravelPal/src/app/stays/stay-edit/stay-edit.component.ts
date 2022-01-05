@@ -174,7 +174,7 @@ export class StayEditComponent implements OnInit {
     this.form
       .get('accommodationDetails')
       ?.get('wiFi')
-      ?.patchValue(data.accommodationDetails.wifi);
+      ?.patchValue(data.accommodationDetails.wiFi);
     this.form
       .get('accommodationDetails')
       ?.get('shower')

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="user">
+<!-- <div class="container" *ngIf="user">
   {{ user.userName }}
   <hr />
   {{ user.email }}
@@ -15,5 +15,102 @@
     <label class="form-label">Enter the code:</label>
     <input [(ngModel)]="code" type="number" class="form-control" />
     <button type="button" (click)="submitCode()">Submit code</button>
+  </div>
+</div> -->
+
+<div class="container mt-4" *ngIf="user">
+  <div class="row">
+    <div class="col-4">
+      <div class="card">
+        <div class="text-center">
+          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="" />
+        </div>
+        <h2 class="text-center mt-2">
+          {{ user.firstName }} {{ user.lastName }}
+        </h2>
+        <h5>Username: {{ user.userName }}</h5>
+        <hr />
+        <div class="row text-start">
+          <div class="col-12" *ngIf="user.emailVerified">
+            <i class="fas fa-mail-bulk"></i>
+            {{ user.email }}
+            <i style="color: green" class="far fa-check-circle"></i>
+          </div>
+          <div class="col-12" *ngIf="!user.emailVerified">
+            <i class="fas fa-mail-bulk"></i>
+            {{ user.email }}
+            <i style="color: red" class="far fa-times-circle"></i>
+          </div>
+          <div class="col-12" *ngIf="user.phoneNumberVerified">
+            <i class="fas fa-phone"></i>
+            {{ user.phoneNumber }}
+            <i style="color: green" class="far fa-check-circle"></i>
+          </div>
+          <div class="col-12" *ngIf="!user.phoneNumberVerified">
+            <i class="fas fa-phone"></i>
+            {{ user.phoneNumber }}
+            <i style="color: red" class="far fa-times-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Listed Stays">
+          <div *ngFor="let stay of userStays" class="card-trip">
+            <img
+              routerLink="/stays/details/{{ stay.id }}"
+              style="cursor: pointer"
+              [src]="stay.images[0].imagePath"
+            />
+            <div class="card-trip-infos">
+              <div>
+                <h2>{{ stay.name }}</h2>
+                <p>{{ stay.location.country }},{{ stay.location.city }}</p>
+              </div>
+              <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Hosted Events"> </mat-tab>
+        <mat-tab label="Edit profile">
+          <div class="row mt-4" style="width: 95%; offset: 5px">
+            <div class="col-5 mb-2">{{ user.email }}</div>
+            <div class="col-6 mb-2">
+              <span *ngIf="user.emailVerified">Verified!</span>
+              <span *ngIf="!user.emailVerified"
+                ><button type="button" (click)="resend()">
+                  Resend verification code
+                </button></span
+              >
+            </div>
+            <div class="col-5 mb-2">{{ user.phoneNumber }}</div>
+            <div class="col-6 mb-2">
+              <span *ngIf="user.phoneNumberVerified">Verified!</span>
+              <span *ngIf="!user.phoneNumberVerified"
+                ><button type="button" (click)="sendPhoneVerification()">
+                  Send verification code
+                </button></span
+              >
+            </div>
+            <div class="col mb-2">
+              <div *ngIf="!user.phoneNumberVerified">
+                <div *ngIf="phoneCodeSent">
+                  <label class="form-label">Enter the code:</label>
+                  <input
+                    [(ngModel)]="code"
+                    type="number"
+                    class="form-control"
+                  />
+                  <button type="button" class="mt-2" (click)="submitCode()">
+                    Submit code
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
 </div>

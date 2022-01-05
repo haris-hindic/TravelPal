@@ -33,7 +33,7 @@ export interface AccommodationEditVM {
 export interface AccommodationDetailsVM {
   accommodationDetailsId: number;
   parking: boolean;
-  wifi: boolean;
+  wiFi: boolean;
   shower: boolean;
   minibar: boolean;
   airConditioning: boolean;
@@ -49,7 +49,7 @@ export interface AccommodationDetailsVM {
 
 export interface AccommodationDetailsCreationVM {
   parking: boolean;
-  wifi: boolean;
+  wiFi: boolean;
   shower: boolean;
   minibar: boolean;
   airConditioning: boolean;

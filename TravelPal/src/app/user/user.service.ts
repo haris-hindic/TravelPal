@@ -32,7 +32,7 @@ export class UserService {
     );
   }
 
-  public confirmEmailroute(route: string, token: string, email: string) {
+  confirmEmailroute(route: string, token: string, email: string) {
     let params = new HttpParams({ encoder: new CustomEncoder() });
     params = params.append('token', token);
     params = params.append('email', email);

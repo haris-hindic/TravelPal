@@ -40,15 +40,6 @@ export class SecurityService {
     return false;
   }
 
-  // public confirmEmailroute( route : string, token: string, email: string)
-  // {
-  //   let params = new HttpParams({ encoder: new CustomEncoder () })
-  //  params = params.append('token', token);
-  //   params = params.append('email', email);
-
-  //   return this._http.get('https://localhost:44325/' + route, { params: params });
-  // }
-
   signUp(credentials: signUpCredentials) {
     return this._http.post<authResponse>(
       'https://localhost:44325/api/accounts/signUp',
