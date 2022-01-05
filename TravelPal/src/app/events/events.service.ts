@@ -11,11 +11,11 @@ export class EventsService {
 
   get()
   {
-    return this.http.get(this.url);
+    return this.http.get<EventVM[]>(this.url);
   }
   getSpecific(id: number)
   {
-    return this.http.get(this.url + id);
+    return this.http.get<EventVM>(this.url + id);
   }
 
   post(event: EventCreationVM)
@@ -34,6 +34,6 @@ export class EventsService {
 
   getUserEvents(id: string)
   {
-    return this.http.get(this.url + 'user/' + id);
+    return this.http.get<EventVM[]>(this.url + 'user/' + id);
   }
 }
