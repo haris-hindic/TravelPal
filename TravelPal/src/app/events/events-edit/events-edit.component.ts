@@ -42,7 +42,7 @@ export class EventsEditComponent implements OnInit {
       ],
       price: ['', { validators: [Validators.required] }],
       date: ['', { validators: [Validators.required] }],
-      duration: ['', { validators: [Validators.required] }],
+      duration: [0, { validators: [Validators.required] }],
       eventdescription: ['', { validators: [Validators.required] }],
       locationvm: this.builder.group({
         country: ['', { validators: [Validators.required] }],

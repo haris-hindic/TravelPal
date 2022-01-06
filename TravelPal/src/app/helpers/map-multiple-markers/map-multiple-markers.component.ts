@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EventVM } from 'src/app/events/events.model';
 import { AccommodationVM } from 'src/app/stays/stays.model';
 
 @Component({
@@ -15,6 +16,8 @@ export class MapMultipleMarkersComponent implements OnInit {
   ];
 
   @Input() stays!: AccommodationVM[];
+  @Input() events!: EventVM[];
+  @Input() isEvents : boolean = false;
 
   constructor() {}
 

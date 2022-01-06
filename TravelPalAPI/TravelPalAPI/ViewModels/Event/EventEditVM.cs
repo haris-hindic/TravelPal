@@ -15,7 +15,7 @@ namespace TravelPalAPI.ViewModels.Event
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public string Duration { get; set; }
+        public int Duration { get; set; }
         [Required, MaxLength(30)]
         public string EventDescription { get; set; }
         [Required]

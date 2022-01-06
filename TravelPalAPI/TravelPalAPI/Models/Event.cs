@@ -15,7 +15,7 @@ namespace TravelPalAPI.Models
         public string Name { get; set; }
         public double Price { get; set; }
         public DateTime Date { get; set; }
-        public string Duration { get; set; }
+        public int Duration { get; set; }
         public string EventDescription { get; set; }
         public int LocationId { get; set; }
         [ForeignKey(nameof(LocationId))]

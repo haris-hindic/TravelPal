@@ -33,7 +33,7 @@ export class EventsCreationComponent implements OnInit {
         name: ['', {validators: [Validators.required, Validators.minLength(3)]}],
         price: ['',{validators: [Validators.required]}],
         date: ['', {validators: [Validators.required]}],
-        duration: ['', {validators: [Validators.required]}],
+        duration: [0, {validators: [Validators.required]}],
         eventdescription: ['', {validators: [Validators.required]}],
         locationvm: this.builder.group(
           {

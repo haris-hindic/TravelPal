@@ -4,7 +4,7 @@
   [zoom]="8"
   [disableDefaultUI]="true"
 >
-  <agm-marker
+  <agm-marker 
     *ngFor="let stay of stays; let i = index"
     [latitude]="stay.location.latitude"
     [longitude]="stay.location.longitude"
@@ -12,7 +12,7 @@
       'https://img.icons8.com/external-ddara-lineal-color-ddara/64/000000/external-rental-real-estate-ddara-lineal-color-ddara.png'
     "
   >
-    <agm-snazzy-info-window
+    <agm-snazzy-info-window *ngIf="!isEvents"
       [isOpen]="true"
       [maxWidth]="700"
       [maxHeight]="550"
@@ -43,4 +43,43 @@
       </ng-template>
     </agm-snazzy-info-window>
   </agm-marker>
+
+  <agm-marker
+  *ngFor="let event of events; let i = index"
+  [latitude]="event.locationVM.latitude"
+  [longitude]="event.locationVM.longitude"
+  [iconUrl]="
+    'https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-drink-healthy-lifestyle-icongeek26-linear-colour-icongeek26.png'
+  "
+>
+  <agm-snazzy-info-window *ngIf="isEvents"
+    [isOpen]="true"
+    [maxWidth]="700"
+    [maxHeight]="550"
+    [showCloseButton]="false"
+    [closeWhenOthersOpen]="true"
+    [padding]="'0 0 0 0'"
+  >
+    <ng-template
+      ><div class="text-center">
+        <div class="row m-0 mb-1">
+          <div class="col-12">{{ event.name}} in {{event.locationVM.city}}</div>
+          <!-- <div class="col">Rating : {{ i + 1 }}</div> -->
+        </div>
+        <img
+          width="250"
+          class="m-2"
+          [src]="event.images[0].imagePath"
+          alt=""
+        />
+        <br />
+        <a
+          routerLink="/events/details/{{ event.id }}"
+          class="btn btn-outline-info m-2"
+          >Details</a
+        >
+      </div>
+    </ng-template>
+  </agm-snazzy-info-window>
+</agm-marker>
 </agm-map>
