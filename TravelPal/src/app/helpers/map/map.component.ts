@@ -10,6 +10,7 @@ export class MapComponent implements OnInit {
   @Output() onClicked = new EventEmitter<{ lat: number; lng: number }>();
   @Input() coordinates!: { lat: number; lng: number };
   @Input() readonly: boolean = false;
+  @Input() mapIconURL!: string;
 
   constructor() {}
 

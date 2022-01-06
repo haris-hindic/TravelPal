@@ -136,6 +136,9 @@
                 lat: form.get('location.latitude')?.value,
                 lng: form.get('location.longitude')?.value
               }"
+              [mapIconURL]="
+                'https://img.icons8.com/external-ddara-lineal-color-ddara/64/000000/external-rental-real-estate-ddara-lineal-color-ddara.png'
+              "
               (onClicked)="mapClicked($event)"
             ></app-map>
           </div>
