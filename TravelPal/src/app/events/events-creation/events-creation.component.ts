@@ -40,7 +40,10 @@ export class EventsCreationComponent implements OnInit {
            country: ['', {validators: [Validators.required]}],
            city: ['', {validators: [Validators.required]}],
            address: ['', {validators: [Validators.required]}],
+           longitude: [0,{validators: [Validators.required]}],
+           latitude: [0,{validators: [Validators.required]}]
         }),
+        
         }
     );
   }
@@ -89,5 +92,12 @@ export class EventsCreationComponent implements OnInit {
   deleteImg(i: number) {
     this.images.splice(i, 1);
     this.imgFiles.splice(i, 1);
+  }
+
+  map(event: { lat: number; lng: number }) {
+    console.log(event);
+    this.groupData.get('locationvm')?.get('latitude')?.patchValue(event.lat);
+    this.groupData.get('locationvm')?.get('longitude')?.patchValue(event.lng);
+    console.log(this.groupData.value);
   }
 }

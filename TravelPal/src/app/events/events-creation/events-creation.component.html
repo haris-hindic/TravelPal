@@ -1,4 +1,9 @@
   <div class="container">
+      <h1>Host new event</h1>
+      <app-display-errors
+      *ngIf="errors.length > 0"
+      [errors]="errors"
+    ></app-display-errors>
   <mat-stepper [linear]="false" #stepper>
     <mat-step>
       <form [formGroup]="groupData">
@@ -84,6 +89,26 @@
         </mat-step>
     
         <mat-step>
+            <ng-template matStepLabel>Selection location on map</ng-template>
+            <div class="row"  [formGroup]="groupData">
+            <div class="col-8">
+                <app-map (onClicked)="map($event)" 
+                [mapIconURL]="'https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-drink-healthy-lifestyle-icongeek26-linear-colour-icongeek26.png'">
+                    
+                </app-map>
+            </div>
+                <div class="col-3 mt-5" formGroupName="locationvm">
+                <label class="form-label" >Longitue:</label>
+                <input type="number" class="form-control" formControlName="longitude" readonly/>
+                <label class="form-label" >Latitude:</label>
+                <input type="number" class="form-control" formControlName="latitude" readonly/>
+                </div>
+                
+            </div>
+        </mat-step>
+
+        
+        <mat-step>
             <form [formGroup]="groupData">
             <ng-template matStepLabel>Fill out ending informations</ng-template>
             <div class="mb-3">
@@ -110,7 +135,7 @@
              </div>
              <div class="col-6 mt-1 text-end">
                 <button class="btn btn-danger m-1" matStepperPrevious><</button>
-                <button class="btn btn-success" (click)="saveData()">Submit</button>
+                <button class="btn btn-success" (click)="saveData()" [disabled]="images.length<1 || groupData.invalid">Submit</button>
               </div>
                 </form>
                 </mat-step>

@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.ViewModels.Location;
-
 namespace TravelPalAPI.ViewModels.Event
 {
     public class EventEditVM
@@ -20,6 +19,6 @@ namespace TravelPalAPI.ViewModels.Event
         [Required, MaxLength(30)]
         public string EventDescription { get; set; }
         [Required]
-        public Models.Location LocationVM { get; set; }
+        public LocationVM LocationVM { get; set; }
     }
 }
