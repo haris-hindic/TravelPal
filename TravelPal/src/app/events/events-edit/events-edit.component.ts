@@ -48,6 +48,8 @@ export class EventsEditComponent implements OnInit {
         country: ['', { validators: [Validators.required] }],
         city: ['', { validators: [Validators.required] }],
         address: ['', { validators: [Validators.required] }],
+        longitude: [0,{validators: [Validators.required]}],
+        latitude: [0,{validators: [Validators.required]}]
       }),
     });
     this.loadData();
@@ -86,9 +88,12 @@ export class EventsEditComponent implements OnInit {
       ?.get('address')
       ?.patchValue(value.locationVM.address);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
+    this.groupData.get('locationvm.latitude')?.patchValue(value.locationVM.latitude);
+    this.groupData.get('locationvm.longitude')?.patchValue(value.locationVM.longitude);
   }
 
   saveData() {
+    console.log(this.groupData.value);
     this.es
       .edit(this.aRouter.snapshot.params.id as number, this.groupData.value)
       .subscribe(
@@ -104,7 +109,8 @@ export class EventsEditComponent implements OnInit {
                 this.formData,
                 'events'
               )
-              .subscribe(() => {});
+               .subscribe(() => {});
+
           }
           this.router.navigateByUrl('events');
           this.toastr.info('Event edited!');
@@ -137,5 +143,11 @@ export class EventsEditComponent implements OnInit {
   deleteImg(i: number) {
     this.images.splice(i, 1);
     this.imgFiles.splice(i, 1);
+  }
+
+  map(event: { lat: number; lng: number }) {
+    console.log(event);
+    this.groupData.get('locationvm')?.get('latitude')?.patchValue(event.lat);
+    this.groupData.get('locationvm')?.get('longitude')?.patchValue(event.lng);
   }
 }

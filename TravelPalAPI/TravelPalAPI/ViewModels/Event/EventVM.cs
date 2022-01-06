@@ -7,6 +7,7 @@ using TravelPalAPI.ViewModels.EventImages;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 
+
 namespace TravelPalAPI.ViewModels.Event
 {
     public class EventVM
