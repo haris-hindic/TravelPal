@@ -66,17 +66,31 @@
         <div class="row g-3 mt-2" formGroupName="location">
           <div class="col-4">
             <label class="form-label">Country</label>
-            <input
+
+            <select
+              class="form-select"
+              (change)="changed()"
+              formControlName="country"
               [ngClass]="
                 !form.get('location.country')?.valid &&
                 form.get('location.country')?.touched
                   ? 'border-danger'
                   : ''
               "
-              type="text"
-              class="form-control"
-              formControlName="country"
-            />
+            >
+              <option
+                [value]="form.get('location.country')!.value"
+                disabled
+                selected
+                *ngIf="!form.get('location.country')!.dirty"
+              >
+                {{ form.get("location.country")!.value.toString() }}
+              </option>
+              <option *ngFor="let c of countries" [value]="c.name">
+                {{ c.name }}
+              </option>
+            </select>
+
             <label
               class="form-label text-danger"
               *ngIf="
@@ -88,17 +102,30 @@
           </div>
           <div class="col-4">
             <label class="form-label">City</label>
-            <input
+
+            <select
+              class="form-select"
+              formControlName="city"
               [ngClass]="
                 !form.get('location.city')?.valid &&
                 form.get('location.city')?.touched
                   ? 'border-danger'
                   : ''
               "
-              type="text"
-              class="form-control"
-              formControlName="city"
-            />
+            >
+              <option
+                *ngIf="!form.get('location.country')!.dirty"
+                [value]="form.get('location.city')!.value"
+                disabled
+                selected
+              >
+                {{ form.get("location.city")!.value.toString() }}
+              </option>
+              <option *ngFor="let c of cities" [value]="c.name">
+                {{ c.name }}
+              </option>
+            </select>
+
             <label
               class="form-label text-danger"
               *ngIf="

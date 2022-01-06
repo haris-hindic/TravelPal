@@ -7,6 +7,8 @@ import { Image } from 'src/app/shared/models/image.model';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from 'src/app/helpers/image.service';
 import { AccommodationVM } from '../stays.model';
+import { country, city } from 'src/app/shared/models/location.model';
+import { CountryCityService } from 'src/app/shared/country-city.service';
 
 @Component({
   selector: 'app-stay-edit',
@@ -15,10 +17,14 @@ import { AccommodationVM } from '../stays.model';
 })
 export class StayEditComponent implements OnInit {
   form!: FormGroup;
+
   images: Image[] = [];
   formData: FormData = new FormData();
   newImages: string[] = [];
   newImageFiles: File[] = [];
+
+  countries!: country[];
+  cities!: city[];
 
   errors: string[] = [];
 
@@ -27,7 +33,8 @@ export class StayEditComponent implements OnInit {
     private _accommodationService: AccommodationService,
     private _imageService: ImageService,
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _countryCity: CountryCityService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +66,7 @@ export class StayEditComponent implements OnInit {
         mosquitoNet: false,
       }),
     });
+
     this.loadData();
   }
 
@@ -69,6 +77,18 @@ export class StayEditComponent implements OnInit {
         .subscribe((data: AccommodationVM) => {
           this.patchValues(data);
           this.images = data.images;
+          this._countryCity.getCountries().subscribe((cntrs) => {
+            this.countries = cntrs;
+
+            const country = this.form.get('location')?.get('country')?.value;
+            const iso2 = cntrs.find((x) => x.name == country)?.iso2;
+
+            this._countryCity
+              .getCitiesByCountry(iso2 as string)
+              .subscribe((c) => {
+                this.cities = c;
+              });
+          });
         });
     });
   }
@@ -215,5 +235,18 @@ export class StayEditComponent implements OnInit {
       .get('accommodationDetails')
       ?.get('mosquitoNet')
       ?.patchValue(data.accommodationDetails.mosquitoNet);
+  }
+
+  changed() {
+    this.form.get('location.city')?.reset();
+    this.form.get('location.city')?.disable();
+
+    const country = this.form.get('location')?.get('country')?.value;
+    const iso2 = this.countries.find((x) => x.name == country)?.iso2;
+
+    this._countryCity.getCitiesByCountry(iso2 as string).subscribe((c) => {
+      this.cities = c;
+      this.form.get('location.city')?.enable();
+    });
   }
 }

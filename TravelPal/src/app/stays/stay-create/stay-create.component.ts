@@ -45,7 +45,10 @@ export class StayCreateComponent implements OnInit {
       hostId: [`${this._securityService.getFieldFromJWT('id')}`],
       location: this._formBuilder.group({
         country: ['', { validators: [Validators.required] }],
-        city: ['', { validators: [Validators.required] }],
+        city: [
+          { value: '', disabled: true },
+          { validators: [Validators.required] },
+        ],
         address: ['', { validators: [Validators.required] }],
         latitude: [0, { validators: [Validators.required] }],
         longitude: [0, { validators: [Validators.required] }],
@@ -67,14 +70,14 @@ export class StayCreateComponent implements OnInit {
       }),
     });
 
-    console.log(this.form.value);
+    this._countryCity.getCountries().subscribe((cntrs) => {
+      this.countries = cntrs;
+    });
   }
 
   mapClicked(event: { lat: number; lng: number }) {
-    console.log(event);
     this.form.get('location')?.get('latitude')?.patchValue(event.lat);
     this.form.get('location')?.get('longitude')?.patchValue(event.lng);
-    console.log(this.form.value);
   }
 
   imageSelected(event: any) {
@@ -94,7 +97,6 @@ export class StayCreateComponent implements OnInit {
 
   saveChanges() {
     this.errors = [];
-
     this._accommodationService.add(this.form.value).subscribe(
       (res) => {
         this.imagesFiles.forEach((img) => {
@@ -112,5 +114,17 @@ export class StayCreateComponent implements OnInit {
       },
       (err) => (this.errors = parseWebAPiErrors(err))
     );
+  }
+  changed() {
+    this.form.get('location.city')?.reset();
+    this.form.get('location.city')?.disable();
+
+    const country = this.form.get('location')?.get('country')?.value;
+    const iso2 = this.countries.find((x) => x.name == country)?.iso2;
+
+    this._countryCity.getCitiesByCountry(iso2 as string).subscribe((c) => {
+      this.cities = c;
+      this.form.get('location.city')?.enable();
+    });
   }
 }

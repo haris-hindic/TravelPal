@@ -14,3 +14,13 @@ export interface LocationCreationVM {
   latitude: number;
   longitude: number;
 }
+
+export interface country {
+  id: number;
+  name: string;
+  iso2: string;
+}
+export interface city {
+  id: number;
+  name: string;
+}

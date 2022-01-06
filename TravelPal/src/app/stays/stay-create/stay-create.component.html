@@ -66,17 +66,23 @@
         <div class="row g-3 mt-2" formGroupName="location">
           <div class="col-4">
             <label class="form-label">Country</label>
-            <input
+
+            <select
+              class="form-select"
+              (change)="changed()"
+              formControlName="country"
               [ngClass]="
                 !form.get('location.country')?.valid &&
                 form.get('location.country')?.touched
                   ? 'border-danger'
                   : ''
               "
-              type="text"
-              class="form-control"
-              formControlName="country"
-            />
+            >
+              <option value="" disabled selected>Select a country</option>
+              <option *ngFor="let c of countries" [value]="c.name">
+                {{ c.name }}
+              </option>
+            </select>
 
             <label
               class="form-label text-danger"
@@ -89,17 +95,22 @@
           </div>
           <div class="col-4">
             <label class="form-label">City</label>
-            <input
+
+            <select
+              class="form-select"
+              formControlName="city"
               [ngClass]="
                 !form.get('location.city')?.valid &&
                 form.get('location.city')?.touched
                   ? 'border-danger'
                   : ''
               "
-              type="text"
-              class="form-control"
-              formControlName="city"
-            />
+            >
+              <option value="" disabled selected>Select a city</option>
+              <option *ngFor="let c of cities" [value]="c.name">
+                {{ c.name }}
+              </option>
+            </select>
             <label
               class="form-label text-danger"
               *ngIf="
