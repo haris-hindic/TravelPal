@@ -7,6 +7,8 @@ import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from 'src/app/helpers/image.service';
 import { Toast, ToastrService } from 'ngx-toastr';
+import { city, country } from 'src/app/shared/models/location.model';
+import { CountryCityService } from 'src/app/shared/country-city.service';
 
 @Component({
   selector: 'app-stay-create',
@@ -22,6 +24,9 @@ export class StayCreateComponent implements OnInit {
 
   errors: string[] = [];
 
+  cities!: city[];
+  countries!: country[];
+
   //@ViewChild('img') img!: ElementRef;
 
   constructor(
@@ -31,6 +36,7 @@ export class StayCreateComponent implements OnInit {
     private _router: Router,
     private _securityService: SecurityService,
     private toastr: ToastrService,
+    private _countryCity: CountryCityService
   ) {}
 
   ngOnInit(): void {
