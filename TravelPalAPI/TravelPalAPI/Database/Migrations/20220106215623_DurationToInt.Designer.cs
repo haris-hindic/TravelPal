@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220106215623_DurationToInt")]
+    partial class DurationToInt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,12 +230,6 @@ namespace TravelPalAPI.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("HostId")
                         .HasColumnType("nvarchar(450)");
 
@@ -245,9 +241,6 @@ namespace TravelPalAPI.Database.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<int>("Rooms")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -272,17 +265,11 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<bool>("Balcony")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Cancellation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Dryer")
                         .HasColumnType("bit");
 
                     b.Property<bool>("FlatScreenTV")
                         .HasColumnType("bit");
-
-                    b.Property<string>("HouseRules")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Minibar")
                         .HasColumnType("bit");

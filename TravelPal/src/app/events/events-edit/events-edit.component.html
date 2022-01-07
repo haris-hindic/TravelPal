@@ -43,7 +43,7 @@
               </div>
               <div class="mb-3">
                   <label class="form-label">Duration</label>
-                  <input type="text" class="form-control" formControlName="duration"
+                  <input type="number" class="form-control" formControlName="duration"
                   [class.is-invalid]='groupData.get("duration")?.errors && groupData.get("duration")?.touched'>
                   <div class="invalid-feedback">Please enter duration
               </div>
