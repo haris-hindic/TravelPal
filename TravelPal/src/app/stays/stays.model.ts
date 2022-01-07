@@ -9,6 +9,9 @@ export interface AccommodationVM {
   id: number;
   name: string;
   price: number;
+  description: string;
+  rooms: number;
+  capacity: number;
   user: userVM;
   location: LocationVM;
   accommodationDetails: AccommodationDetailsVM;
@@ -18,6 +21,9 @@ export interface AccommodationVM {
 export interface AccommodationCreationVM {
   name: string;
   price: number;
+  description: string;
+  rooms: number;
+  capacity: number;
   hostId: string;
   location: LocationCreationVM;
   accommodationDetails: AccommodationDetailsCreationVM;
@@ -26,6 +32,9 @@ export interface AccommodationCreationVM {
 export interface AccommodationEditVM {
   name: string;
   price: number;
+  description: string;
+  rooms: number;
+  capacity: number;
   location: LocationVM;
   accommodationDetails: AccommodationDetailsVM;
 }
@@ -45,6 +54,8 @@ export interface AccommodationDetailsVM {
   refrigerator: boolean;
   balcony: boolean;
   mosquitoNet: boolean;
+  cancellation: string;
+  houseRules: string;
 }
 
 export interface AccommodationDetailsCreationVM {
@@ -61,4 +72,6 @@ export interface AccommodationDetailsCreationVM {
   refrigerator: boolean;
   balcony: boolean;
   mosquitoNet: boolean;
+  cancellation: string;
+  houseRules: string;
 }

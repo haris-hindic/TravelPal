@@ -1,6 +1,6 @@
 <agm-map
-  [latitude]="43.8510131277294"
-  [longitude]="18.407407890579037"
+  [latitude]="coordinates.lat || 43.8510131277294"
+  [longitude]="coordinates.lng || 18.407407890579037"
   [zoom]="8"
   [disableDefaultUI]="true"
   (mapClick)="mapClicked($event)"

@@ -46,6 +46,9 @@ namespace TravelPalAPI.Repositories.Implementation
 
             x.Name = accommodation.Name;
             x.Price = accommodation.Price;
+            x.Rooms = accommodation.Rooms;
+            x.Description = accommodation.Description;
+            x.Capacity = accommodation.Capacity;
             x.Location = mapper.Map<Location>(accommodation.Location);
             var accommodationDetails = mapper.Map<AccommodationDetails>(accommodation.AccommodationDetails);
 
@@ -77,6 +80,9 @@ namespace TravelPalAPI.Repositories.Implementation
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
+                   Description=x.Description,
+                   Capacity = x.Capacity,
+                   Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
@@ -98,6 +104,9 @@ namespace TravelPalAPI.Repositories.Implementation
                     Id = x.Id,
                     Name = x.Name,
                     Price = x.Price,
+                    Description = x.Description,
+                    Capacity = x.Capacity,
+                    Rooms=x.Rooms,
                     User = mapper.Map<UserVM>(x.Host),
                     Location = mapper.Map<LocationVM>(x.Location),
                     AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
@@ -117,6 +126,9 @@ namespace TravelPalAPI.Repositories.Implementation
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
+                   Description=x.Description,
+                   Capacity = x.Capacity,
+                   Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),

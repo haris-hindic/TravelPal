@@ -41,6 +41,9 @@ export class StayEditComponent implements OnInit {
     this.form = this._formBuilder.group({
       name: ['', { validators: [Validators.required] }],
       price: ['', { validators: [Validators.required] }],
+      description: ['', { validators: [Validators.required] }],
+      rooms: ['', { validators: [Validators.required] }],
+      capacity: ['', { validators: [Validators.required] }],
       location: this._formBuilder.group({
         id: 0,
         country: ['', { validators: [Validators.required] }],
@@ -64,6 +67,8 @@ export class StayEditComponent implements OnInit {
         refrigerator: false,
         balcony: false,
         mosquitoNet: false,
+        cancellation: ['', { validators: [Validators.required] }],
+        houseRules: ['', { validators: [Validators.required] }],
       }),
     });
 
@@ -165,6 +170,9 @@ export class StayEditComponent implements OnInit {
   patchValues(data: AccommodationVM) {
     this.form.get('name')?.patchValue(data.name);
     this.form.get('price')?.patchValue(data.price);
+    this.form.get('description')?.patchValue(data.description);
+    this.form.get('rooms')?.patchValue(data.rooms);
+    this.form.get('capacity')?.patchValue(data.capacity);
     this.form.get('location')?.get('id')?.patchValue(data.location.id);
     this.form
       .get('location')
@@ -235,6 +243,14 @@ export class StayEditComponent implements OnInit {
       .get('accommodationDetails')
       ?.get('mosquitoNet')
       ?.patchValue(data.accommodationDetails.mosquitoNet);
+    this.form
+      .get('accommodationDetails')
+      ?.get('cancellation')
+      ?.patchValue(data.accommodationDetails.cancellation);
+    this.form
+      .get('accommodationDetails')
+      ?.get('houseRules')
+      ?.patchValue(data.accommodationDetails.houseRules);
   }
 
   changed() {

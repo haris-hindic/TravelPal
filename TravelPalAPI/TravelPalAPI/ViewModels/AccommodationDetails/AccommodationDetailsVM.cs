@@ -21,6 +21,8 @@ namespace TravelPalAPI.ViewModels.AccommodationDetails
         public bool Refrigerator { get; set; }
         public bool Balcony { get; set; }
         public bool MosquitoNet { get; set; }
+        public string Cancellation { get; set; }
+        public string HouseRules { get; set; }
 
     }
 }

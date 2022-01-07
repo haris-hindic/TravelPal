@@ -15,6 +15,9 @@ namespace TravelPalAPI.ViewModels.Accommodation
         public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
+        public string Description { get; set; }
+        public int Rooms { get; set; }
+        public int Capacity { get; set; }
         public UserVM User { get; set; }
         public LocationVM Location { get; set; }
         public AccommodationDetailsVM AccommodationDetails { get; set; }

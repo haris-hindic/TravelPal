@@ -43,6 +43,9 @@ export class StayCreateComponent implements OnInit {
     this.form = this._formBuilder.group({
       name: ['', { validators: [Validators.required] }],
       price: ['', { validators: [Validators.required] }],
+      rooms: ['', { validators: [Validators.required] }],
+      description: ['', { validators: [Validators.required] }],
+      capacity: ['', { validators: [Validators.required] }],
       hostId: [`${this._securityService.getFieldFromJWT('id')}`],
       location: this._formBuilder.group({
         country: ['', { validators: [Validators.required] }],
@@ -68,6 +71,8 @@ export class StayCreateComponent implements OnInit {
         refrigerator: false,
         balcony: false,
         mosquitoNet: false,
+        cancellation: ['', { validators: [Validators.required] }],
+        houseRules: ['', { validators: [Validators.required] }],
       }),
     });
 
