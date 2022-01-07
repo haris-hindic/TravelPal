@@ -8,16 +8,9 @@ import { AccommodationVM } from 'src/app/stays/stays.model';
   styleUrls: ['./map-multiple-markers.component.css'],
 })
 export class MapMultipleMarkersComponent implements OnInit {
-  markers: { lat: number; lng: number }[] = [
-    { lat: 43.8510131277294, lng: 18.407407890579037 },
-    { lat: 43.9510131277294, lng: 18.407407890579037 },
-    { lat: 43.2510131277294, lng: 18.407407890579037 },
-    { lat: 43.3510131277294, lng: 18.407407890579037 },
-  ];
-
   @Input() stays!: AccommodationVM[];
   @Input() events!: EventVM[];
-  @Input() isEvents : boolean = false;
+  @Input() isEvents: boolean = false;
 
   constructor() {}
 
