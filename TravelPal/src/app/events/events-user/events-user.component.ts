@@ -15,6 +15,7 @@ export class EventsUserComponent implements OnInit {
   id: string =  '-1';
   events!: any;
   page!: number;
+  currentEvent!: any;
 
   constructor(public securityService: SecurityService, activeRoute: ActivatedRoute, private eventService: EventsService) { }
 

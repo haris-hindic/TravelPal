@@ -4,7 +4,6 @@ import { AdminGuard } from './guards/admin.guard';
 import { UserListComponent } from './admin/user-list/user-list.component';
 import { AuthGuard } from './guards/auth.guard';
 import { EventsCreationComponent } from './events/events-creation/events-creation.component';
-import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { EventsEditComponent } from './events/events-edit/events-edit.component';
 import { EventsUserComponent } from './events/events-user/events-user.component';
 import { EventsComponent } from './events/events.component';
@@ -42,7 +41,6 @@ const appRoutes: Routes = [
   },
   //events
   { path: 'events', component: EventsComponent },
-  { path: 'events/details/:id', component: EventsDetailsComponent },
   {
     path: 'events/creation',
     component: EventsCreationComponent,

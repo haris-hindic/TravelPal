@@ -8,7 +8,6 @@ import { StaysComponent } from './stays/stays.component';
 import { EventsComponent } from './events/events.component';
 import { AppRoutingModule } from './app-routing.module';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
-import { EventsDetailsComponent } from './events/events-details/events-details.component';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
@@ -43,7 +42,6 @@ import { MyProfileComponent } from './user/my-profile/my-profile.component';
     StaysComponent,
     EventsComponent,
     StayDetailsComponent,
-    EventsDetailsComponent,
     StayCreateComponent,
     StayEditComponent,
     EventsCreationComponent,

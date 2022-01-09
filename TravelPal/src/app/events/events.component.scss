@@ -80,7 +80,7 @@ body {
     text-align: justify;
     height: 100%;
   }
-
+  
   .postcard__tagbox {
     display: flex;
     flex-flow: row wrap;
@@ -133,3 +133,17 @@ body {
 	background-image: linear-gradient(30deg, rgba(0, 118, 189, 0.1), transparent 50%);
 }
 
+.modal-image
+  {
+    width: 466px;
+    height: 350px;
+    transition: transform 0.3s ease;
+  }
+
+  .blur-filter {
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+}

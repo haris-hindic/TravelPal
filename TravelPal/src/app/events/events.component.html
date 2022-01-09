@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="eventsLoad" [ngClass]="{'blur-filter': currentEvent}">
     <div class="row mt-5">
         <div class="row">
             <div class="col-4">
@@ -35,11 +35,13 @@
         <div class="col-7">
         <section class="events">
 		<article class="postcard dark blue" *ngFor="let event of events">
-			<a class="postcard__img_link"  routerLink="/events/details/{{event.id}}">
+			<a class="postcard__img_link" 
+        >
 				<img class="postcard__img" src="{{event.images[0].imagePath}}"/>
 			</a>
 			<div class="postcard__text">
-				<h1 class="postcard__title blue">{{event.name}}</h1>
+				<h1 class="postcard__title blue" style="cursor: pointer;" (click)="currentEvent = event" 
+       >{{event.name}}</h1>
 				<div class="postcard__subtitle small">
 					<time>
 						<i class="fas fa-calendar-alt mr-2"></i>{{event.date  | date}}
@@ -61,4 +63,37 @@
 <app-map-multiple-markers [events]="events" [isEvents]="true"></app-map-multiple-markers></div>
 </div>
 </div>
+</div>
+
+<!-- Event modal -->
+
+<div class="modal fade show" id="modal" tabindex="-1" aria-hidden="true" *ngIf="currentEvent" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Event details</strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="currentEvent = null"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>NAME: </strong> {{currentEvent.name}}</li>
+          <li class="list-group-item" ><strong>DATE:</strong> {{currentEvent.date | date}}</li>
+          <li class="list-group-item"><strong>PRICE:</strong> {{currentEvent.price}}</li>
+          <li class="list-group-item"><strong>DURATION:</strong> {{currentEvent.duration}}</li>
+          <li class="list-group-item"><strong>COUNTRY:</strong> {{currentEvent.locationVM.country}}</li>
+          <li class="list-group-item"><strong>CITY:</strong> {{currentEvent.locationVM.city}}</li>
+          <li class="list-group-item"><strong>ADDRESS:</strong> {{currentEvent.locationVM.address}}</li>
+          <li class="list-group-item"><strong>DESCRIPTION:</strong> {{currentEvent.eventDescription}}</li>
+          <li class="list-group-item"><strong>Images:</strong></li>
+           
+              <app-image-slider [images]="currentEvent.images" [isEvent]="true" ></app-image-slider>
+          
+
+      </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="currentEvent = null">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

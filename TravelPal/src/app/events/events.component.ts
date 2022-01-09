@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EventVM } from './events.model';
 import { EventsService } from './events.service';
 
 @Component({
@@ -10,6 +11,8 @@ import { EventsService } from './events.service';
 })
 export class EventsComponent implements OnInit {
   events: any;
+  currentEvent!: any;
+  eventsLoad: boolean = false;
   @Input() coverImage: any;
 
   constructor(private es: EventsService) {}
@@ -23,6 +26,7 @@ export class EventsComponent implements OnInit {
     this.es.get().subscribe((e) => {
       this.events = e;
       console.log(this.events);
+      this.eventsLoad = true;
     });
   }
 

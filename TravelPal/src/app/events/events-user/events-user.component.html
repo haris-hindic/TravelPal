@@ -1,4 +1,4 @@
-<div class="page-content page-container" id="page-content">
+<div class="page-content page-container" id="page-content" [ngClass]="{'blur-filter': currentEvent}">
     <div class="padding">
         <div class="row container d-flex">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -24,7 +24,7 @@
                                         <td>{{event.price}}</td>
                                         <td>{{event.locationVM.city}}-{{event.locationVM.country}}</td>
                                         <td>
-                                            <button class="btn btn-outline-success m-1 mt-0" routerLink='../../events/details/{{event.id}}'>Details</button>
+                                            <button class="btn btn-outline-success m-1 mt-0" (click)="currentEvent= event">Details</button>
                                             <button class="btn btn-outline-warning m-1 mt-0" routerLink='../../events/edit/{{event.id}}'>Edit</button>
                                             <button class="btn btn-outline-danger mt-0 m-1" (click)="deleteEvent(event.id)">Delete</button>
                                         </td>
@@ -52,3 +52,34 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade show" id="modal" tabindex="-1" aria-hidden="true" *ngIf="currentEvent" style="display: block;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal">Event details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="currentEvent = null"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>NAME: </strong> {{currentEvent.name}}</li>
+            <li class="list-group-item" ><strong>DATE:</strong> {{currentEvent.date | date}}</li>
+            <li class="list-group-item"><strong>PRICE:</strong> {{currentEvent.price}}</li>
+            <li class="list-group-item"><strong>DURATION:</strong> {{currentEvent.duration}}</li>
+            <li class="list-group-item"><strong>COUNTRY:</strong> {{currentEvent.locationVM.country}}</li>
+            <li class="list-group-item"><strong>CITY:</strong> {{currentEvent.locationVM.city}}</li>
+            <li class="list-group-item"><strong>ADDRESS:</strong> {{currentEvent.locationVM.address}}</li>
+            <li class="list-group-item"><strong>DESCRIPTION:</strong> {{currentEvent.eventDescription}}</li>
+            <li class="list-group-item"><strong>Images:</strong></li>
+             
+                <app-image-slider [images]="currentEvent.images" [isEvent]="true" ></app-image-slider>
+            
+  
+        </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="currentEvent = null">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
