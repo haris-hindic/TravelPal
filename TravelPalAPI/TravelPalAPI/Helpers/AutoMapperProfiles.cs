@@ -29,7 +29,7 @@ namespace TravelPalAPI.Helpers
             //Location
             CreateMap<LocationCreationVM, Location>().ReverseMap();
             CreateMap<LocationVM, Location>().ReverseMap();
-            CreateMap<Location, LocationVM>().ReverseMap();
+            //CreateMap<Location, LocationVM>().ReverseMap();
             //Accomodation
             CreateMap<AccommodationCreationVM, Accommodation>()
                 .ForMember(X => X.Location,

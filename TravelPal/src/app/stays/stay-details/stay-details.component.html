@@ -3,18 +3,13 @@
   <hr />
   <div class="row mt-2">
     <div class="col-7 m-2">
-      <h2>{{ stay.name }} ({{ stay.price | currency }} / night)</h2>
+      <h1>{{ stay.name }} ({{ stay.price | currency }} / night)</h1>
+      <h5>
+        <i class="fas fa-bed"></i> Rooms: {{ stay.rooms }} &nbsp;
+        <i class="fas fa-user-friends"></i> {{ stay.capacity }} persons
+      </h5>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam odio
-        lorem, iaculis non felis vel, faucibus efficitur dui. Aliquam erat
-        volutpat. Quisque hendrerit massa nec lobortis mollis. Nunc eu eros
-        efficitur, convallis enim ac, ultricies nisi. Lorem ipsum dolor sit
-        amet, consectetur adipiscing. Donec sollicitudin nulla risus, eget
-        luctus ipsum facilisis dictum. Integer ultricies sapien libero, sed
-        congue ligula hendrerit quis. Vivamus dolor mauris, mollis nec accumsan
-        sed, pulvinar id nisl. Aliquam vulputate ante purus, quis sollicitudin
-        augue euismod sit amet. Aliquam vehicula mi sit amet suscipit tincidunt.
-        Quisque sed lobortis metus, vitae efficitur felis.
+        {{ stay.description }}
       </p>
     </div>
     <div class="col-2 offset-1">
@@ -84,16 +79,12 @@
     <div class="col-5 m-2">
       <h2>Cancellation</h2>
       <p>
-        Phasellus volutpat neque a tellus venenatis, a euismod augue facilisis.
-        Fusce ut metus mattis, consequat metus nec, luctus lectus. Pellentesque
-        orci quis hendrerit sed eu dolor. Cancel up to 10 days to get a full
-        refund.
+        {{ stay.accommodationDetails.cancellation }}
       </p>
       <h2>House Rules</h2>
-      <ul>
-        <li>No smoking, parties or events.</li>
-        <li>Check-in time 1 PM - 4 PM, check-out by 11 AM.</li>
-      </ul>
+      <p>
+        {{ stay.accommodationDetails.houseRules }}
+      </p>
     </div>
     <hr />
     <div class="col-8 m-2">

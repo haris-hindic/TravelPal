@@ -16,6 +16,12 @@ namespace TravelPalAPI.ViewModels.Accommodation
         [Required,Range(1, 100000)]
         public double Price { get; set; }
         [Required]
+        public string Description { get; set; }
+        [Required, Range(1, 50)]
+        public int Rooms { get; set; }
+        [Required, Range(1, 50)]
+        public int Capacity { get; set; }
+        [Required]
         public LocationVM Location { get; set; }
         [Required]
         public AccommodationDetailsVM AccommodationDetails { get; set; }

@@ -8,48 +8,110 @@
     <mat-stepper orientation="vertical" [linear]="false" #stepper>
       <mat-step>
         <ng-template matStepLabel>Fill out the basic information</ng-template>
+        <div class="row">
+          <div class="col-12">
+            <label class="form-label">Name</label>
+            <input
+              [ngClass]="
+                !form.get('name')?.valid && form.get('name')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="name"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
+              >The name is a required field!</label
+            >
+          </div>
 
-        <div class="col-12">
-          <label class="form-label">Name</label>
-          <input
-            [ngClass]="
-              !form.get('name')?.valid && form.get('name')?.touched
-                ? 'border-danger'
-                : ''
-            "
-            type="text"
-            class="form-control"
-            formControlName="name"
-          />
-          <label
-            class="form-label text-danger"
-            *ngIf="!form.get('name')?.valid && form.get('name')?.touched"
-            >The name is a required field!</label
-          >
-        </div>
-        <!-- <div class="col-md-6">
-          <label class="form-label">Rooms</label>
-          <input type="number" class="form-control" />
-        </div> -->
-        <div class="col-md-12">
-          <label class="form-label">Price</label>
-          <input
-            [ngClass]="
-              !form.get('price')?.valid && form.get('price')?.touched
-                ? 'border-danger'
-                : ''
-            "
-            type="number"
-            class="form-control"
-            formControlName="price"
-          />
-          <label
-            class="form-label text-danger"
-            *ngIf="!form.get('price')?.valid && form.get('price')?.touched"
-            >The price is a required field!</label
-          >
-        </div>
+          <div class="col-12">
+            <label class="form-label">Price</label>
+            <input
+              [ngClass]="
+                !form.get('price')?.valid && form.get('price')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="number"
+              class="form-control"
+              formControlName="price"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="!form.get('price')?.valid && form.get('price')?.touched"
+              >The price is a required field!</label
+            >
+          </div>
 
+          <div class="col-6">
+            <label class="form-label">Rooms</label>
+            <input
+              [ngClass]="
+                !form.get('rooms')?.valid && form.get('rooms')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="number"
+              class="form-control"
+              formControlName="rooms"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="!form.get('rooms')?.valid && form.get('rooms')?.touched"
+              >The rooms are a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Capacity</label>
+            <input
+              [ngClass]="
+                !form.get('capacity')?.valid && form.get('capacity')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="number"
+              class="form-control"
+              formControlName="capacity"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('capacity')?.valid && form.get('capacity')?.touched
+              "
+              >The capacity is a required field!</label
+            >
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea
+              cols="30"
+              rows="6"
+              [ngClass]="
+                !form.get('description')?.valid &&
+                form.get('description')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="description"
+            ></textarea>
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('description')?.valid &&
+                form.get('description')?.touched
+              "
+              >The description is a required field!</label
+            >
+          </div>
+        </div>
         <div>
           <button
             type="button"
@@ -329,6 +391,56 @@
               />
               <label class="form-check-label"> Mosquito Net </label>
             </div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Cancellation rules</label>
+            <textarea
+              cols="30"
+              rows="6"
+              [ngClass]="
+                !form.get('accommodationDetails.cancellation')?.valid &&
+                form.get('accommodationDetails.cancellation')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="cancellation"
+            ></textarea>
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('accommodationDetails.cancellation')?.valid &&
+                form.get('accommodationDetails.cancellation')?.touched
+              "
+              >The cancellation rule is a required field!</label
+            >
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">House rules</label>
+            <textarea
+              cols="30"
+              rows="6"
+              [ngClass]="
+                !form.get('accommodationDetails.houseRules')?.valid &&
+                form.get('accommodationDetails.houseRules')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="houseRules"
+            ></textarea>
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('accommodationDetails.houseRules')?.valid &&
+                form.get('accommodationDetails.houseRules')?.touched
+              "
+              >The house rules is a required field!</label
+            >
           </div>
         </div>
 
