@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,41 +23,36 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPost]
-        public void Post(LocationCreationVM obj)
+        public void Add(List<string> c,int id)
         {
+            foreach (var city in c)
+            {
+                appDb.Cities.Add(new City { CountryId = id, Name = city });
 
-            appDb.Locations.Add(new Location{ Country = obj.Country, City = obj.City, Address=obj.Address});
+            }
             appDb.SaveChanges();
         }
 
-        [HttpGet]
-        [Route("{id}")]
-        public Location Get(int id)
+        [HttpGet("countries")]
+        public IEnumerable<CountryVM> GetCountries()
         {
-            return appDb.Locations.Find(id);
+             
+            return appDb.Countries.OrderBy(x=>x.Name).Select(x=> new CountryVM
+            {
+                Id = x.Id,
+                Name=x.Name
+            }).ToArray();
         }
 
-        [HttpDelete]
-        [Route("{id}")]
-        public void Delete(int id)
+        [HttpGet("cities/{id}")]
+        public IEnumerable<CityVM> GetCities(int id)
         {
-            var obj = appDb.Locations.Find(id);
-            appDb.Remove(obj);
-            appDb.SaveChanges();
-        }
 
-        [HttpGet]
-        public object GetAll()
-        {
-            return appDb.Locations.ToArray();
-        }
-
-        [HttpPut]
-        public ActionResult Update(Location location)
-        {
-            appDb.Locations.Update(location);
-            appDb.SaveChanges();
-            return Ok();
+            return appDb.Cities.Where(x=>x.CountryId==id).Select(x => new CityVM
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
         }
     }
 }

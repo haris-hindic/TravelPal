@@ -6,27 +6,16 @@ import { city, country } from './models/location.model';
   providedIn: 'root',
 })
 export class CountryCityService {
-  apiCountryURL = 'https://api.countrystatecity.in/v1/countries';
+  apiURL = `https://localhost:44325/api/Location`;
   constructor(private _http: HttpClient) {}
 
   getCountries() {
-    return this._http.get<country[]>(this.apiCountryURL, {
-      headers: new HttpHeaders({
-        'X-CSCAPI-KEY':
-          'cXB2ZlJ0bDMzbURVZXRtWjBhZmhYRHRNUG5UY3hKRFJ6RGdtV2swSQ==',
-      }),
-    });
+    return this._http.get<country[]>(
+      `https://localhost:44325/api/Location/countries`
+    );
   }
 
-  getCitiesByCountry(iso2: string) {
-    return this._http.get<city[]>(
-      `https://api.countrystatecity.in/v1/countries/${iso2}/cities`,
-      {
-        headers: new HttpHeaders({
-          'X-CSCAPI-KEY':
-            'cXB2ZlJ0bDMzbURVZXRtWjBhZmhYRHRNUG5UY3hKRFJ6RGdtV2swSQ==',
-        }),
-      }
-    );
+  getCitiesByCountry(id: number) {
+    return this._http.get<city[]>(`${this.apiURL}/cities/${id}`);
   }
 }

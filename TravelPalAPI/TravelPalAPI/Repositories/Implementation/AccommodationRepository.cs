@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,21 +40,21 @@ namespace TravelPalAPI.Repositories.Implementation
 
         public bool Update(int id, AccommodationEditVM accommodation)
         {
-            var x = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
+            var acc = appDb.Accommodations.FirstOrDefault(x => x.Id == id);
 
-            if (x == null) return false;
+            if (acc == null) return false;
 
 
-            x.Name = accommodation.Name;
-            x.Price = accommodation.Price;
-            x.Rooms = accommodation.Rooms;
-            x.Description = accommodation.Description;
-            x.Capacity = accommodation.Capacity;
-            x.Location = mapper.Map<Location>(accommodation.Location);
+            acc.Name = accommodation.Name;
+            acc.Price = accommodation.Price;
+            acc.Rooms = accommodation.Rooms;
+            acc.Description = accommodation.Description;
+            acc.Capacity = accommodation.Capacity;
+            acc.Location = mapper.Map<Location>(accommodation.Location);
             var accommodationDetails = mapper.Map<AccommodationDetails>(accommodation.AccommodationDetails);
 
             appDb.Update(accommodationDetails);
-            appDb.Update(x);
+            appDb.Update(acc);
             return true;
         }
 
@@ -74,7 +75,7 @@ namespace TravelPalAPI.Repositories.Implementation
 
         public IEnumerable<AccommodationVM> GetAll()
         {
-            var accommodations = appDb.Accommodations
+            var accommodations = appDb.Accommodations.Include(x=>x.Location).ThenInclude(x=>x.City).ThenInclude(x=>x.Country)
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,
@@ -98,7 +99,7 @@ namespace TravelPalAPI.Repositories.Implementation
             if (!appDb.Accommodations.Any(x => x.Id == id))
                 return null;
 
-            var accommodation = appDb.Accommodations
+            var accommodation = appDb.Accommodations.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                 .Select(x => new AccommodationVM
                 {
                     Id = x.Id,
@@ -121,6 +122,7 @@ namespace TravelPalAPI.Repositories.Implementation
             if (!appDb.UserAccounts.Any(x => x.Id == id)) return null;
 
             var accommodations = appDb.Accommodations.Where(x => x.HostId == id)
+                .Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,

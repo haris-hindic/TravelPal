@@ -9,6 +9,7 @@ import { ImageService } from 'src/app/helpers/image.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { city, country } from 'src/app/shared/models/location.model';
 import { CountryCityService } from 'src/app/shared/country-city.service';
+import { AccommodationCreationVM } from '../stays.model';
 
 @Component({
   selector: 'app-stay-create',
@@ -48,8 +49,8 @@ export class StayCreateComponent implements OnInit {
       capacity: ['', { validators: [Validators.required] }],
       hostId: [`${this._securityService.getFieldFromJWT('id')}`],
       location: this._formBuilder.group({
-        country: ['', { validators: [Validators.required] }],
-        city: [
+        //country: ['', { validators: [Validators.required] }],
+        cityId: [
           { value: '', disabled: true },
           { validators: [Validators.required] },
         ],
@@ -102,35 +103,35 @@ export class StayCreateComponent implements OnInit {
   }
 
   saveChanges() {
+    //console.log(this.form.value);
     this.errors = [];
-    this._accommodationService.add(this.form.value).subscribe(
-      (res) => {
-        this.imagesFiles.forEach((img) => {
-          this.formData.append('images', img);
-        });
-        this._imageService
-          .addImages(res as number, this.formData, 'accommodations')
-          .subscribe(
-            () => {
-              this._router.navigate(['stays']);
-              this.toastr.success('Stay created!');
-            },
-            (err) => (this.errors = parseWebAPiErrors(err))
-          );
-      },
-      (err) => (this.errors = parseWebAPiErrors(err))
-    );
+    this._accommodationService
+      .add(this.form.value as AccommodationCreationVM)
+      .subscribe(
+        (res) => {
+          this.imagesFiles.forEach((img) => {
+            this.formData.append('images', img);
+          });
+          this._imageService
+            .addImages(res as number, this.formData, 'accommodations')
+            .subscribe(
+              () => {
+                this._router.navigate(['stays']);
+                this.toastr.success('Stay created!');
+              },
+              (err) => (this.errors = parseWebAPiErrors(err))
+            );
+        },
+        (err) => (this.errors = parseWebAPiErrors(err))
+      );
   }
-  changed() {
-    this.form.get('location.city')?.reset();
-    this.form.get('location.city')?.disable();
+  changed(countryId: any) {
+    this.form.get('location.cityId')?.reset();
+    this.form.get('location.cityId')?.disable();
 
-    const country = this.form.get('location')?.get('country')?.value;
-    const iso2 = this.countries.find((x) => x.name == country)?.iso2;
-
-    this._countryCity.getCitiesByCountry(iso2 as string).subscribe((c) => {
+    this._countryCity.getCitiesByCountry(countryId).subscribe((c) => {
       this.cities = c;
-      this.form.get('location.city')?.enable();
+      this.form.get('location.cityId')?.enable();
     });
   }
 }

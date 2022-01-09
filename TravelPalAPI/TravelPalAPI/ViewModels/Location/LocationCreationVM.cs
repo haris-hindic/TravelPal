@@ -9,9 +9,7 @@ namespace TravelPalAPI.ViewModels.Location
     public class LocationCreationVM
     {
         [Required]
-        public string Country { get; set; }
-        [Required]
-        public string City { get; set; }
+        public int CityId { get; set; }
         [Required]
         public string Address { get; set; }
         [Required]

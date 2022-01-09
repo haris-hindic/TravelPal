@@ -150,7 +150,7 @@
               >
                 {{ form.get("location.country")!.value.toString() }}
               </option>
-              <option *ngFor="let c of countries" [value]="c.name">
+              <option *ngFor="let c of countries" [value]="c.id">
                 {{ c.name }}
               </option>
             </select>
@@ -164,30 +164,32 @@
               >The country is a required field!</label
             >
           </div>
-          <div class="col-4">
+          <div class="col-4" *ngIf="stay">
             <label class="form-label">City</label>
 
             <select
               class="form-select"
-              formControlName="city"
+              formControlName="cityId"
               [ngClass]="
-                !form.get('location.city')?.valid &&
-                form.get('location.city')?.touched
+                !form.get('location.cityId')?.valid &&
+                form.get('location.cityId')?.touched
                   ? 'border-danger'
                   : ''
               "
             >
               <option
-                *ngIf="!form.get('location.country')!.dirty"
-                [value]="form.get('location.city')!.value"
+                *ngIf="!form.get('location.country')?.dirty"
+                [value]="form.get('location.cityId')!.value"
                 disabled
                 selected
               >
-                {{ form.get("location.city")!.value.toString() }}
+                {{ stay.location.city }}
               </option>
-              <option *ngFor="let c of cities" [value]="c.name">
-                {{ c.name }}
-              </option>
+              <ng-container *ngIf="cities">
+                <option *ngFor="let c of cities" [value]="c.id">
+                  {{ c.name }}
+                </option>
+              </ng-container>
             </select>
 
             <label

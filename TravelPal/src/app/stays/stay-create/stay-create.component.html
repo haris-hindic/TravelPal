@@ -131,8 +131,8 @@
 
             <select
               class="form-select"
-              (change)="changed()"
-              formControlName="country"
+              (change)="changed(country.value)"
+              #country
               [ngClass]="
                 !form.get('location.country')?.valid &&
                 form.get('location.country')?.touched
@@ -141,7 +141,7 @@
               "
             >
               <option value="" disabled selected>Select a country</option>
-              <option *ngFor="let c of countries" [value]="c.name">
+              <option #country *ngFor="let c of countries" [value]="c.id">
                 {{ c.name }}
               </option>
             </select>
@@ -160,7 +160,7 @@
 
             <select
               class="form-select"
-              formControlName="city"
+              formControlName="cityId"
               [ngClass]="
                 !form.get('location.city')?.valid &&
                 form.get('location.city')?.touched
@@ -169,7 +169,7 @@
               "
             >
               <option value="" disabled selected>Select a city</option>
-              <option *ngFor="let c of cities" [value]="c.name">
+              <option *ngFor="let c of cities" [value]="c.id">
                 {{ c.name }}
               </option>
             </select>

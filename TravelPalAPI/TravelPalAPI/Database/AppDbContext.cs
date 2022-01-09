@@ -16,6 +16,8 @@ namespace TravelPalAPI.Database
         }
         public DbSet<Event> Events { get; set; }
         public DbSet<Location> Locations{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
+        public DbSet<City> Cities{ get; set; }
         public DbSet<Accommodation> Accommodations{ get; set; }
         public DbSet<AccommodationDetails> AccommodationDetails{ get; set; }
         public DbSet<AccommodationImage> AccommodationImages{ get; set; }

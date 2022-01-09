@@ -1,15 +1,16 @@
 export interface LocationVM {
   id: number;
   country: string;
+  countryId: number;
   city: string;
+  cityId: number;
   address: string;
   latitude: number;
   longitude: number;
 }
 
 export interface LocationCreationVM {
-  country: string;
-  city: string;
+  cityId: number;
   address: string;
   latitude: number;
   longitude: number;
@@ -18,7 +19,6 @@ export interface LocationCreationVM {
 export interface country {
   id: number;
   name: string;
-  iso2: string;
 }
 export interface city {
   id: number;

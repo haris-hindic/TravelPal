@@ -27,8 +27,11 @@ namespace TravelPalAPI.Helpers
             CreateMap<AccommodationDetailsCreationVM, AccommodationDetails>().ReverseMap();
             CreateMap<AccommodationDetailsVM, AccommodationDetails>().ReverseMap();
             //Location
-            CreateMap<LocationCreationVM, Location>().ReverseMap();
-            CreateMap<LocationVM, Location>().ReverseMap();
+            CreateMap<LocationCreationVM, Location>();
+            CreateMap<LocationVM, Location>().ReverseMap()
+                .ForMember(x=>x.City,opts=>opts.MapFrom(x=>x.City.Name))
+                .ForMember(x=>x.Country,opts=>opts.MapFrom(x=>x.City.Country.Name))
+                .ForMember(x=>x.CountryId,opts=>opts.MapFrom(x=>x.City.Country.Id));
             //CreateMap<Location, LocationVM>().ReverseMap();
             //Accomodation
             CreateMap<AccommodationCreationVM, Accommodation>()

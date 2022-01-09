@@ -17,6 +17,7 @@ import { CountryCityService } from 'src/app/shared/country-city.service';
 })
 export class StayEditComponent implements OnInit {
   form!: FormGroup;
+  stay!: AccommodationVM;
 
   images: Image[] = [];
   formData: FormData = new FormData();
@@ -47,7 +48,7 @@ export class StayEditComponent implements OnInit {
       location: this._formBuilder.group({
         id: 0,
         country: ['', { validators: [Validators.required] }],
-        city: ['', { validators: [Validators.required] }],
+        cityId: ['', { validators: [Validators.required] }],
         address: ['', { validators: [Validators.required] }],
         latitude: ['', { validators: [Validators.required] }],
         longitude: ['', { validators: [Validators.required] }],
@@ -82,15 +83,17 @@ export class StayEditComponent implements OnInit {
         .subscribe((data: AccommodationVM) => {
           this.patchValues(data);
           this.images = data.images;
+          this.stay = data;
           this._countryCity.getCountries().subscribe((cntrs) => {
             this.countries = cntrs;
 
-            const country = this.form.get('location')?.get('country')?.value;
-            const iso2 = cntrs.find((x) => x.name == country)?.iso2;
-
             this._countryCity
-              .getCitiesByCountry(iso2 as string)
+              .getCitiesByCountry(this.stay.location.countryId)
               .subscribe((c) => {
+                const index = c.findIndex(
+                  (x) => x.id == this.stay.location.cityId
+                );
+                c.splice(index, 1);
                 this.cities = c;
               });
           });
@@ -178,7 +181,7 @@ export class StayEditComponent implements OnInit {
       .get('location')
       ?.get('country')
       ?.patchValue(data.location.country);
-    this.form.get('location')?.get('city')?.patchValue(data.location.city);
+    this.form.get('location')?.get('cityId')?.patchValue(data.location.cityId);
     this.form
       .get('location')
       ?.get('address')
@@ -256,11 +259,8 @@ export class StayEditComponent implements OnInit {
   changed() {
     this.form.get('location.city')?.reset();
     this.form.get('location.city')?.disable();
-
     const country = this.form.get('location')?.get('country')?.value;
-    const iso2 = this.countries.find((x) => x.name == country)?.iso2;
-
-    this._countryCity.getCitiesByCountry(iso2 as string).subscribe((c) => {
+    this._countryCity.getCitiesByCountry(country).subscribe((c) => {
       this.cities = c;
       this.form.get('location.city')?.enable();
     });
