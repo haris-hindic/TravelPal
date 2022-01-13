@@ -50,12 +50,13 @@ namespace TravelPalAPI.Controllers
         [Route("{_id}")]
         public ActionResult<EventVM> Get(int _id)
         { 
-            if (appDb.Events.Any(e => e.Id == _id))
+            if (!appDb.Events.Any(e => e.Id == _id))
                 NotFound();
 
-            return appDb.Events.Select(e => new EventVM
+            return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                .Select(e => new EventVM
             {
-                Id=e.Id,
+                Id = e.Id,
                 Name = e.Name,
                 Date = e.Date,
                 Price = e.Price,
@@ -84,7 +85,8 @@ namespace TravelPalAPI.Controllers
         [HttpGet,AllowAnonymous]
         public IEnumerable<EventVM> GetAll()
         {
-            return appDb.Events.Select(e => new EventVM
+            return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                .Select(e => new EventVM
             {
                 Id = e.Id,
                 Date=e.Date,
@@ -104,8 +106,7 @@ namespace TravelPalAPI.Controllers
         [Route("user/{id}")]
         public ActionResult<List<EventVM>> GetByUserId(string id)
         {
-            if (!appDb.Events.Any(e => e.HostId == id))
-                return NotFound("nema tog usera");
+            
 
             var tempEvent = appDb.Events.Where(e => e.HostId == id).Select(e =>
                 new EventVM()

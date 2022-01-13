@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
 import { EventVM } from '../events.model';
 import { EventsService } from '../events.service';
@@ -13,11 +14,14 @@ export class EventsUserComponent implements OnInit {
 
   name: string = '-1';
   id: string =  '-1';
-  events!: any;
+  events!: EventVM[];
   page!: number;
   currentEvent!: any;
+  IsEventsLoaded: boolean = false; 
+  
 
-  constructor(public securityService: SecurityService, activeRoute: ActivatedRoute, private eventService: EventsService) { }
+  constructor(public securityService: SecurityService, activeRoute: ActivatedRoute, private eventService: EventsService,
+      private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.name = this.securityService.getFieldFromJWT('userName');
@@ -31,12 +35,16 @@ export class EventsUserComponent implements OnInit {
     this.eventService.getUserEvents(this.id).subscribe((e: any) =>
       {
         this.events = e;
+        this.IsEventsLoaded = true;
       })
   }
 
   deleteEvent(id: number)
   {
-    this.eventService.delete(id).subscribe(()=> this.loadEvents());
+    this.eventService.delete(id).subscribe((x)=> this.loadEvents());
+    console.log(this.events);
+    this.toastr.error("Event deleted");
   }
+  
 
 }

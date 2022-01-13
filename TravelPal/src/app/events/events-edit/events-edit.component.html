@@ -56,36 +56,55 @@
           </mat-step>
 
           <mat-step>
-              <form [formGroup]="groupData">
-              <ng-template matStepLabel>Fill out location informations</ng-template>
-              <div class="gridc" formGroupName="locationvm">
-                  <div class="mb-3">
-                  <label class="form-label"  id="grid" >Country</label>
-                  <input type="text" class="form-control" id="grid" formControlName="country"
-                  [class.is-invalid]='groupData.get("locationvm.country")?.errors && groupData.get("locationvm.country")?.touched'>
-                  <div class="invalid-feedback">Please enter country</div>
-              </div>
+            <form [formGroup]="groupData">
+            <ng-template matStepLabel>Fill out location informations</ng-template>
+            <div class="gridc" formGroupName="locationvm">
+                <div class="mb-3">
+                <label class="form-label" >Country</label>
+                <select class="form-select" (change)="changed(country.value)" #country  formControlName="country"
+                [class.is-invalid]='groupData.get("country")?.errors && groupData.get("country")?.touched'>
 
-                  <div class="mb-3">
-                  <label class="form-label" id="grid" >City</label>
-                  <input type="text" class="form-control" id="grid" formControlName="city"
-                  [class.is-invalid]='groupData.get("locationvm.city")?.errors && groupData.get("locationvm.city")?.touched'>
-                  <div class="invalid-feedback">Please enter the city</div>
-              </div>
+                
+                
+                <option [value]="event.locationVM.country"  disabled  selected
+                *ngIf="!groupData?.get('country')?.dirty && event">
+                {{event.locationVM.country}}
+              </option>
+            
+                <option  #country *ngFor="let country of countries" [value]="country.id" >{{country.name}}</option>
+            </select>
+                
 
-                  <div class="mb-3">
-                  <label class="form-label" id="grid" >Address</label>
-                  <input type="text" class="form-control" id="grid" formControlName="address"
-                  [class.is-invalid]='groupData.get("locationvm.address")?.errors && groupData.get("locationvm.address")?.touched'>
-                  <div class="invalid-feedback">Please enter the address</div>
+                <div class="invalid-feedback">Please enter country</div>
+            </div>
+        
+                <div class="mb-3">
+                <label class="form-label" id="grid" >City</label>
+                <select class="form-select" id="grid" formControlName="cityId"
+                [class.is-invalid]='groupData.get("cityId")?.errors && groupData.get("cityId")?.touched'>
+
+
+                <option [value]="event.locationVM.cityId"  disabled  selected *ngIf="event">
+                {{event.locationVM.city}}
+              </option>
+
+                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option></select>
+                <div class="invalid-feedback">Please enter the city</div>
+            </div>
+        
+                <div class="mb-3">
+                <label class="form-label" id="grid" >Address</label>
+                <input type="text" class="form-control" id="grid" formControlName="address"
+                [class.is-invalid]='groupData.get("address")?.errors && groupData.get("address")?.touched'>
+                <div class="invalid-feedback">Please enter the address</div>
+            </div>
+            </div>
+            <div class="col-6 mt-1 text-end">
+                <button class="btn btn-danger m-2" matStepperPrevious><</button>
+                <button class="btn btn-primary" matStepperNext>></button>
               </div>
-              </div>
-              <div class="col-6 mt-1 text-end">
-                  <button class="btn btn-danger m-2" matStepperPrevious><</button>
-                  <button class="btn btn-primary" matStepperNext>></button>
-                </div>
-          </form>
-          </mat-step>
+        </form>
+        </mat-step>
 
           <mat-step>
             <ng-template matStepLabel>Selection location on map</ng-template>

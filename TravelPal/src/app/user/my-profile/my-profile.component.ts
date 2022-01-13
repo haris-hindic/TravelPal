@@ -54,9 +54,9 @@ export class MyProfileComponent implements OnInit {
   sendPhoneVerification() {
     const id = this._security.getFieldFromJWT('id');
 
-    // this._user.sendPhoneVerification(id).subscribe((res) => {
-    //   console.log(res);
-    // });
+     this._user.sendPhoneVerification(id).subscribe((res) => {
+       console.log(res);
+     });
     this._toastr.success('Check your inbox!');
     this.phoneCodeSent = true;
   }

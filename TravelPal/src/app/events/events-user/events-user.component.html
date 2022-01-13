@@ -17,12 +17,12 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody *ngFor="let event of events| paginate: { itemsPerPage: 4, currentPage: page }">
-                                    <tr>
-                                        <td>{{event.name}}</td>
-                                        <td>{{event.date | date}}</td>
-                                        <td>{{event.price}}</td>
-                                        <td>{{event.locationVM.city}}-{{event.locationVM.country}}</td>
+                                <tbody>
+                                    <tr *ngFor="let event of events">
+                                        <td>{{event?.name}}</td>
+                                        <td>{{event?.date | date}}</td>
+                                        <td>{{event?.price}}</td>
+                                        <td>{{event?.locationVM?.city}}-{{event?.locationVM?.country}}</td>
                                         <td>
                                             <button class="btn btn-outline-success m-1 mt-0" (click)="currentEvent= event">Details</button>
                                             <button class="btn btn-outline-warning m-1 mt-0" routerLink='../../events/edit/{{event.id}}'>Edit</button>

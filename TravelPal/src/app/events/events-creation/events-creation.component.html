@@ -62,22 +62,29 @@
             <div class="gridc" formGroupName="locationvm">
                 <div class="mb-3">
                 <label class="form-label"  id="grid" >Country</label>
-                <input type="text" class="form-control" id="grid" formControlName="country"
-                [class.is-invalid]='groupData.get("locationvm.country")?.errors && groupData.get("locationvm.country")?.touched'>
+                <select class="form-select"  (change)="changed(country.value)" #country
+                [class.is-invalid]='groupData.get("country")?.errors && groupData.get("country")?.touched'>
+
+
+                <option #country *ngFor="let country of countries" [value]="country.id">{{country.name}}</option></select>
+                
+
                 <div class="invalid-feedback">Please enter country</div>
             </div>
         
                 <div class="mb-3">
-                <label class="form-label" id="grid" >City</label>
-                <input type="text" class="form-control" id="grid" formControlName="city"
-                [class.is-invalid]='groupData.get("locationvm.city")?.errors && groupData.get("locationvm.city")?.touched'>
+                <label class="form-label"  >City</label>
+                <select class="form-select" formControlName="cityId"
+                [class.is-invalid]='groupData.get("cityId")?.errors && groupData.get("cityId")?.touched'>
+
+                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option></select>
                 <div class="invalid-feedback">Please enter the city</div>
             </div>
         
                 <div class="mb-3">
                 <label class="form-label" id="grid" >Address</label>
                 <input type="text" class="form-control" id="grid" formControlName="address"
-                [class.is-invalid]='groupData.get("locationvm.address")?.errors && groupData.get("locationvm.address")?.touched'>
+                [class.is-invalid]='groupData.get("address")?.errors && groupData.get("address")?.touched'>
                 <div class="invalid-feedback">Please enter the address</div>
             </div>
             </div>
@@ -135,7 +142,7 @@
              </div>
              <div class="col-6 mt-1 text-end">
                 <button class="btn btn-danger m-1" matStepperPrevious><</button>
-                <button class="btn btn-success" (click)="saveData()" [disabled]="images.length<1 || groupData.invalid">Submit</button>
+                <button class="btn btn-success"  [disabled]="groupData.invalid" (click)="saveData()" >Submit</button>
               </div>
                 </form>
                 </mat-step>

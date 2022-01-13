@@ -6,7 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/helpers/image.service';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
 import { toBase64 } from 'src/app/helpers/toBase64';
+import { CountryCityService } from 'src/app/shared/country-city.service';
 import { Image } from 'src/app/shared/models/image.model';
+import { city, country } from 'src/app/shared/models/location.model';
 import { EventCreationVM, EventVM } from '../events.model';
 import { EventsService } from '../events.service';
 
@@ -25,13 +27,17 @@ export class EventsEditComponent implements OnInit {
   currentImages: Image[] = [];
   images: string[] = [];
   imgFiles: File[] = [];
+  cities!: city[];
+  countries!: country[];
+
   constructor(
     private es: EventsService,
     private builder: FormBuilder,
     private router: Router,
-    private aRouter: ActivatedRoute,
+    private aRoute: ActivatedRoute,
     private imageService: ImageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private countryCity: CountryCityService
   ) {}
 
   ngOnInit(): void {
@@ -44,58 +50,83 @@ export class EventsEditComponent implements OnInit {
       date: ['', { validators: [Validators.required] }],
       duration: [0, { validators: [Validators.required] }],
       eventdescription: ['', { validators: [Validators.required] }],
-      locationvm: this.builder.group({
-        country: ['', { validators: [Validators.required] }],
-        city: ['', { validators: [Validators.required] }],
-        address: ['', { validators: [Validators.required] }],
-        longitude: [0,{validators: [Validators.required]}],
-        latitude: [0,{validators: [Validators.required]}]
+      locationvm: this.builder.group(
+        {
+          country: ['', { validators: [Validators.required] }],
+          cityId:   [{ value: ''}, { validators: [Validators.required] }, ],
+          address: ['', {validators: [Validators.required]}],
+          longitude: [0,{validators: [Validators.required]}],
+          latitude: [0,{validators: [Validators.required]}]
       }),
     });
     this.loadData();
   }
   loadData()
   {
-    this.aRouter.params.subscribe((params) => {
+    this.aRoute.params.subscribe((params) => {
       this.es.getSpecific(params.id).subscribe((e: any) => {
         this.fillInputs(e);
+        this.event=e;
+        console.log(e);
         this.currentImages = e.images;
+        
+        // Get countries
+        this.countryCity
+        .getCountries()
+        .subscribe((country) => {
+          console.log(country);
+          const index = country.findIndex(
+            (x) => x.id == this.event?.locationVM?.countryId
+          );
+          country.splice(index, 1);
+          this.countries = country;
+        });
+
+        // Get cities
+        this.countryCity
+        .getCitiesByCountry(this.event.locationVM.countryId)
+        .subscribe((city) => {
+          const index = city.findIndex(
+            (x) => x.id == this.event.locationVM.cityId
+          );
+          city.splice(index, 1);
+          this.cities = city;
+        });
       });
     });
-    console.log(event);
+    console.log(this.event?.locationVM?.countryId);
+   
   }
 
   EditData() {
     this.saveData();
   }
 
-  fillInputs(value: any) {
+  fillInputs(value: EventVM) {
     this.groupData.get('name')?.patchValue(value.name);
     this.groupData.get('price')?.patchValue(value.price);
-    this.groupData.get('eventdescription')?.patchValue(value.eventdescription);
+    this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
     this.groupData.get('date')?.patchValue(value.date);
     this.groupData.get('duration')?.patchValue(value.duration);
-    this.groupData
-      .get('locationvm')
-      ?.get('country')
-      ?.patchValue(value.locationVM.country);
-    this.groupData
-      .get('locationvm')
-      ?.get('city')
-      ?.patchValue(value.locationVM.city);
-    this.groupData
-      .get('locationvm')
-      ?.get('address')
-      ?.patchValue(value.locationVM.address);
+    this.groupData.get('locationvm.address')?.patchValue(value.locationVM.address);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
     this.groupData.get('locationvm.latitude')?.patchValue(value.locationVM.latitude);
     this.groupData.get('locationvm.longitude')?.patchValue(value.locationVM.longitude);
+    this.groupData.get('locationvm')?.get('id')?.patchValue(value.locationVM.id);
+    this.groupData.get('locationvm')?.get('country')?.patchValue(value.locationVM.country);
+    this.groupData.get('locationvm')?.get('cityId')?.patchValue(value.locationVM.cityId);
+
+    console.log("Country -> " + value.locationVM.country);
+    console.log("CityId -> " + value.locationVM.city);
+    console.log("Duration -> " + value.duration);
+
+
   }
 
   saveData() {
-    console.log(this.groupData.value);
+
     this.es
-      .edit(this.aRouter.snapshot.params.id as number, this.groupData.value)
+      .edit(this.aRoute.snapshot.params.id as number, this.groupData.value)
       .subscribe(
         () => {
           if (this.imgFiles.length > 0) {
@@ -105,12 +136,11 @@ export class EventsEditComponent implements OnInit {
             });
             this.imageService
               .addImages(
-                this.aRouter.snapshot.params.id as number,
+                this.aRoute.snapshot.params.id as number,
                 this.formData,
                 'events'
               )
-               .subscribe(() => {});
-
+            
           }
           this.router.navigateByUrl('events');
           this.toastr.info('Event edited!');
@@ -119,6 +149,8 @@ export class EventsEditComponent implements OnInit {
           this.errors = parseWebAPiErrors(err);
         }
       );
+
+    
   }
 
   change(event: any) {
@@ -150,4 +182,15 @@ export class EventsEditComponent implements OnInit {
     this.groupData.get('locationvm')?.get('latitude')?.patchValue(event.lat);
     this.groupData.get('locationvm')?.get('longitude')?.patchValue(event.lng);
   }
+
+  changed(countryId: any) {
+    this.groupData.get('locationvm.cityId')?.reset();
+    this.groupData.get('locationvm.cityId')?.disable();
+
+    this.countryCity.getCitiesByCountry(countryId).subscribe((c) => {
+      this.cities = c;
+      this.groupData.get('locationvm.cityId')?.enable();
+    });
+  }
+
 }
