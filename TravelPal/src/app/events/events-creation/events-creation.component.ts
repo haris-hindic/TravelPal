@@ -40,8 +40,7 @@ export class EventsCreationComponent implements OnInit {
         eventdescription: ['', {validators: [Validators.required]}],
         locationvm: this.builder.group(
           {
-            //country: ['', { validators: [Validators.required] }],
-            cityId: [{ value: '', disabled: true },{ validators: [Validators.required] },],
+           cityId: [{ value: '', disabled: true },{ validators: [Validators.required] },],
            address: ['', {validators: [Validators.required]}],
            longitude: [0,{validators: [Validators.required]}],
            latitude: [0,{validators: [Validators.required]}]

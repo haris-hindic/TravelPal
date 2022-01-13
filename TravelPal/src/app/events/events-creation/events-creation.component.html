@@ -113,8 +113,6 @@
                 
             </div>
         </mat-step>
-
-        
         <mat-step>
             <form [formGroup]="groupData">
             <ng-template matStepLabel>Fill out ending informations</ng-template>
@@ -123,7 +121,6 @@
                 <textarea class="form-control" formControlName="eventdescription" rows="3"
                 [class.is-invalid]='groupData.get("eventdescription")?.errors && groupData.get("eventdescription")?.touched'>
                 <div class="invalid-feedback">Please select the Description></div></textarea>
-                
             </div>
             <div class="col-10 mb-3">
                 <label class="form-label">Select picture</label>

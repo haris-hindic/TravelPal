@@ -35,6 +35,7 @@ export class EventsUserComponent implements OnInit {
     this.eventService.getUserEvents(this.id).subscribe((e: any) =>
       {
         this.events = e;
+        console.log(this.events);
         this.IsEventsLoaded = true;
       })
   }

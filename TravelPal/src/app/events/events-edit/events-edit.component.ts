@@ -106,7 +106,7 @@ export class EventsEditComponent implements OnInit {
     this.groupData.get('name')?.patchValue(value.name);
     this.groupData.get('price')?.patchValue(value.price);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
-    this.groupData.get('date')?.patchValue(value.date);
+    this.groupData.get('date')?.patchValue(this.formatDate(new Date(value.date)));
     this.groupData.get('duration')?.patchValue(value.duration);
     this.groupData.get('locationvm.address')?.patchValue(value.locationVM.address);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
@@ -122,6 +122,14 @@ export class EventsEditComponent implements OnInit {
 
 
   }
+    formatDate(date: Date) {
+    let MM = '' + (date.getMonth()+1);
+    let dd = '' + date.getDate();
+    const yyyy = date.getFullYear();
+    if (MM.length < 2) MM = '0' + MM;
+    if (dd.length < 2) dd = '0' + dd;
+    return [yyyy, MM, dd].join('-');
+  }
 
   saveData() {
 
@@ -135,11 +143,7 @@ export class EventsEditComponent implements OnInit {
               this.formData.append('images', img);
             });
             this.imageService
-              .addImages(
-                this.aRoute.snapshot.params.id as number,
-                this.formData,
-                'events'
-              )
+              .addImages(this.aRoute.snapshot.params.id as number, this.formData,'events')
             
           }
           this.router.navigateByUrl('events');

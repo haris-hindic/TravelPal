@@ -1,4 +1,4 @@
-<div class="page-content page-container" id="page-content" [ngClass]="{'blur-filter': currentEvent}">
+<div class="page-content page-container" id="page-content" [ngClass]="{'blur-filter': currentEvent}" *ngIf="IsEventsLoaded">
     <div class="padding">
         <div class="row container d-flex">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -22,7 +22,7 @@
                                         <td>{{event?.name}}</td>
                                         <td>{{event?.date | date}}</td>
                                         <td>{{event?.price}}</td>
-                                        <td>{{event?.locationVM?.city}}-{{event?.locationVM?.country}}</td>
+                                        <td>[{{event?.locationVM?.country}}] {{event?.locationVM?.city}}</td>
                                         <td>
                                             <button class="btn btn-outline-success m-1 mt-0" (click)="currentEvent= event">Details</button>
                                             <button class="btn btn-outline-warning m-1 mt-0" routerLink='../../events/edit/{{event.id}}'>Edit</button>
