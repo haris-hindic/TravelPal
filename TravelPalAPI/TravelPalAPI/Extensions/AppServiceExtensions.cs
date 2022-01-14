@@ -31,6 +31,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddScoped<IPhoneVerificationService, PhoneVerificationService>();
             services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventImageRepository, EventImageRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

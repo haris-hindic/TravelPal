@@ -56,6 +56,8 @@
     </div>
     <div class="col-8">
       <mat-tab-group mat-stretch-tabs>
+
+        <!--Stays-->
         <mat-tab label="Listed Stays">
           <div *ngFor="let stay of userStays" class="card-trip">
             <img
@@ -72,7 +74,31 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab label="Hosted Events"> </mat-tab>
+
+         <!--//-->
+
+        <!--Events-->
+
+        <mat-tab label="Hosted Events"> 
+           <div *ngFor="let event of userEvents" class="card-trip">
+            <img
+              routerLink="/events/edit/{{event.id}}"
+              style="cursor: pointer"
+              [src]="event.images[0].imagePath"
+            />
+            <div class="card-trip-infos">
+              <div>
+                <h2>{{ event.name }}</h2>
+                <p>{{ event.locationVM.country }},{{ event.locationVM.city }}</p>
+              </div>
+              <h2 class="card-trip-pricing">{{ event.price | currency }}</h2>
+            </div>
+          </div>
+        </mat-tab>
+       
+
+          <!--//-->
+
         <mat-tab label="Edit profile">
           <div class="row mt-4" style="width: 95%; offset: 5px">
             <div class="col-5 mb-2">{{ user.email }}</div>

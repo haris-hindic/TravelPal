@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
+using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Event;
 
 namespace TravelPalAPI.Controllers
@@ -18,49 +19,26 @@ namespace TravelPalAPI.Controllers
 
     public class EventImageController : ControllerBase
     {
-        private readonly string containerName = "Event";
-        private readonly IFileStorageService fileStorageService;
-        AppDbContext _appDb;
+        private readonly IEventImageRepository eventImageRepository;
+       
 
-        public EventImageController(AppDbContext dbContext, IFileStorageService storage)
+        public EventImageController(IEventImageRepository eventImageRepository)
         {
-            this.fileStorageService = storage;
-            this._appDb = dbContext;
+            this.eventImageRepository = eventImageRepository;
         }
 
         [HttpPost]
         [Route("{id}")]
-        public IActionResult Add(int id, [FromForm] EventImageCreationVM images)
+        public ActionResult Add(int id, [FromForm] EventImageCreationVM images)
         {
-           if(!_appDb.Events.Any(e=> e.Id == id))
-           {
-                return NotFound();
-           }
-
-            foreach (var image in images.Images)
-            {
-                _appDb.EventImages.Add(new EventImages
-                {
-                    EventId = id,
-                    ImagePath = fileStorageService.SaveFile(containerName, image)
-                }
-            );
-            }
-            _appDb.SaveChanges();
-             return Ok();
+             return Ok(eventImageRepository.Add(id, images));
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var img = _appDb.EventImages.SingleOrDefault(e => e.Id == id);
-
-            fileStorageService.DeleteFile(img.ImagePath, containerName);
-            _appDb.EventImages.Remove(img);
-
-            _appDb.SaveChanges();
-            return Ok();
+            return Ok(eventImageRepository.Delete(id));
         }
     }
 }

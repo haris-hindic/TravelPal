@@ -1,3 +1,4 @@
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 import {
   HttpClient,
   HttpHeaderResponse,
@@ -6,6 +7,8 @@ import {
 } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { EventVM } from 'src/app/events/events.model';
+import { EventsService } from 'src/app/events/events.service';
 import { SecurityService } from 'src/app/security/security.service';
 import { userProfileVM } from 'src/app/shared/models/user.model';
 import { AccommodationService } from 'src/app/stays/accommodation.service';
@@ -20,6 +23,7 @@ import { UserService } from '../user.service';
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
   userStays!: AccommodationVM[];
+  userEvents!: EventVM[];
   code!: string;
   phoneCodeSent!: boolean;
 
@@ -27,7 +31,8 @@ export class MyProfileComponent implements OnInit {
     private _security: SecurityService,
     private _user: UserService,
     private _accommodation: AccommodationService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _eventService: EventsService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +48,12 @@ export class MyProfileComponent implements OnInit {
     this._accommodation.getByUser(id).subscribe((res) => {
       this.userStays = res;
     });
+
+    this._eventService.getUserEvents(id).subscribe((res=>
+      {
+        this.userEvents = res;
+        console.log(this.userEvents);
+      }))
   }
 
   resend() {
