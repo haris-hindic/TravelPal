@@ -70,7 +70,12 @@ namespace TravelPalAPI.Controllers
         {
            eventRepository.Update(id, _event);
         }
-       
-        
+        [HttpPost("search"), AllowAnonymous]
+        public IEnumerable<EventVM> Search([FromBody] EventSearchVM eventSearch = null)
+        {
+            return eventRepository.GetAll(eventSearch);
+        }
+
+
     }
 }

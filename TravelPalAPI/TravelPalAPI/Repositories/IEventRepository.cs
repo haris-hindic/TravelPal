@@ -12,7 +12,7 @@ namespace TravelPalAPI.Repositories
          ActionResult<int> Post(EventCreationVM _eventCreation);
          ActionResult<EventVM> Get(int _id);
          IActionResult Delete(int _id);
-         IEnumerable<EventVM> GetAll();
+         IEnumerable<EventVM> GetAll(EventSearchVM eventSearch = null);
          ActionResult<List<EventVM>> GetByUserId(string _id);
          void Update(int _id, EventEditVM _event);
 

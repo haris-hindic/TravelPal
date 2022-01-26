@@ -66,6 +66,7 @@
                 [class.is-invalid]='groupData.get("country")?.errors && groupData.get("country")?.touched'>
 
 
+                <option value="" disabled selected>Select a country</option>
                 <option #country *ngFor="let country of countries" [value]="country.id">{{country.name}}</option></select>
                 
 

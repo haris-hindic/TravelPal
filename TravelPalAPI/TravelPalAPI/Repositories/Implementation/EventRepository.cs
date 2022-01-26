@@ -74,10 +74,12 @@ namespace TravelPalAPI.Repositories.Implementation
             return Ok($"{del.Name} was deleted");
         }
 
-        [HttpGet, AllowAnonymous]
-        public IEnumerable<EventVM> GetAll()
+        [HttpPost("search"), AllowAnonymous]
+        public IEnumerable<EventVM> GetAll([FromBody] EventSearchVM eventSearch = null)
         {
-            return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+            if (eventSearch == null)
+            {
+                return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                 .Select(e => new EventVM
                 {
                     Id = e.Id,
@@ -89,9 +91,32 @@ namespace TravelPalAPI.Repositories.Implementation
                     Name = e.Name,
                     Price = e.Price,
                     Images = mapper.Map<List<EventImagesVM>>(e.Images)
-
                 });
+            }
+            else
+            {                if (string.IsNullOrEmpty(eventSearch.From)) eventSearch.From = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+                if (string.IsNullOrEmpty(eventSearch.To)) eventSearch.To = DateTime.Now.AddYears(1).ToString("yyyy-MM-dd");
 
+                var a = appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+               .Where(e => eventSearch == null
+               || (e.Location.City.Name.ToLower().Contains(eventSearch.Location.ToLower())
+               || e.Location.Address.ToLower().Contains(eventSearch.Location.ToLower())
+               || e.Location.City.Country.Name.ToLower().Contains(eventSearch.Location.ToLower()))
+               && (e.Date >= DateTime.ParseExact(eventSearch.From, "yyyy-MM-dd", null) && e.Date <= DateTime.ParseExact(eventSearch.To, "yyyy-MM-dd", null)))
+               .Select(e => new EventVM
+               {
+                   Id = e.Id,
+                   Date = e.Date,
+                   Duration = e.Duration,
+                   LocationVM = mapper.Map<LocationVM>(e.Location),
+                   EventDescription = e.EventDescription,
+                   User = mapper.Map<UserVM>(e.Host),
+                   Name = e.Name,
+                   Price = e.Price,
+                   Images = mapper.Map<List<EventImagesVM>>(e.Images)
+               });
+                return a;
+            }
         }
 
         [HttpGet]

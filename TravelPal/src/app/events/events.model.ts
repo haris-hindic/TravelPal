@@ -36,3 +36,9 @@ export class EventImages
   eventId!: number;
   event!: Event
 }
+export class EventSearchVM
+{
+  location!: string;
+  from!: string;
+  to!: string;
+}

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EventCreationVM, EventEditVM, EventVM } from './events.model';
+import { EventCreationVM, EventEditVM, EventSearchVM, EventVM } from './events.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,5 +35,10 @@ export class EventsService {
   getUserEvents(id: string)
   {
     return this.http.get<EventVM[]>(this.url + 'user/' + id);
+  }
+  
+  search(eventSearch: EventSearchVM)
+  {
+    return this.http.post(this.url + 'search', eventSearch);
   }
 }

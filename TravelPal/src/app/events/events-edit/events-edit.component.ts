@@ -75,10 +75,6 @@ export class EventsEditComponent implements OnInit {
         .getCountries()
         .subscribe((country) => {
           console.log(country);
-          const index = country.findIndex(
-            (x) => x.id == this.event?.locationVM?.countryId
-          );
-          country.splice(index, 1);
           this.countries = country;
         });
 
@@ -189,9 +185,8 @@ export class EventsEditComponent implements OnInit {
 
   changed(countryId: any) {
     this.groupData.get('locationvm.cityId')?.reset();
-    this.groupData.get('locationvm.cityId')?.disable();
 
-    this.countryCity.getCitiesByCountry(countryId).subscribe((c) => {
+    this.countryCity.getCitiesByCountry(countryId.target.value).subscribe((c) => {
       this.cities = c;
       this.groupData.get('locationvm.cityId')?.enable();
     });

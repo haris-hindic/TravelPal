@@ -61,17 +61,13 @@
             <div class="gridc" formGroupName="locationvm">
                 <div class="mb-3">
                 <label class="form-label" >Country</label>
-                <select class="form-select" (change)="changed(country.value)" #country  formControlName="country"
+                <select class="form-select"  #country (change)="changed($event)"  formControlName="country"
                 [class.is-invalid]='groupData.get("country")?.errors && groupData.get("country")?.touched'>
 
                 
                 
-                <option [value]="event.locationVM.country"  disabled  selected
-                *ngIf="!groupData?.get('country')?.dirty && event">
-                {{event.locationVM.country}}
-              </option>
-            
-                <option  #country *ngFor="let country of countries" [value]="country.id" >{{country.name}}</option>
+                <option  #country *ngFor="let country of countries" [value]="country.id" 
+                [selected]="country.id == event.locationVM.countryId">{{country.name}}</option>
             </select>
                 
 
@@ -88,7 +84,9 @@
                 {{event.locationVM.city}}
               </option>
 
-                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option></select>
+              <option *ngFor="let city of cities" [value]="city.id" 
+              [selected]="city.id==event.locationVM.cityId" 
+              >{{city.name}}</option></select>
                 <div class="invalid-feedback">Please enter the city</div>
             </div>
         
