@@ -1,24 +1,4 @@
-<!-- <div class="container" *ngIf="user">
-  {{ user.userName }}
-  <hr />
-  {{ user.email }}
-  <span *ngIf="user.emailVerified">Verified!</span>
-  <span *ngIf="!user.emailVerified"
-    ><button (click)="resend()">Resend verification code</button></span
-  >
-  <hr />
-  {{ user.phoneNumber }}
-  <span *ngIf="user.phoneNumberVerified">Verified!</span>
-  <div *ngIf="!user.phoneNumberVerified">
-    <button (click)="sendPhoneVerification()">Send verification code</button>
-
-    <label class="form-label">Enter the code:</label>
-    <input [(ngModel)]="code" type="number" class="form-control" />
-    <button type="button" (click)="submitCode()">Submit code</button>
-  </div>
-</div> -->
-
-<div class="container mt-4" *ngIf="user">
+<div class="container mt-4" *ngIf="user && userEvents && userStays">
   <div class="row">
     <div class="col-4">
       <div class="card">
@@ -51,53 +31,71 @@
             {{ user.phoneNumber }}
             <i style="color: red" class="far fa-times-circle"></i>
           </div>
+          <br />
+          <div class="col-12 mt-2">
+            <button type="button" (click)="editProfile()">
+              <i class="fas fa-user-edit"></i> Edit profile
+            </button>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-8">
       <mat-tab-group mat-stretch-tabs>
-
         <!--Stays-->
         <mat-tab label="Listed Stays">
-          <div *ngFor="let stay of userStays" class="card-trip">
-            <img
-              routerLink="/stays/details/{{ stay.id }}"
-              style="cursor: pointer"
-              [src]="stay.images[0].imagePath"
-            />
-            <div class="card-trip-infos">
-              <div>
-                <h2>{{ stay.name }}</h2>
-                <p>{{ stay.location.country }},{{ stay.location.city }}</p>
+          <div *ngIf="userStays.length == 0">
+            No stays listed. In order to be able to list your stays you need to
+            verify either your phone number or email.
+          </div>
+          <div *ngIf="userStays.length > 0">
+            <div *ngFor="let stay of userStays" class="card-trip">
+              <img
+                routerLink="/stays/details/{{ stay.id }}"
+                style="cursor: pointer"
+                [src]="stay.images[0].imagePath"
+              />
+              <div class="card-trip-infos">
+                <div>
+                  <h2>{{ stay.name }}</h2>
+                  <p>{{ stay.location.country }},{{ stay.location.city }}</p>
+                </div>
+                <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
               </div>
-              <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
             </div>
           </div>
         </mat-tab>
 
-         <!--//-->
+        <!--//-->
 
         <!--Events-->
 
-        <mat-tab label="Hosted Events"> 
-           <div *ngFor="let event of userEvents" class="card-trip">
-            <img
-              routerLink="/events/edit/{{event.id}}"
-              style="cursor: pointer"
-              [src]="event.images[0].imagePath"
-            />
-            <div class="card-trip-infos">
-              <div>
-                <h2>{{ event.name }}</h2>
-                <p>{{ event.locationVM.country }},{{ event.locationVM.city }}</p>
+        <mat-tab label="Hosted Events">
+          <div *ngIf="userEvents.length == 0">
+            No events listed. In order to be able to list your stays you need to
+            verify either your phone number or email.
+          </div>
+          <div *ngIf="userEvents.length == 0">
+            <div *ngFor="let event of userEvents" class="card-trip">
+              <img
+                routerLink="/events/edit/{{ event.id }}"
+                style="cursor: pointer"
+                [src]="event.images[0].imagePath"
+              />
+              <div class="card-trip-infos">
+                <div>
+                  <h2>{{ event.name }}</h2>
+                  <p>
+                    {{ event.locationVM.country }},{{ event.locationVM.city }}
+                  </p>
+                </div>
+                <h2 class="card-trip-pricing">{{ event.price | currency }}</h2>
               </div>
-              <h2 class="card-trip-pricing">{{ event.price | currency }}</h2>
             </div>
           </div>
         </mat-tab>
-       
 
-          <!--//-->
+        <!--//-->
 
         <mat-tab label="Edit profile">
           <div class="row mt-4" style="width: 95%; offset: 5px">
@@ -140,3 +138,10 @@
     </div>
   </div>
 </div>
+
+<app-edit-profile
+  *ngIf="showEditProfile == true"
+  [user]="user"
+  (closeModal)="showEditProfile = false"
+  (result)="onEditProfile($event)"
+></app-edit-profile>

@@ -214,6 +214,22 @@ namespace TravelPalAPI.Controllers
             };
         }
 
+        [HttpPut("edit-profile/{id}")]
+        public async Task<IActionResult> EditProfile(string id,EditProfileVM edit)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return BadRequest("User not found!");
+
+            user.UserName = edit.UserName;
+            user.FirstName = edit.FirstName;
+            user.LastName = edit.LastName;
+
+            await userManager.UpdateAsync(user);
+
+            return NoContent();
+        }
+
         [HttpGet("phone-verification")]
         public async Task<IActionResult> StartPhoneVerification([FromQuery] string id)
         {

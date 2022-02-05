@@ -51,10 +51,17 @@ namespace TravelPalAPI.Controllers
             return NoContent();
         }
 
-        [HttpGet,AllowAnonymous]
-        public ActionResult<IEnumerable<AccommodationVM>> Get()
+        [HttpGet("ownership")]
+        public ActionResult<bool> OwnerShip(string userId, int accommodationId)
         {
-            return Ok(accommodationRepo.GetAll());
+            return accommodationRepo.Ownership(userId, accommodationId);
+        }
+
+        [HttpGet,AllowAnonymous]
+        public ActionResult<IEnumerable<AccommodationVM>> Get([FromQuery]string location, [FromQuery] double price)
+        {
+            var searchVM = string.IsNullOrEmpty(location) && price==0 ? null : new AccommodationSearchVM { Location = location, Price = price };
+            return Ok(accommodationRepo.GetAll(searchVM));
         }
 
         [HttpGet, Route("user/{id}")]
@@ -71,7 +78,7 @@ namespace TravelPalAPI.Controllers
         public ActionResult<AccommodationVM> Get(int id)
         {
             var accommodations = accommodationRepo.GetById(id);
-            if (accommodations == null) return NotFound();
+            if (accommodations == null) return BadRequest("Error!");
 
             return Ok(accommodations);
         }

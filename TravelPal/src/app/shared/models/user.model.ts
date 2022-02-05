@@ -15,3 +15,9 @@ export interface userProfileVM {
   phoneNumber: string;
   phoneNumberVerified: boolean;
 }
+
+export interface userEditVM {
+  userName: string;
+  firstName: string;
+  lastName: string;
+}

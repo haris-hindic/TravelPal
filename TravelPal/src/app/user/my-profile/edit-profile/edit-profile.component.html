@@ -1,0 +1,96 @@
+<div
+  class="modal fade show"
+  id="exampleModalLive"
+  tabindex="-1"
+  aria-labelledby="exampleModalLiveLabel"
+  aria-modal="true"
+  role="dialog"
+  style="display: block"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLiveLabel">Edit profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="close()"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <form class="m-3" [formGroup]="form" (ngSubmit)="saveChanges()">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="John"
+            formControlName="firstName"
+            [ngClass]="
+              !form.get('firstName')?.valid && form.get('firstName')?.touched
+                ? 'border-danger'
+                : ''
+            "
+          />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('firstName')?.valid && form.get('firstName')?.touched
+            "
+            >The first name is required!</label
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Doe"
+            formControlName="lastName"
+            [ngClass]="
+              !form.get('lastName')?.valid && form.get('lastName')?.touched
+                ? 'border-danger'
+                : ''
+            "
+          />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('lastName')?.valid && form.get('lastName')?.touched
+            "
+            >The last name is required!</label
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="john.doe"
+            formControlName="userName"
+            [ngClass]="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+                ? 'border-danger'
+                : ''
+            "
+          />
+          <label
+            class="form-label text-danger"
+            *ngIf="
+              !form.get('userName')?.valid && form.get('userName')?.touched
+            "
+            >The username is required!</label
+          >
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" (click)="close()" class="btn btn-secondary">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

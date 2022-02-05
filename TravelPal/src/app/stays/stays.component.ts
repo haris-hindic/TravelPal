@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SecurityService } from '../security/security.service';
 import { AccommodationService } from './accommodation.service';
 import { AccommodationVM } from './stays.model';
@@ -10,24 +11,17 @@ import { AccommodationVM } from './stays.model';
   styleUrls: ['./stays.component.css'],
 })
 export class StaysComponent implements OnInit {
-  stays!: AccommodationVM[];
+  location!: string;
+  constructor(private _router: Router) {}
 
-  constructor(
-    private _accommodationService: AccommodationService,
-    public _securityService: SecurityService
-  ) {}
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
-  loadData() {
-    this._accommodationService.getAll().subscribe((data) => {
-      this.stays = data;
-    });
-  }
-
-  delete(id: number) {
-    this._accommodationService.delete(id).subscribe((res) => this.loadData());
+  search() {
+    console.log(this.location);
+    if (!this.location) {
+      this._router.navigate([`/stays/search`]);
+    } else {
+      this._router.navigate([`/stays/search/${this.location}`]);
+    }
   }
 }

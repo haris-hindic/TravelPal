@@ -26,13 +26,14 @@ import {
 } from '@angular/platform-browser/animations';
 import { MapComponent } from './helpers/map/map.component';
 import { MapMultipleMarkersComponent } from './helpers/map-multiple-markers/map-multiple-markers.component';
-import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.component';
+import { StayHomepageComponent } from './stays/stay-search/stay-search.component';
 import { EventsUserComponent } from './events/events-user/events-user.component';
 import { ImageSliderComponent } from './helpers/image-slider/image-slider.component';
 import { SharedModule } from './shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
+import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { MyProfileComponent } from './user/my-profile/my-profile.component';
     EventsUserComponent,
     ImageSliderComponent,
     EmailConfirmationComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

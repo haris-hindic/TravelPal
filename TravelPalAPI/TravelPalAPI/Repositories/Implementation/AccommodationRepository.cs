@@ -73,9 +73,19 @@ namespace TravelPalAPI.Repositories.Implementation
             appDb.Locations.Remove(accommodationLocation);
         }
 
-        public IEnumerable<AccommodationVM> GetAll()
+        public IEnumerable<AccommodationVM> GetAll(AccommodationSearchVM searchVM)
         {
-            var accommodations = appDb.Accommodations.Include(x=>x.Location).ThenInclude(x=>x.City).ThenInclude(x=>x.Country)
+            IEnumerable<AccommodationVM> accommodations;
+
+            if (searchVM != null)
+            {
+
+                accommodations= appDb.Accommodations.Include(x=>x.Location).ThenInclude(x=>x.City).ThenInclude(x=>x.Country)
+               .Where(x=> ( (string.IsNullOrEmpty(searchVM.Location) || 
+                            x.Location.Address.ToLower().StartsWith(searchVM.Location.ToLower()) ||
+                            x.Location.City.Name.ToLower().StartsWith(searchVM.Location.ToLower()) ||
+                            x.Location.City.Country.Name.ToLower().StartsWith(searchVM.Location.ToLower()) ) 
+                            && ( searchVM.Price==0 || x.Price<=searchVM.Price)))
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,
@@ -91,6 +101,25 @@ namespace TravelPalAPI.Repositories.Implementation
 
                }).ToList();
 
+            }
+            else
+            {
+                accommodations = appDb.Accommodations.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+               .Select(x => new AccommodationVM
+               {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Price = x.Price,
+                   Description = x.Description,
+                   Capacity = x.Capacity,
+                   Rooms = x.Rooms,
+                   User = mapper.Map<UserVM>(x.Host),
+                   Location = mapper.Map<LocationVM>(x.Location),
+                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
+
+               }).ToList();
+            }
             return accommodations;
         }
 
@@ -146,5 +175,15 @@ namespace TravelPalAPI.Repositories.Implementation
             return appDb.SaveChanges() > 0;
         }
 
+        public bool Ownership(string userId, int accommodationId)
+        {
+            var accommodation = appDb.Accommodations.FirstOrDefault(x => x.Id == accommodationId);
+
+            
+            if (accommodation!=null && accommodation.HostId == userId)
+                return true;
+
+            return false;
+        }
     }
 }

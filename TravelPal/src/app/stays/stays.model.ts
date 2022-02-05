@@ -75,3 +75,8 @@ export interface AccommodationDetailsCreationVM {
   cancellation: string;
   houseRules: string;
 }
+
+export interface AccommodationSearchVM {
+  price: number;
+  location: string;
+}

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomEncoder } from '../helpers/custom-encode/custom-encode.component.spec';
-import { userProfileVM } from '../shared/models/user.model';
+import { userEditVM, userProfileVM } from '../shared/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +40,9 @@ export class UserService {
     return this._http.get('https://localhost:44325/' + route, {
       params: params,
     });
+  }
+
+  updateProfile(id: string, editVM: userEditVM) {
+    return this._http.put(`${this.apiURL}/edit-profile/${id}`, editVM);
   }
 }

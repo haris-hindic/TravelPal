@@ -9,6 +9,8 @@ import { ImageService } from 'src/app/helpers/image.service';
 import { AccommodationVM } from '../stays.model';
 import { country, city } from 'src/app/shared/models/location.model';
 import { CountryCityService } from 'src/app/shared/country-city.service';
+import { SecurityService } from 'src/app/security/security.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stay-edit',
@@ -35,10 +37,26 @@ export class StayEditComponent implements OnInit {
     private _imageService: ImageService,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _countryCity: CountryCityService
+    private _countryCity: CountryCityService,
+    private _securityService: SecurityService,
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this._accommodationService
+      .ownerShip(
+        this._securityService.getFieldFromJWT('id'),
+        this._route.snapshot.params['id']
+      )
+      .subscribe((x) => {
+        if (x == false) {
+          this._toastr.error('Error!');
+          this._router.navigate([
+            `/user-stays/${this._securityService.getFieldFromJWT('id')}`,
+          ]);
+        }
+      });
+
     this.form = this._formBuilder.group({
       name: ['', { validators: [Validators.required] }],
       price: ['', { validators: [Validators.required] }],
@@ -78,9 +96,8 @@ export class StayEditComponent implements OnInit {
 
   loadData() {
     this._route.params.subscribe((params) => {
-      this._accommodationService
-        .getById(params.id)
-        .subscribe((data: AccommodationVM) => {
+      this._accommodationService.getById(params.id).subscribe(
+        (data: AccommodationVM) => {
           this.patchValues(data);
           this.images = data.images;
           this.stay = data;
@@ -97,7 +114,14 @@ export class StayEditComponent implements OnInit {
                 this.cities = c;
               });
           });
-        });
+        },
+        (err) => {
+          this._toastr.error(err.error);
+          this._router.navigate([
+            `/user-stays/${this._securityService.getFieldFromJWT('id')}`,
+          ]);
+        }
+      );
     });
   }
 

@@ -11,7 +11,8 @@ namespace TravelPalAPI.Repositories
     {
         Accommodation Add(AccommodationCreationVM accommodation);
         bool Update(int id, AccommodationEditVM accommodation);
-        IEnumerable<AccommodationVM> GetAll();
+        bool Ownership(string userId, int accommodationId);
+        IEnumerable<AccommodationVM> GetAll(AccommodationSearchVM searchVM);
         AccommodationVM GetById(int id);
         IEnumerable<AccommodationVM> GetByUserId(string id);
         void Delete(int id);

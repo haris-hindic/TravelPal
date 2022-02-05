@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EventVM } from 'src/app/events/events.model';
 import { EventsService } from 'src/app/events/events.service';
 import { SecurityService } from 'src/app/security/security.service';
-import { userProfileVM } from 'src/app/shared/models/user.model';
+import { userEditVM, userProfileVM } from 'src/app/shared/models/user.model';
 import { AccommodationService } from 'src/app/stays/accommodation.service';
 import { AccommodationVM } from 'src/app/stays/stays.model';
 import { UserService } from '../user.service';
@@ -26,6 +26,7 @@ export class MyProfileComponent implements OnInit {
   userEvents!: EventVM[];
   code!: string;
   phoneCodeSent!: boolean;
+  showEditProfile = false;
 
   constructor(
     private _security: SecurityService,
@@ -49,11 +50,10 @@ export class MyProfileComponent implements OnInit {
       this.userStays = res;
     });
 
-    this._eventService.getUserEvents(id).subscribe((res=>
-      {
-        this.userEvents = res;
-        console.log(this.userEvents);
-      }))
+    this._eventService.getUserEvents(id).subscribe((res) => {
+      this.userEvents = res;
+      console.log(this.userEvents);
+    });
   }
 
   resend() {
@@ -65,9 +65,9 @@ export class MyProfileComponent implements OnInit {
   sendPhoneVerification() {
     const id = this._security.getFieldFromJWT('id');
 
-     this._user.sendPhoneVerification(id).subscribe((res) => {
-       console.log(res);
-     });
+    this._user.sendPhoneVerification(id).subscribe((res) => {
+      console.log(res);
+    });
     this._toastr.success('Check your inbox!');
     this.phoneCodeSent = true;
   }
@@ -80,5 +80,20 @@ export class MyProfileComponent implements OnInit {
       console.log(res);
       this._toastr.success('Success!');
     });
+  }
+
+  editProfile() {
+    this.showEditProfile = true;
+    console.log(this.showEditProfile);
+  }
+
+  onEditProfile(editProfile: userEditVM) {
+    this._user
+      .updateProfile(this._security.getFieldFromJWT('id'), editProfile)
+      .subscribe(() => {
+        this.showEditProfile = false;
+        this._toastr.success('Successfully edited!');
+        this.LoadData();
+      });
   }
 }

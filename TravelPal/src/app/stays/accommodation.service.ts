@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AccommodationCreationVM,
   AccommodationEditVM,
+  AccommodationSearchVM,
   AccommodationVM,
 } from './stays.model';
 
@@ -14,8 +15,18 @@ export class AccommodationService {
 
   constructor(private _http: HttpClient) {}
 
-  getAll() {
-    return this._http.get<AccommodationVM[]>(this._apiURL);
+  getAll(search: AccommodationSearchVM) {
+    return this._http.get<AccommodationVM[]>(
+      `${this._apiURL}?location=${
+        !search.location ? '' : search.location
+      }&price=${!search.price ? 0 : search.price}`
+    );
+  }
+
+  ownerShip(userId: string, accommodationId: number) {
+    return this._http.get<boolean>(
+      `${this._apiURL}/ownership?userId=${userId}&accommodationId=${accommodationId}`
+    );
   }
 
   getById(id: number) {

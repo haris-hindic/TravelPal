@@ -13,7 +13,7 @@ import { SignUpComponent } from './security/sign-up/sign-up.component';
 import { StayCreateComponent } from './stays/stay-create/stay-create.component';
 import { StayDetailsComponent } from './stays/stay-details/stay-details.component';
 import { StayEditComponent } from './stays/stay-edit/stay-edit.component';
-import { StayHomepageComponent } from './stays/stay-homepage/stay-homepage.component';
+import { StayHomepageComponent } from './stays/stay-search/stay-search.component';
 import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { StaysComponent } from './stays/stays.component';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
@@ -22,8 +22,9 @@ import { MyProfileComponent } from './user/my-profile/my-profile.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   //stays
-  { path: 'stays', component: StayHomepageComponent },
-  { path: 'stays/search', component: StaysComponent },
+  { path: 'stays', component: StaysComponent },
+  { path: 'stays/search/:location', component: StayHomepageComponent },
+  { path: 'stays/search', component: StayHomepageComponent },
   { path: 'user-stays/:id', component: StayUserComponent },
   {
     path: 'stays/create',

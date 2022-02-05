@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace TravelPalAPI.ViewModels.Identity
 {
-    public class UserCredentials
+    public class EditProfileVM
     {
         [Required]
         public string UserName { get; set; }
-        [Required,EmailAddress]
-        public string Email { get; set; }
         [Required]
-        public string Password { get; set; }
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
-        [Phone]
-        public string PhoneNumber { get; set; }
+     
     }
 }
