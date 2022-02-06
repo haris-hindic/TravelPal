@@ -32,9 +32,9 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<int>Post([FromBody] EventCreationVM _eventCreation)
+        public ActionResult<int>Post([FromBody] EventCreationVM eventCreation)
         {
-            return eventRepository.Post(_eventCreation);
+            return eventRepository.Post(eventCreation);
         }
 
         [HttpGet]
@@ -44,10 +44,10 @@ namespace TravelPalAPI.Controllers
             return eventRepository.Get(id);
         }
 
-        [HttpDelete, Route("{_id}")]
-        public void Delete(int _id)
+        [HttpDelete, Route("{id}")]
+        public void Delete(int id)
         {
-            eventRepository.Delete(_id);
+            eventRepository.Delete(id);
         }
 
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
 import { EventVM } from '../events.model';
@@ -20,7 +19,7 @@ export class EventsUserComponent implements OnInit {
   IsEventsLoaded: boolean = false; 
   
 
-  constructor(public securityService: SecurityService, activeRoute: ActivatedRoute, private eventService: EventsService,
+  constructor(public securityService: SecurityService, private eventService: EventsService,
       private toastr: ToastrService) { }
 
   ngOnInit(): void {

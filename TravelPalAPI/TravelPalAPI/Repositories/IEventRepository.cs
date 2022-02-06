@@ -9,12 +9,12 @@ namespace TravelPalAPI.Repositories
 {
     public interface IEventRepository
     {
-         int Post(EventCreationVM _eventCreation);
-         EventVM Get(int _id);
-         void Delete(int _id);
+         int Post(EventCreationVM eventCreation);
+         EventVM Get(int id);
+         void Delete(int id);
          IEnumerable<EventVM> GetAll(EventSearchVM eventSearch = null);
-         List<EventVM> GetByUserId(string _id);
-         void Update(int _id, EventEditVM _event);
+         List<EventVM> GetByUserId(string id);
+         void Update(int id, EventEditVM _event);
 
     }
 }

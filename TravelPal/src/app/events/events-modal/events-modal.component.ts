@@ -13,16 +13,8 @@ export class EventsModalComponent implements OnInit {
   @Output() clsModal= new EventEmitter<void>();
   @Output() blureOff = new EventEmitter<void>();
 
+  constructor() {}
 
-
-  constructor() {
-   
-  }
-
-  test()
-  {
-
-  }
   ngOnInit(): void {
   }
 

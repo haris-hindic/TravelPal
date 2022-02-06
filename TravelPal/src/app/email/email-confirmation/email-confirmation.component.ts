@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SecurityService } from 'src/app/security/security.service';
 import { UserService } from 'src/app/user/user.service';
 
 @Component({
@@ -13,7 +12,7 @@ export class EmailConfirmationComponent implements OnInit {
   public showError!: boolean;
   public errorMessage!: string;
 
-  constructor(private _route: ActivatedRoute, private _user: UserService) {}
+  constructor(private aRoute: ActivatedRoute, private user: UserService) {}
 
   ngOnInit(): void {
     this.confirmEmail();
@@ -22,12 +21,12 @@ export class EmailConfirmationComponent implements OnInit {
   private confirmEmail = () => {
     this.showError = this.showSuccess = false;
 
-    const token = this._route.snapshot.queryParams['token'];
-    const email = this._route.snapshot.queryParams['email'];
+    const token = this.aRoute.snapshot.queryParams['token'];
+    const email = this.aRoute.snapshot.queryParams['email'];
 
     console.log(token);
 
-    this._user
+    this.user
       .confirmEmailroute('api/Accounts/emailconfirmation', token, email)
       .subscribe(
         (_) => {

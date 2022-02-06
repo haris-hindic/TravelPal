@@ -50,13 +50,14 @@ export class EventsComponent implements OnInit {
     this.disableMapBlure = true;
   }
 
-  selectEvent(s: any) {
+  selectEvent(s: EventVM) {
     this.currentEvent = s;
     this.blure = true;
     this.disableMapBlure = true;
   }
 
   eventDetails(event: EventVM) {
+    console.log(event);
     this.selectEvent(event);
   }
 }

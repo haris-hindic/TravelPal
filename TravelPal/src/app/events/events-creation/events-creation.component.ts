@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router} from '@angular/router';
 import { toBase64 } from 'src/app/helpers/toBase64';
 import { EventsService } from '../events.service';
 import { ImageService } from 'src/app/helpers/image.service';   
@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
 import { CountryCityService } from 'src/app/shared/country-city.service';
 import { city, country } from 'src/app/shared/models/location.model';
+import { EventVM } from '../events.model';
 
 @Component({
   selector: 'app-events-creation',
@@ -26,8 +27,9 @@ export class EventsCreationComponent implements OnInit {
   cities!: city[];
   countries!: country[];
 
-  constructor(private es: EventsService, private builder: FormBuilder, private router: Router, private is: ImageService,
-    private toastr: ToastrService, private securityService: SecurityService,  private countryCity: CountryCityService) { }
+  constructor(private eventService: EventsService, private builder: FormBuilder, private router: Router,
+    private imageService: ImageService, private toastr: ToastrService, private securityService: SecurityService,
+    private countryCity: CountryCityService) { }
 
   ngOnInit(): void {
     this.groupData = this.builder.group(
@@ -56,14 +58,13 @@ export class EventsCreationComponent implements OnInit {
 
   saveData()
   {
-    console.log(this.groupData.value);
-      this.es.post(this.groupData.value).subscribe(
+      this.eventService.post(this.groupData.value).subscribe(
         (id) => {
           this.imgFiles.forEach((img) => {
             console.log(img);
             this.formData.append('images', img);
           });
-          this.is.addImages(id as number, this.formData, 'events').subscribe(
+          this.imageService.addImages(id as number, this.formData, 'events').subscribe(
             () => {
               this.router.navigateByUrl('events');
               this.toastr.success("Event added!")

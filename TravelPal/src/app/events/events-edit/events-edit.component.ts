@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +30,7 @@ export class EventsEditComponent implements OnInit {
   countries!: country[];
 
   constructor(
-    private es: EventsService,
+    private eventService: EventsService,
     private builder: FormBuilder,
     private router: Router,
     private aRoute: ActivatedRoute,
@@ -64,7 +63,7 @@ export class EventsEditComponent implements OnInit {
   loadData()
   {
     this.aRoute.params.subscribe((params) => {
-      this.es.getSpecific(params.id).subscribe((e: any) => {
+      this.eventService.getSpecific(params.id).subscribe((e: any) => {
         this.fillInputs(e);
         this.event=e;
         console.log(e);
@@ -129,7 +128,7 @@ export class EventsEditComponent implements OnInit {
 
   saveData() {
 
-    this.es
+    this.eventService
       .edit(this.aRoute.snapshot.params.id as number, this.groupData.value)
       .subscribe(
         () => {

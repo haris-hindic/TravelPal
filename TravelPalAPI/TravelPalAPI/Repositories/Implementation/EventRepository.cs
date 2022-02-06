@@ -28,9 +28,9 @@ namespace TravelPalAPI.Repositories.Implementation
         }
 
         [HttpPost]
-        public int Post([FromBody] EventCreationVM _eventCreation)
+        public int Post([FromBody] EventCreationVM eventCreation)
         {
-            var _event = mapper.Map<Event>(_eventCreation);
+            var _event = mapper.Map<Event>(eventCreation);
 
             appDb.Events.Add(_event);
 
@@ -40,10 +40,10 @@ namespace TravelPalAPI.Repositories.Implementation
         }
 
         [HttpGet]
-        [Route("{_id}")]
-        public EventVM Get(int _id)
+        [Route("{id}")]
+        public EventVM Get(int id)
         {
-            if (!appDb.Events.Any(e => e.Id == _id))
+            if (!appDb.Events.Any(e => e.Id == id))
                 return null;
 
             return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
@@ -59,16 +59,16 @@ namespace TravelPalAPI.Repositories.Implementation
                     LocationVM = mapper.Map<LocationVM>(e.Location),
                     Images = mapper.Map<List<EventImagesVM>>(e.Images)
 
-                }).FirstOrDefault(x => x.Id == _id);
+                }).FirstOrDefault(x => x.Id == id);
         }
 
-        [HttpDelete, Route("{_id}")]
-        public void Delete(int _id)
+        [HttpDelete, Route("{id}")]
+        public void Delete(int id)
         {
-            if (!appDb.Events.Any(x => x.Id == _id))
+            if (!appDb.Events.Any(x => x.Id == id))
                 return;
 
-            var del = appDb.Events.Find(_id);
+            var del = appDb.Events.Find(id);
             appDb.Locations.Remove(appDb.Locations.FirstOrDefault(x => x.Id == del.LocationId));
             appDb.Remove(del);
             appDb.SaveChanges();
@@ -145,10 +145,10 @@ namespace TravelPalAPI.Repositories.Implementation
             return tempEvent;
         }
 
-        [HttpPut, Route("{_id}")]
-        public void Update(int _id, EventEditVM _event)
+        [HttpPut, Route("{id}")]
+        public void Update(int id, EventEditVM _event)
         {
-            var temp = appDb.Events.FirstOrDefault(x => x.Id == _id);
+            var temp = appDb.Events.FirstOrDefault(x => x.Id == id);
 
             temp.Location = mapper.Map<Location>(_event.LocationVM);
             temp.Name = _event.Name;

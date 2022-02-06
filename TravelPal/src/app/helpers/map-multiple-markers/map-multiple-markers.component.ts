@@ -10,24 +10,12 @@ import { AccommodationVM } from 'src/app/stays/stays.model';
 export class MapMultipleMarkersComponent implements OnInit {
   @Input() stays!: AccommodationVM[];
   @Input() events!: EventVM[];
-  @Input() test! : any;
   @Input() isEvents: boolean = false;
-  @Output() blure = new EventEmitter<void>();
-  @Output() blureOff = new EventEmitter<void>();
-   test2!: any;
-  currentEvent!: EventVM;
+  @Output() modalEvent = new EventEmitter<EventVM>();
   showModal!: any;
 
   constructor() {
-    this.test2=this.test;
-
-    console.log(this.test2);
-
-    if(this.test2==true)
-    { 
-      this.blureOff.emit();
-    }
-
+    
 
   }
 
@@ -35,8 +23,7 @@ export class MapMultipleMarkersComponent implements OnInit {
 
   setEvent(event: EventVM)
   {
-    this.currentEvent = event;
     this.showModal = true;
-    this.blure.emit();
+    this.modalEvent.emit(event);
   }
 }

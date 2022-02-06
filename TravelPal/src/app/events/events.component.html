@@ -86,11 +86,9 @@
       <div class="col-5">
         <div class="container mt-5"></div>
         <app-map-multiple-markers
-          (eventToShow)="eventDetails($event)"
+          (modalEvent)="eventDetails($event)"
           [events]="events"
           [isEvents]="true"
-          (blure)="blure = true"
-          [test]="disableMapBlure"
         ></app-map-multiple-markers>
       </div>
     </div>
