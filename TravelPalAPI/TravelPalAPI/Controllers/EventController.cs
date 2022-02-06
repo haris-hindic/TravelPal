@@ -45,9 +45,9 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpDelete, Route("{_id}")]
-        public IActionResult Delete(int _id)
+        public void Delete(int _id)
         {
-            return Ok(eventRepository.Delete(_id));
+            eventRepository.Delete(_id);
         }
 
 

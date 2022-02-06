@@ -9,8 +9,8 @@ namespace TravelPalAPI.Repositories
 {
     public interface IEventImageRepository
     {
-         IActionResult Add(int id, [FromForm] EventImageCreationVM images);
-         IActionResult Delete(int id);
+         void Add(int id, [FromForm] EventImageCreationVM images);
+         void Delete(int id);
 
 
     }

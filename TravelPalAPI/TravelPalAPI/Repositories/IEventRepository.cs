@@ -9,11 +9,11 @@ namespace TravelPalAPI.Repositories
 {
     public interface IEventRepository
     {
-         ActionResult<int> Post(EventCreationVM _eventCreation);
-         ActionResult<EventVM> Get(int _id);
-         IActionResult Delete(int _id);
+         int Post(EventCreationVM _eventCreation);
+         EventVM Get(int _id);
+         void Delete(int _id);
          IEnumerable<EventVM> GetAll(EventSearchVM eventSearch = null);
-         ActionResult<List<EventVM>> GetByUserId(string _id);
+         List<EventVM> GetByUserId(string _id);
          void Update(int _id, EventEditVM _event);
 
     }

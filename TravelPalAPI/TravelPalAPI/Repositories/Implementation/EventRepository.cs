@@ -16,7 +16,7 @@ using TravelPalAPI.ViewModels.Location;
 
 namespace TravelPalAPI.Repositories.Implementation
 {
-    public class EventRepository : ControllerBase, IEventRepository
+    public class EventRepository :  IEventRepository
     {
         private readonly AppDbContext appDb;
         private readonly IMapper mapper;
@@ -28,7 +28,7 @@ namespace TravelPalAPI.Repositories.Implementation
         }
 
         [HttpPost]
-        public ActionResult<int> Post([FromBody] EventCreationVM _eventCreation)
+        public int Post([FromBody] EventCreationVM _eventCreation)
         {
             var _event = mapper.Map<Event>(_eventCreation);
 
@@ -41,10 +41,10 @@ namespace TravelPalAPI.Repositories.Implementation
 
         [HttpGet]
         [Route("{_id}")]
-        public ActionResult<EventVM> Get(int _id)
+        public EventVM Get(int _id)
         {
             if (!appDb.Events.Any(e => e.Id == _id))
-                NotFound();
+                return null;
 
             return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                 .Select(e => new EventVM
@@ -63,15 +63,16 @@ namespace TravelPalAPI.Repositories.Implementation
         }
 
         [HttpDelete, Route("{_id}")]
-        public IActionResult Delete(int _id)
+        public void Delete(int _id)
         {
             if (!appDb.Events.Any(x => x.Id == _id))
-                return NotFound();
+                return;
+
             var del = appDb.Events.Find(_id);
             appDb.Locations.Remove(appDb.Locations.FirstOrDefault(x => x.Id == del.LocationId));
             appDb.Remove(del);
             appDb.SaveChanges();
-            return Ok($"{del.Name} was deleted");
+           
         }
 
         [HttpPost("search"), AllowAnonymous]
@@ -121,7 +122,7 @@ namespace TravelPalAPI.Repositories.Implementation
 
         [HttpGet]
         [Route("user/{id}")]
-        public ActionResult<List<EventVM>> GetByUserId(string id)
+        public List<EventVM> GetByUserId(string id)
         {
 
 
@@ -160,11 +161,8 @@ namespace TravelPalAPI.Repositories.Implementation
 
             appDb.SaveChanges();
         }
-        void SaveChanges()
-        {
-            appDb.SaveChanges();
-        }
 
+       
     }
 }
 

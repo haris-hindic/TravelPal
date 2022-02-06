@@ -29,16 +29,16 @@ namespace TravelPalAPI.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public ActionResult Add(int id, [FromForm] EventImageCreationVM images)
+        public void Add(int id, [FromForm] EventImageCreationVM images)
         {
-             return Ok(eventImageRepository.Add(id, images));
+            eventImageRepository.Add(id, images);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete(int id)
+        public void Delete(int id)
         {
-            return Ok(eventImageRepository.Delete(id));
+            eventImageRepository.Delete(id);
         }
     }
 }

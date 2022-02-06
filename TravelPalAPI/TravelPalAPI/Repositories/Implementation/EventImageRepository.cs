@@ -10,7 +10,7 @@ using TravelPalAPI.ViewModels.Event;
 
 namespace TravelPalAPI.Repositories.Implementation
 {
-    public class EventImageRepository : ControllerBase, IEventImageRepository
+    public class EventImageRepository : IEventImageRepository
     {
         private readonly string containerName = "Event";
         private readonly IFileStorageService fileStorageService;
@@ -24,11 +24,11 @@ namespace TravelPalAPI.Repositories.Implementation
 
         [HttpPost]
         [Route("{id}")]
-        public IActionResult Add(int id, [FromForm] EventImageCreationVM images)
+        public void Add(int id, [FromForm] EventImageCreationVM images)
         {
             if (!_appDb.Events.Any(e => e.Id == id))
             {
-                return NotFound();
+                return;
             }
 
             foreach (var image in images.Images)
@@ -41,12 +41,11 @@ namespace TravelPalAPI.Repositories.Implementation
             );
             }
             _appDb.SaveChanges();
-            return Ok();
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete(int id)
+        public void Delete(int id)
         {
             var img = _appDb.EventImages.SingleOrDefault(e => e.Id == id);
 
@@ -54,7 +53,6 @@ namespace TravelPalAPI.Repositories.Implementation
             _appDb.EventImages.Remove(img);
 
             _appDb.SaveChanges();
-            return Ok();
         }
     }
 }
