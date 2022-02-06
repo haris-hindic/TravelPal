@@ -13,6 +13,8 @@ export class EventsComponent implements OnInit {
   eventsLoad: boolean = false;
   @Input() coverImage: any;
   groupData!: FormGroup;
+  blure: any;
+  disableMapBlure = false;
   
   constructor(private eventService: EventsService, private groupBuilder: FormBuilder) {}
 
@@ -43,5 +45,18 @@ export class EventsComponent implements OnInit {
    });
  }
   
+  blureOff()
+  {
+    this.blure=false;
+    this.disableMapBlure = true;
+    
+  }
+
+  selectEvent(s:any)
+  {
+    this.currentEvent=s;
+    this.blure=true;
+    this.disableMapBlure = true;
+  }
   
 }

@@ -78,8 +78,8 @@
           />
           <br />
           <a
-            routerLink="/events/details/{{ event.id }}"
             class="btn btn-outline-info m-2"
+            (click)="setEvent(event)"
             >Details</a
           >
         </div>
@@ -87,3 +87,5 @@
     </agm-snazzy-info-window>
   </agm-marker>
 </agm-map>
+
+<app-events-modal *ngIf="showModal"  [currentEvent]="currentEvent" (clsModal)="showModal=null"></app-events-modal>

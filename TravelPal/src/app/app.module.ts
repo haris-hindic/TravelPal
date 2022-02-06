@@ -34,7 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
 import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profile.component';
-
+import { EventsModalComponent } from './events/events-modal/events-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +61,7 @@ import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profil
     EmailConfirmationComponent,
     MyProfileComponent,
     EditProfileComponent,
+    EventsModalComponent,
   ],
   imports: [
     BrowserModule,
