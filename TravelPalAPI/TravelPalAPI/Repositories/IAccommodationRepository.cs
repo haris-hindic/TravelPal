@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 
@@ -12,9 +13,9 @@ namespace TravelPalAPI.Repositories
         Accommodation Add(AccommodationCreationVM accommodation);
         bool Update(int id, AccommodationEditVM accommodation);
         bool Ownership(string userId, int accommodationId);
-        IEnumerable<AccommodationVM> GetAll(AccommodationSearchVM searchVM);
+        Task<PagedList<AccommodationVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams);
         AccommodationVM GetById(int id);
-        IEnumerable<AccommodationVM> GetByUserId(string id);
+        Task<PagedList<AccommodationVM>> GetByUserId(string id,UserParams userParams);
         void Delete(int id);
         bool SaveChanges();
     }

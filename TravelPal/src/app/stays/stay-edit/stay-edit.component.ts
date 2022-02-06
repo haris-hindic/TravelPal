@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
@@ -30,6 +30,14 @@ export class StayEditComponent implements OnInit {
   cities!: city[];
 
   errors: string[] = [];
+
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.form.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private _route: ActivatedRoute,

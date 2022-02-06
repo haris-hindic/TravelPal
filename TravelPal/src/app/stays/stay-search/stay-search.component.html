@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mt-5">
-    <div class="col-7">
+    <div style="overflow: scroll" class="col-7">
       <form (ngSubmit)="searchStays()">
         <div [formGroup]="searchForm" class="row">
           <div class="col-4">
@@ -59,6 +59,18 @@
             class="card-trip-user avatar-bordered"
           /> -->
         </div>
+      </div>
+      <div class="text-center m-3">
+        <mat-paginator
+          *ngIf="pagination"
+          [length]="pagination.totalItems"
+          [pageSizeOptions]="[4, 8, 15, 25]"
+          showFirstLastButtons
+          [pageSize]="pageSize"
+          (page)="updatePagination($event)"
+          aria-label="Select page"
+        >
+        </mat-paginator>
       </div>
     </div>
     <div class="col-5 mt-4">

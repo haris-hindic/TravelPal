@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.AccommodationDetails;
@@ -73,25 +74,25 @@ namespace TravelPalAPI.Repositories.Implementation
             appDb.Locations.Remove(accommodationLocation);
         }
 
-        public IEnumerable<AccommodationVM> GetAll(AccommodationSearchVM searchVM)
+        public async Task<PagedList<AccommodationVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams)
         {
-            IEnumerable<AccommodationVM> accommodations;
+            IQueryable<AccommodationVM> accommodations;
 
             if (searchVM != null)
             {
 
-                accommodations= appDb.Accommodations.Include(x=>x.Location).ThenInclude(x=>x.City).ThenInclude(x=>x.Country)
-               .Where(x=> ( (string.IsNullOrEmpty(searchVM.Location) || 
+                accommodations = appDb.Accommodations.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+               .Where(x => ((string.IsNullOrEmpty(searchVM.Location) ||
                             x.Location.Address.ToLower().StartsWith(searchVM.Location.ToLower()) ||
                             x.Location.City.Name.ToLower().StartsWith(searchVM.Location.ToLower()) ||
-                            x.Location.City.Country.Name.ToLower().StartsWith(searchVM.Location.ToLower()) ) 
-                            && ( searchVM.Price==0 || x.Price<=searchVM.Price)))
+                            x.Location.City.Country.Name.ToLower().StartsWith(searchVM.Location.ToLower()))
+                            && (searchVM.Price == 0 || x.Price <= searchVM.Price)))
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
-                   Description=x.Description,
+                   Description = x.Description,
                    Capacity = x.Capacity,
                    Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
@@ -99,7 +100,7 @@ namespace TravelPalAPI.Repositories.Implementation
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
-               }).ToList();
+               }).AsNoTracking();
 
             }
             else
@@ -118,9 +119,11 @@ namespace TravelPalAPI.Repositories.Implementation
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
-               }).ToList();
+               }).AsNoTracking();
             }
-            return accommodations;
+
+
+            return await PagedList<AccommodationVM>.Create(accommodations, userParams.PageNumber, userParams.PageSize);
         }
 
         public AccommodationVM GetById(int id)
@@ -146,7 +149,7 @@ namespace TravelPalAPI.Repositories.Implementation
             return accommodation;
         }
 
-        public IEnumerable<AccommodationVM> GetByUserId(string id)
+        public async Task<PagedList<AccommodationVM>> GetByUserId(string id, UserParams userParams)
         {
             if (!appDb.UserAccounts.Any(x => x.Id == id)) return null;
 
@@ -165,9 +168,9 @@ namespace TravelPalAPI.Repositories.Implementation
                    AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
-               }).ToList();
+               });
 
-            return accommodations;
+            return await PagedList<AccommodationVM>.Create(accommodations,userParams.PageNumber,userParams.PageSize);
         }
 
         public bool SaveChanges()

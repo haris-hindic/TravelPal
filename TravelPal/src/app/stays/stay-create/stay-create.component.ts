@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
@@ -6,7 +12,7 @@ import { toBase64 } from 'src/app/helpers/toBase64';
 import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
 import { ImageService } from 'src/app/helpers/image.service';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { city, country } from 'src/app/shared/models/location.model';
 import { CountryCityService } from 'src/app/shared/country-city.service';
 import { AccommodationCreationVM } from '../stays.model';
@@ -28,7 +34,13 @@ export class StayCreateComponent implements OnInit {
   cities!: city[];
   countries!: country[];
 
-  //@ViewChild('img') img!: ElementRef;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.form.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -116,6 +128,7 @@ export class StayCreateComponent implements OnInit {
             .addImages(res as number, this.formData, 'accommodations')
             .subscribe(
               () => {
+                this.form.reset();
                 this._router.navigate(['stays']);
                 this.toastr.success('Stay created!');
               },

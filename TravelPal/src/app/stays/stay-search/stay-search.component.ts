@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 
 import { SecurityService } from 'src/app/security/security.service';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { AccommodationService } from '../accommodation.service';
 import { AccommodationSearchVM, AccommodationVM } from '../stays.model';
 
@@ -13,6 +15,9 @@ import { AccommodationSearchVM, AccommodationVM } from '../stays.model';
 })
 export class StayHomepageComponent implements OnInit {
   stays!: AccommodationVM[];
+  pagination!: Pagination;
+  pageNumber = 1;
+  pageSize = 4;
   searchForm!: FormGroup;
 
   constructor(
@@ -39,8 +44,18 @@ export class StayHomepageComponent implements OnInit {
   }
 
   loadData(search: AccommodationSearchVM) {
-    this._accommodationService.getAll(search).subscribe((data) => {
-      this.stays = data;
-    });
+    this._accommodationService
+      .getAll(search, this.pageNumber, this.pageSize)
+      .subscribe((data) => {
+        this.stays = data.result;
+        this.pagination = data.pagination;
+      });
+  }
+
+  updatePagination(event: PageEvent) {
+    console.log(event);
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.loadData(this.searchForm.value);
   }
 }

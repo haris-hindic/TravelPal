@@ -63,6 +63,18 @@
                 <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
               </div>
             </div>
+            <div class="text-center">
+              <mat-paginator
+                *ngIf="pagination"
+                [length]="pagination.totalItems"
+                [pageSizeOptions]="[4, 8, 15, 25]"
+                showFirstLastButtons
+                [pageSize]="pageSize"
+                (page)="updatePagination($event)"
+                aria-label="Select page"
+              >
+              </mat-paginator>
+            </div>
           </div>
         </mat-tab>
 

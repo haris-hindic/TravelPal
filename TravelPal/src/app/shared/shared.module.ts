@@ -8,6 +8,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { ToastrModule } from 'ngx-toastr';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgImageSliderModule,
     MatMenuModule,
     MatTabsModule,
+    MatPaginatorModule,
   ],
   exports: [
     SweetAlert2Module,
@@ -33,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgImageSliderModule,
     MatMenuModule,
     MatTabsModule,
+    MatPaginatorModule,
   ],
 })
 export class SharedModule {}

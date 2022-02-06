@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Extensions;
 using TravelPalAPI.Helpers;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Accommodation;
@@ -58,17 +60,26 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpGet,AllowAnonymous]
-        public ActionResult<IEnumerable<AccommodationVM>> Get([FromQuery]string location, [FromQuery] double price)
+        public async Task<ActionResult<IEnumerable<AccommodationVM>>> Get([FromQuery]string location, [FromQuery] double price,[FromQuery]UserParams userParams)
         {
             var searchVM = string.IsNullOrEmpty(location) && price==0 ? null : new AccommodationSearchVM { Location = location, Price = price };
-            return Ok(accommodationRepo.GetAll(searchVM));
+
+            var accommodaions = await accommodationRepo.GetAll(searchVM, userParams);
+
+            Response.AddPaginationHeader(accommodaions.CurrentPage, accommodaions.PageSize,
+                accommodaions.TotalCount, accommodaions.TotalPages);
+            
+            return Ok(accommodaions);
         }
 
         [HttpGet, Route("user/{id}")]
-        public ActionResult<IEnumerable<AccommodationVM>> GetByUser(string id)
+        public async Task<ActionResult<PagedList<AccommodationVM>>> GetByUser(string id, [FromQuery] UserParams userParams)
         {
-            var accommodations = accommodationRepo.GetByUserId(id);
+            var accommodations = await accommodationRepo.GetByUserId(id,userParams);
             if (accommodations == null) return NotFound();
+
+            Response.AddPaginationHeader(accommodations.CurrentPage, accommodations.PageSize,
+                accommodations.TotalCount, accommodations.TotalPages);
 
             return Ok(accommodations);
         }

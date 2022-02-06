@@ -25,7 +25,11 @@ const appRoutes: Routes = [
   { path: 'stays', component: StaysComponent },
   { path: 'stays/search/:location', component: StayHomepageComponent },
   { path: 'stays/search', component: StayHomepageComponent },
-  { path: 'user-stays/:id', component: StayUserComponent },
+  {
+    path: 'user-stays/:id',
+    component: StayUserComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'stays/create',
     component: StayCreateComponent,
@@ -67,7 +71,11 @@ const appRoutes: Routes = [
     canActivate: [AdminGuard],
   },
   //profile
-  { path: 'user/profile', component: MyProfileComponent },
+  {
+    path: 'user/profile',
+    component: MyProfileComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'authentication/emailconfirmation',
     component: EmailConfirmationComponent,
