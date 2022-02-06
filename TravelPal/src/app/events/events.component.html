@@ -1,62 +1,107 @@
-<div class="container" *ngIf="eventsLoad" [ngClass]="{'blur-filter': blure}">
+<div class="container" *ngIf="eventsLoad" [ngClass]="{ 'blur-filter': blure }">
   <div class="row mt-5">
-<div class="row mt-4">
-  <div class="row mb-5" [formGroup]="groupData">
-      <div class="col-3">
-        <p class="m-0"><i class="fas fa-street-view"></i>Location</p>
-        <br />
-        <input type="text" class="form-control" id="txtLok" placeholder="" formControlName="location"
-        />
+    <div class="row mt-4">
+      <div class="row mb-5" [formGroup]="groupData">
+        <div class="col-3">
+          <p class="m-0"><i class="fas fa-street-view"></i>Location</p>
+          <br />
+          <input
+            type="text"
+            class="form-control"
+            id="txtLok"
+            placeholder=""
+            formControlName="location"
+          />
+        </div>
+        <div class="col-2">
+          <p class="m-0"><i class="fas fa-arrow-left"></i> From</p>
+          <br />
+          <input
+            type="date"
+            class="form-control"
+            formControlName="from"
+            value="2021-12-12"
+          />
+        </div>
+        <div class="col-2">
+          <p class="m-0"><i class="fas fa-arrow-right"></i> To</p>
+          <br />
+          <input type="date" class="form-control" formControlName="to" />
+        </div>
+
+        <div class="col-2 mt-5">
+          <button
+            type="submit"
+            class="btn btn-outline-danger"
+            (click)="searchEvents()"
+          >
+            Search
+          </button>
+        </div>
       </div>
-      <div class="col-2">
-        <p class="m-0"><i class="fas fa-arrow-left"></i> From</p>
-        <br />
-        <input type="date" class="form-control" formControlName="from" value="2021-12-12"/>
-      </div>
-      <div class="col-2">
-        <p class="m-0"><i class="fas fa-arrow-right"></i> To</p>
-        <br />
-        <input type="date" class="form-control" formControlName="to" />
-      </div>
-     
-      <div class="col-2 mt-5">
-        <button type="submit" class="btn btn-outline-danger" (click)="searchEvents()">Search</button>
-      </div>
-    </div>
-        <div class="col-7"   >
+      <div class="col-7">
         <section class="events">
-		<article class="postcard dark blue" *ngFor="let event of events">
-			<a class="postcard__img_link" 
-        >
-				<img class="postcard__img" src="{{event.images[0].imagePath}}"/>
-			</a>
-			<div class="postcard__text">
-				<h1 class="postcard__title blue" style="cursor: pointer;" (click)="selectEvent(event)" 
-       >{{event.name}}</h1>
-				<div class="postcard__subtitle small">
-					<time>
-						<i class="fas fa-calendar-alt mr-2"></i>{{event.date  | date}}
-					</time>
-				</div>
-				<div class="postcard__bar"></div>
-				<div class="postcard__preview-txt">{{event.eventDescription}}</div>
-				<ul class="postcard__tagbox">
-					<li class="tag__item"><i class="far fa-money-bill-alt"></i> {{event.price}}€</li>
-					<li class="tag__item"><i class="fas fa-clock mr-2"></i>{{event.duration}}h</li>
-					<li class="tag__item"><i class="far fa-compass"></i>{{event.locationVM.city}} ({{event.locationVM.country}})</li>
-				</ul>
-			</div>
-		</article>
-</section>
-</div>
-<div class="col-5">
-    <div class="container mt-5">
+          <article class="postcard dark blue" *ngFor="let event of events">
+            <a class="postcard__img_link">
+              <img
+                class="postcard__img"
+                src="{{ event.images[0].imagePath }}"
+              />
+            </a>
+            <div class="postcard__text">
+              <h1
+                class="postcard__title blue"
+                style="cursor: pointer"
+                (click)="selectEvent(event)"
+              >
+                {{ event.name }}
+              </h1>
+              <div class="postcard__subtitle small">
+                <time>
+                  <i class="fas fa-calendar-alt mr-2"></i
+                  >{{ event.date | date }}
+                </time>
+              </div>
+              <div class="postcard__bar"></div>
+              <div class="postcard__preview-txt">
+                {{ event.eventDescription }}
+              </div>
+              <ul class="postcard__tagbox">
+                <li class="tag__item">
+                  <i class="far fa-money-bill-alt"></i> {{ event.price }}€
+                </li>
+                <li class="tag__item">
+                  <i class="fas fa-clock mr-2"></i>{{ event.duration }}h
+                </li>
+                <li class="tag__item">
+                  <i class="far fa-compass"></i>{{ event.locationVM.city }} ({{
+                    event.locationVM.country
+                  }})
+                </li>
+              </ul>
+            </div>
+          </article>
+        </section>
+      </div>
+      <div class="col-5">
+        <div class="container mt-5"></div>
+        <app-map-multiple-markers
+          (eventToShow)="eventDetails($event)"
+          [events]="events"
+          [isEvents]="true"
+          (blure)="blure = true"
+          [test]="disableMapBlure"
+        ></app-map-multiple-markers>
+      </div>
     </div>
-    <app-map-multiple-markers [events]="events" [isEvents]="true" (blure)="blure=true" [test]="disableMapBlure"></app-map-multiple-markers></div>
-</div>
-</div>
+  </div>
 </div>
 
 <!-- Event modal -->
 
-<app-events-modal *ngIf="currentEvent" (blureOff)="blureOff()" (clsModal)="currentEvent=null" [currentEvent]="currentEvent"></app-events-modal>
+<app-events-modal
+  *ngIf="currentEvent"
+  (blureOff)="blureOff()"
+  (clsModal)="currentEvent = null"
+  [currentEvent]="currentEvent"
+></app-events-modal>

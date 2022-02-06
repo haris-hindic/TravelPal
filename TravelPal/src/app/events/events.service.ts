@@ -1,44 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EventCreationVM, EventEditVM, EventSearchVM, EventVM } from './events.model';
+import {
+  EventCreationVM,
+  EventEditVM,
+  EventSearchVM,
+  EventVM,
+} from './events.model';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventsService {
-
-  url = 'https://localhost:44325/api/event/';
+  url = 'https://localhost:44325/api/event';
   constructor(private http: HttpClient) {}
 
-  get()
-  {
+  get() {
     return this.http.get<EventVM[]>(this.url);
   }
-  getSpecific(id: number)
-  {
+  getSpecific(id: number) {
     return this.http.get<EventVM>(this.url + id);
   }
 
-  post(event: EventCreationVM)
-  {
+  post(event: EventCreationVM) {
     return this.http.post(this.url, event);
   }
-  delete(id: number)
-  {
-    return this.http.delete(this.url + id, {responseType: 'text'});
+  delete(id: number) {
+    return this.http.delete(this.url + id, { responseType: 'text' });
   }
 
-  edit(id: number, event: EventEditVM)
-  {
-    return this.http.put(this.url + id, event)
+  edit(id: number, event: EventEditVM) {
+    return this.http.put(this.url + id, event);
   }
 
-  getUserEvents(id: string)
-  {
-    return this.http.get<EventVM[]>(this.url + 'user/' + id);
+  getUserEvents(id: string) {
+    return this.http.get<EventVM[]>(this.url + '/user/' + id);
   }
-  
-  search(eventSearch: EventSearchVM)
-  {
-    return this.http.post(this.url + 'search', eventSearch);
+
+  search(eventSearch: EventSearchVM) {
+    return this.http.post(this.url + '/search', eventSearch);
   }
 }
