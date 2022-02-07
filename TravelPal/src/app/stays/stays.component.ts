@@ -17,7 +17,6 @@ export class StaysComponent implements OnInit {
   ngOnInit(): void {}
 
   search() {
-    console.log(this.location);
     if (!this.location) {
       this._router.navigate([`/stays/search`]);
     } else {

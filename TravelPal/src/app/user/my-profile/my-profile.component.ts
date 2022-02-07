@@ -26,10 +26,10 @@ export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
   userStays: AccommodationVM[] = [];
   userEvents!: EventVM[];
-  // code!: string;
-  // phoneCodeSent!: boolean;
+
   showEditProfile = false;
   showVerify = false;
+  showPicture = false;
 
   pagination!: Pagination;
   pageNumber = 1;
@@ -74,32 +74,6 @@ export class MyProfileComponent implements OnInit {
     this.LoadData();
   }
 
-  // resend() {
-  //   this._user.sendEmailVerification(this.user.email).subscribe(() => {
-  //     this._toastr.success('Please check your email.');
-  //   });
-  // }
-
-  // sendPhoneVerification() {
-  //   const id = this._security.getFieldFromJWT('id');
-
-  //   this._user.sendPhoneVerification(id).subscribe((res) => {
-  //     console.log(res);
-  //   });
-  //   this._toastr.success('Check your inbox!');
-  //   this.phoneCodeSent = true;
-  // }
-
-  // submitCode() {
-  //   const id = this._security.getFieldFromJWT('id');
-
-  //   this._user.checkPhoneVerification(id, this.code).subscribe((res) => {
-  //     this.LoadData();
-  //     console.log(res);
-  //     this._toastr.success('Success!');
-  //   });
-  // }
-
   editProfile() {
     this.showEditProfile = true;
   }
@@ -116,5 +90,9 @@ export class MyProfileComponent implements OnInit {
         this._toastr.success('Successfully edited!');
         this.LoadData();
       });
+  }
+
+  profilePicture() {
+    this.showPicture = true;
   }
 }

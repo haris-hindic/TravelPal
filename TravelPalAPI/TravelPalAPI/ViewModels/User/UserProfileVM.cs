@@ -14,6 +14,7 @@ namespace TravelPalAPI.ViewModels.User
         public bool EmailVerified { get; set; }
         public string PhoneNumber { get; set; }
         public bool PhoneNumberVerified { get; set; }
+        public string Picture { get; set; }
 
     }
 }

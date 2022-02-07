@@ -45,4 +45,8 @@ export class UserService {
   updateProfile(id: string, editVM: userEditVM) {
     return this._http.put(`${this.apiURL}/edit-profile/${id}`, editVM);
   }
+
+  updatePicture(id: string, picture: FormData) {
+    return this._http.post(`${this.apiURL}/change-photo/${id}`, picture);
+  }
 }

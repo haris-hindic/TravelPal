@@ -54,10 +54,10 @@
             <p>{{ stay.location.country }},{{ stay.location.city }}</p>
           </div>
           <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
-          <!-- <img
-            [src]="stay.images[0].imagePath"
+          <img
+            [src]="stay.user.picture"
             class="card-trip-user avatar-bordered"
-          /> -->
+          />
         </div>
       </div>
       <div class="text-center m-3">

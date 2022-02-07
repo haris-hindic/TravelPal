@@ -2,8 +2,16 @@
   <div class="row">
     <div class="col-4">
       <div class="card">
+        <div class="text-end">
+          <i
+            style="cursor: pointer"
+            (click)="profilePicture()"
+            class="far fa-images"
+          ></i>
+          <br />
+        </div>
         <div class="text-center">
-          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="" />
+          <img [src]="user.picture" alt="" />
         </div>
         <h2 class="text-center mt-2">
           {{ user.firstName }} {{ user.lastName }}
@@ -119,46 +127,6 @@
             </div>
           </div>
         </mat-tab>
-
-        <!--//-->
-
-        <!-- <mat-tab label="Edit profile">
-          <div class="row mt-4" style="width: 95%; offset: 5px">
-            <div class="col-5 mb-2">{{ user.email }}</div>
-            <div class="col-6 mb-2">
-              <span *ngIf="user.emailVerified">Verified!</span>
-              <span *ngIf="!user.emailVerified"
-                ><button type="button" (click)="resend()">
-                  Resend verification code
-                </button></span
-              >
-            </div>
-            <div class="col-5 mb-2">{{ user.phoneNumber }}</div>
-            <div class="col-6 mb-2">
-              <span *ngIf="user.phoneNumberVerified">Verified!</span>
-              <span *ngIf="!user.phoneNumberVerified"
-                ><button type="button" (click)="sendPhoneVerification()">
-                  Send verification code
-                </button></span
-              >
-            </div>
-            <div class="col mb-2">
-              <div *ngIf="!user.phoneNumberVerified">
-                <div *ngIf="phoneCodeSent">
-                  <label class="form-label">Enter the code:</label>
-                  <input
-                    [(ngModel)]="code"
-                    type="number"
-                    class="form-control"
-                  />
-                  <button type="button" class="mt-2" (click)="submitCode()">
-                    Submit code
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-tab> -->
       </mat-tab-group>
     </div>
   </div>
@@ -177,3 +145,9 @@
   [user]="user"
 >
 </app-verify>
+
+<app-profile-picture
+  *ngIf="showPicture == true"
+  (closeModal)="showPicture = false"
+>
+</app-profile-picture>

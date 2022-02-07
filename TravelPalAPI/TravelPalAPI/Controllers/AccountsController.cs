@@ -33,7 +33,7 @@ namespace TravelPalAPI.Controllers
         private readonly ITokenService tokenService;
         private readonly IEmailSenderService emailService;
         private readonly IPhoneVerificationService phoneVerification;
-
+        private readonly IFileStorageService storageService;
         private readonly string clientURI= "http://localhost:4200/authentication/emailconfirmation";
         private IConfiguration configuration;
 
@@ -41,7 +41,7 @@ namespace TravelPalAPI.Controllers
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
             SignInManager<UserAccount> signInManager,ITokenService tokenService,
             IConfiguration configuration, IEmailSenderService emailService,
-            IPhoneVerificationService phoneVerification)
+            IPhoneVerificationService phoneVerification,IFileStorageService storageService)
         {
             this.appDb = appDb;
             this.userManager = userManager;
@@ -50,6 +50,7 @@ namespace TravelPalAPI.Controllers
             this.configuration = configuration;
             this.emailService = emailService;
             this.phoneVerification = phoneVerification;
+            this.storageService = storageService;
         }
 
         
@@ -84,7 +85,8 @@ namespace TravelPalAPI.Controllers
                 Email = userCredentials.Email,
                 FirstName = userCredentials.FirstName,
                 LastName = userCredentials.LastName,
-                PhoneNumber = userCredentials.PhoneNumber
+                PhoneNumber = userCredentials.PhoneNumber,
+                Picture= "https://localhost:44325/User/default.jpg"
             };
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
@@ -172,7 +174,8 @@ namespace TravelPalAPI.Controllers
                 Email = user.Email,
                 EmailVerified=user.EmailConfirmed,
                 PhoneNumber = user.PhoneNumber,
-                PhoneNumberVerified=user.PhoneNumberConfirmed
+                PhoneNumberVerified=user.PhoneNumberConfirmed,
+                Picture=user.Picture
             };
         }
 
@@ -230,6 +233,29 @@ namespace TravelPalAPI.Controllers
                 await userManager.AddClaimAsync(user, new Claim("status", "verified"));
 
             return Ok(result);
+        }
+
+        public class PictureVM
+        {
+            public IFormFile Picture { get; set; }
+        }
+
+        [HttpPost("change-photo/{id}")]
+        public async Task<IActionResult> Photo(string id,[FromForm]PictureVM formFile)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null) return BadRequest("User not found!");
+
+            if (!user.Picture.Contains("default"))
+                storageService.DeleteFile(user.Picture, "User");
+
+            user.Picture = storageService.SaveFile("User", formFile.Picture);
+
+            await userManager.UpdateAsync(user);
+            
+
+            return Ok(appDb.SaveChanges());
         }
     }
 }

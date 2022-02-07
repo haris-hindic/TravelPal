@@ -12,6 +12,6 @@ namespace TravelPalAPI.ViewModels.Identity
         public int StaysListed { get; set; } = 1;
         public int EventsListed { get; set; } = 1;
         public bool IsAdmin { get; set; }
-        public string ProfilePicture { get; set; }
+        public string Picture { get; set; }
     }
 }

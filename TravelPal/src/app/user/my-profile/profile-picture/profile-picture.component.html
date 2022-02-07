@@ -1,0 +1,45 @@
+<div
+  class="modal fade show"
+  id="exampleModalLive"
+  tabindex="-1"
+  aria-labelledby="exampleModalLiveLabel"
+  aria-modal="true"
+  role="dialog"
+  style="display: block"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLiveLabel">New picture</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="close()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="m-4">
+        <label class="form-label">Select pictures</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="imageSelected($event)"
+          #img
+        />
+        <hr />
+        <div class="text-center">
+          <img *ngIf="imageBase64" [src]="imageBase64" alt="" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="close()" class="btn btn-secondary">
+          Close
+        </button>
+        <button type="button" (click)="submit()" class="btn btn-primary">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

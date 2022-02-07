@@ -4,6 +4,7 @@ export interface userVM {
   staysListed: number;
   eventsListed: number;
   isAdmin: boolean;
+  picture: string;
 }
 
 export interface userProfileVM {
@@ -14,6 +15,7 @@ export interface userProfileVM {
   emailVerified: boolean;
   phoneNumber: string;
   phoneNumberVerified: boolean;
+  picture: string;
 }
 
 export interface userEditVM {
