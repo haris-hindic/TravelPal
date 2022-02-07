@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { AccommodationService } from '../accommodation.service';
 import { AccommodationVM } from '../stays.model';
@@ -18,7 +19,8 @@ export class StayUserComponent implements OnInit {
 
   constructor(
     private _accommodationService: AccommodationService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,10 @@ export class StayUserComponent implements OnInit {
   }
 
   delete(id: number) {
-    this._accommodationService.delete(id).subscribe((res) => this.loadData());
+    this._accommodationService.delete(id).subscribe((res) => {
+      this.loadData();
+      this._toastr.error('Successfully deleted!');
+    });
   }
 
   updatePagination(event: PageEvent) {

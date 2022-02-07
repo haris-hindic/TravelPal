@@ -162,6 +162,7 @@ export class StayEditComponent implements OnInit {
               .subscribe(
                 () => {
                   this._router.navigate(['stays']);
+                  this._toastr.info('Successfully edited!');
                 },
                 (err: any) => {
                   this.errors = parseWebAPiErrors(err);
@@ -169,6 +170,7 @@ export class StayEditComponent implements OnInit {
               );
           } else {
             this._router.navigate(['stays']);
+            this._toastr.info('Successfully edited!');
           }
         },
         (err) => {
