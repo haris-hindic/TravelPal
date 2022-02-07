@@ -24,7 +24,7 @@ namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme )]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Policy = "IsVerified")]
     public class AccommodationController : ControllerBase
     {
         private readonly IAccommodationRepository accommodationRepo;

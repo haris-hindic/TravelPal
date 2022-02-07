@@ -1,4 +1,4 @@
-<div class="container mt-4" *ngIf="user && userEvents && userStays">
+<div class="container mt-4" *ngIf="user && userEvents">
   <div class="row">
     <div class="col-4">
       <div class="card">
@@ -32,9 +32,16 @@
             <i style="color: red" class="far fa-times-circle"></i>
           </div>
           <br />
-          <div class="col-12 mt-2">
-            <button type="button" (click)="editProfile()">
-              <i class="fas fa-user-edit"></i> Edit profile
+          <div class="col-12 text-center mt-2">
+            <button class="me-2" type="button" (click)="editProfile()">
+              <i class="fas fa-user-edit"></i> Edit
+            </button>
+            <button
+              *ngIf="!_security.isVerified()"
+              type="button"
+              (click)="verifyProfile()"
+            >
+              <i class="fas fa-user-check"></i> Verify
             </button>
           </div>
         </div>
@@ -43,12 +50,18 @@
     <div class="col-8">
       <mat-tab-group mat-stretch-tabs>
         <!--Stays-->
-        <mat-tab label="Listed Stays">
-          <div *ngIf="userStays.length == 0">
+        <mat-tab
+          *ngIf="userStays || !_security.isVerified()"
+          label="Listed Stays"
+        >
+          <div
+            class="alert-info m-4"
+            *ngIf="userStays.length == 0 || !_security.isVerified()"
+          >
             No stays listed. In order to be able to list your stays you need to
             verify either your phone number or email.
           </div>
-          <div *ngIf="userStays.length > 0">
+          <div *ngIf="userStays.length > 0 && _security.isVerified()">
             <div *ngFor="let stay of userStays" class="card-trip">
               <img
                 routerLink="/stays/details/{{ stay.id }}"
@@ -109,7 +122,7 @@
 
         <!--//-->
 
-        <mat-tab label="Edit profile">
+        <!-- <mat-tab label="Edit profile">
           <div class="row mt-4" style="width: 95%; offset: 5px">
             <div class="col-5 mb-2">{{ user.email }}</div>
             <div class="col-6 mb-2">
@@ -145,7 +158,7 @@
               </div>
             </div>
           </div>
-        </mat-tab>
+        </mat-tab> -->
       </mat-tab-group>
     </div>
   </div>
@@ -157,3 +170,10 @@
   (closeModal)="showEditProfile = false"
   (result)="onEditProfile($event)"
 ></app-edit-profile>
+
+<app-verify
+  *ngIf="showVerify == true"
+  (closeModal)="showVerify = false"
+  [user]="user"
+>
+</app-verify>

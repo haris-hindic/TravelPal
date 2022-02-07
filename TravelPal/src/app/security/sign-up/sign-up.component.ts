@@ -39,6 +39,9 @@ export class SignUpComponent implements OnInit {
     this._securityService.signUp(this.form.value).subscribe(
       (res) => {
         this._toastr.success('Please verify your email address!');
+        this._toastr.info(
+          'In order to host or reserve you need to verify your profile.'
+        );
         this._securityService.saveToken(res);
         this._router.navigate(['']);
       },

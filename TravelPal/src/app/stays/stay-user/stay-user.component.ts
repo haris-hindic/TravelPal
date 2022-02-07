@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { SecurityService } from 'src/app/security/security.service';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { AccommodationService } from '../accommodation.service';
 import { AccommodationVM } from '../stays.model';
@@ -20,7 +21,8 @@ export class StayUserComponent implements OnInit {
   constructor(
     private _accommodationService: AccommodationService,
     private _route: ActivatedRoute,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    public _securityService: SecurityService
   ) {}
 
   ngOnInit(): void {

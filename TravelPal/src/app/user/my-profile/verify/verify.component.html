@@ -1,0 +1,62 @@
+<div
+  class="modal fade show"
+  id="exampleModalLive"
+  tabindex="-1"
+  aria-labelledby="exampleModalLiveLabel"
+  aria-modal="true"
+  role="dialog"
+  style="display: block"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLiveLabel">Edit profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="close()"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="row m-4" style="width: 95%; offset: 5px">
+        <div class="col-5 mb-2">{{ user.email }}</div>
+        <div class="col-6 mb-2">
+          <span *ngIf="user.emailVerified">Verified!</span>
+          <span *ngIf="!user.emailVerified"
+            ><button type="button" (click)="resend()">
+              Resend verification code
+            </button></span
+          >
+        </div>
+        <div class="col-5 mb-2">{{ user.phoneNumber }}</div>
+        <div class="col-6 mb-2">
+          <span *ngIf="user.phoneNumberVerified">Verified!</span>
+          <span *ngIf="!user.phoneNumberVerified"
+            ><button type="button" (click)="sendPhoneVerification()">
+              Send verification code
+            </button></span
+          >
+        </div>
+        <div class="col mb-2">
+          <div *ngIf="!user.phoneNumberVerified">
+            <div *ngIf="phoneCodeSent">
+              <label class="form-label">Enter the code:</label>
+              <input [(ngModel)]="code" type="number" class="form-control" />
+              <button type="button" class="mt-2" (click)="submitCode()">
+                Submit code
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="close()" class="btn btn-secondary">
+          Close
+        </button>
+        <!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>

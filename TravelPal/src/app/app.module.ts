@@ -35,6 +35,7 @@ import { EmailConfirmationComponent } from './email/email-confirmation/email-con
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
 import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profile.component';
 import { EventsModalComponent } from './events/events-modal/events-modal.component';
+import { VerifyComponent } from './user/my-profile/verify/verify.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +63,7 @@ import { EventsModalComponent } from './events/events-modal/events-modal.compone
     MyProfileComponent,
     EditProfileComponent,
     EventsModalComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,

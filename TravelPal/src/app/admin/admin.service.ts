@@ -7,7 +7,7 @@ import { userVM } from '../shared/models/user.model';
   providedIn: 'root',
 })
 export class AdminService {
-  private apiKey: string = `https://localhost:44325/api/accounts`;
+  private apiKey: string = `https://localhost:44325/api/Admin`;
 
   constructor(private _http: HttpClient) {}
 

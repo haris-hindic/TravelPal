@@ -18,6 +18,7 @@ import { StayUserComponent } from './stays/stay-user/stay-user.component';
 import { StaysComponent } from './stays/stays.component';
 import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
+import { VerifiedGuard } from './guards/verified.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
   {
     path: 'stays/create',
     component: StayCreateComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, VerifiedGuard],
   },
   {
     path: 'stays/details/:id',
@@ -42,7 +43,7 @@ const appRoutes: Routes = [
   {
     path: 'stays/edit/:id',
     component: StayEditComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, VerifiedGuard],
   },
   //events
   { path: 'events', component: EventsComponent },

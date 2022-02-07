@@ -38,6 +38,7 @@ namespace TravelPalAPI.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
+                options.AddPolicy("IsVerified", policy => policy.RequireClaim("status", "verified"));
             });
 
             return services;

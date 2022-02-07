@@ -19,7 +19,7 @@ export class JwtInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this._security.getToken();
 
-    if (token && !req.url.includes('countrystatecity')) {
+    if (token) {
       req = req.clone({
         setHeaders: { Authorization: `Bearer ${token}` },
       });

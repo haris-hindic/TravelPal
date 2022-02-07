@@ -52,7 +52,7 @@
   <div class="mt-5">
     <div class="container mt-5">
       <!-- Table -->
-      <div class="col">
+      <div class="col" *ngIf="_securityService.isVerified()">
         <div class="card shadow">
           <div class="card-header border-0">
             <h3 class="mb-0">Accommodations list</h3>
@@ -133,6 +133,19 @@
           <div class="col-6 mt-2 text-end">
             <button class="btn btn-success ms-2" routerLink="/stays/create">
               Add new
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col" *ngIf="!_securityService.isVerified()">
+        <div class="row">
+          <div class="col-12 alert-info">
+            In order to host stays you will need to verify your email adress or
+            phone number.
+          </div>
+          <div class="col-6 mt-2 text-end">
+            <button class="btn btn-success ms-2" routerLink="/user/profile">
+              My profile
             </button>
           </div>
         </div>

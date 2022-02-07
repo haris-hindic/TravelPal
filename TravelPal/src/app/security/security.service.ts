@@ -14,6 +14,7 @@ export class SecurityService {
   private tokenKey: string = 'token';
   private expirationTokenKey: string = 'token-expiration';
   private roleKey: string = 'role';
+  private statusKey: string = 'status';
   constructor(private _http: HttpClient) {}
 
   isAuthenticated() {
@@ -36,6 +37,14 @@ export class SecurityService {
     const role = this.getFieldFromJWT(this.roleKey);
 
     if (role === 'admin') return true;
+
+    return false;
+  }
+
+  isVerified() {
+    const role = this.getFieldFromJWT(this.statusKey);
+
+    if (role === 'verified') return true;
 
     return false;
   }

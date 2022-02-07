@@ -24,18 +24,19 @@ import { UserService } from '../user.service';
 })
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
-  userStays!: AccommodationVM[];
+  userStays: AccommodationVM[] = [];
   userEvents!: EventVM[];
-  code!: string;
-  phoneCodeSent!: boolean;
+  // code!: string;
+  // phoneCodeSent!: boolean;
   showEditProfile = false;
+  showVerify = false;
 
   pagination!: Pagination;
   pageNumber = 1;
   pageSize = 4;
 
   constructor(
-    private _security: SecurityService,
+    public _security: SecurityService,
     private _user: UserService,
     private _accommodation: AccommodationService,
     private _toastr: ToastrService,
@@ -52,12 +53,14 @@ export class MyProfileComponent implements OnInit {
     this._user.getUserById(id).subscribe((res) => {
       this.user = res;
     });
-    this._accommodation
-      .getByUser(id, this.pageNumber, this.pageSize)
-      .subscribe((res) => {
-        this.userStays = res.result;
-        this.pagination = res.pagination;
-      });
+    if (this._security.isVerified()) {
+      this._accommodation
+        .getByUser(id, this.pageNumber, this.pageSize)
+        .subscribe((res) => {
+          this.userStays = res.result;
+          this.pagination = res.pagination;
+        });
+    }
 
     this._eventService.getUserEvents(id).subscribe((res) => {
       this.userEvents = res;
@@ -71,35 +74,38 @@ export class MyProfileComponent implements OnInit {
     this.LoadData();
   }
 
-  resend() {
-    this._user.sendEmailVerification(this.user.email).subscribe(() => {
-      this._toastr.success('Please check your email.');
-    });
-  }
+  // resend() {
+  //   this._user.sendEmailVerification(this.user.email).subscribe(() => {
+  //     this._toastr.success('Please check your email.');
+  //   });
+  // }
 
-  sendPhoneVerification() {
-    const id = this._security.getFieldFromJWT('id');
+  // sendPhoneVerification() {
+  //   const id = this._security.getFieldFromJWT('id');
 
-    this._user.sendPhoneVerification(id).subscribe((res) => {
-      console.log(res);
-    });
-    this._toastr.success('Check your inbox!');
-    this.phoneCodeSent = true;
-  }
+  //   this._user.sendPhoneVerification(id).subscribe((res) => {
+  //     console.log(res);
+  //   });
+  //   this._toastr.success('Check your inbox!');
+  //   this.phoneCodeSent = true;
+  // }
 
-  submitCode() {
-    const id = this._security.getFieldFromJWT('id');
+  // submitCode() {
+  //   const id = this._security.getFieldFromJWT('id');
 
-    this._user.checkPhoneVerification(id, this.code).subscribe((res) => {
-      this.LoadData();
-      console.log(res);
-      this._toastr.success('Success!');
-    });
-  }
+  //   this._user.checkPhoneVerification(id, this.code).subscribe((res) => {
+  //     this.LoadData();
+  //     console.log(res);
+  //     this._toastr.success('Success!');
+  //   });
+  // }
 
   editProfile() {
     this.showEditProfile = true;
-    console.log(this.showEditProfile);
+  }
+
+  verifyProfile() {
+    this.showVerify = true;
   }
 
   onEditProfile(editProfile: userEditVM) {
