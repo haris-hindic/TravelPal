@@ -102,11 +102,40 @@
     <div class="col-3 m-2 offset-4">
       <div class="reserve">
         <div class="reservation">
-          <button type="reset">Proceed to reservation</button>
-          <a routerLink="/stays/search" type="reset" id="back" class="mt-2"
-            >Go Back</a
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                (change)="change()"
+                [(ngModel)]="startDate"
+                matStartDate
+                placeholder="Start date"
+              />
+              <input
+                (change)="change()"
+                [(ngModel)]="endDate"
+                matEndDate
+                placeholder="End date"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+          <hr />
+          <button (click)="change()" type="button">
+            Proceed to reservation
+          </button>
+          <button
+            routerLink="/stays/search"
+            type="reset"
+            id="back"
+            class="mt-2"
           >
-          <!-- <button routerLink="/stays" class="mt-4" id="back">Go back</button> -->
+            Go Back
+          </button>
         </div>
       </div>
     </div>

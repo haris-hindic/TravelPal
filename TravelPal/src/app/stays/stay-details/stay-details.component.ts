@@ -9,6 +9,8 @@ import { AccommodationVM } from '../stays.model';
   styleUrls: ['./stay-details.component.css'],
 })
 export class StayDetailsComponent implements OnInit {
+  startDate!: Date;
+  endDate!: Date;
   stay!: AccommodationVM;
   constructor(
     private _route: ActivatedRoute,
@@ -27,5 +29,10 @@ export class StayDetailsComponent implements OnInit {
           this.stay = data;
         });
     });
+  }
+
+  change() {
+    console.log('this.startDate :>> ', this.startDate);
+    console.log('this.endDate :>> ', this.endDate);
   }
 }

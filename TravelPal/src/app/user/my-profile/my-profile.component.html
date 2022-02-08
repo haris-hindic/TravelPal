@@ -1,4 +1,4 @@
-<div class="container mt-4" *ngIf="user && userEvents">
+<div class="container mt-4" *ngIf="user">
   <div class="row">
     <div class="col-4">
       <div class="card">
@@ -58,10 +58,7 @@
     <div class="col-8">
       <mat-tab-group mat-stretch-tabs>
         <!--Stays-->
-        <mat-tab
-          *ngIf="userStays || !_security.isVerified()"
-          label="Listed Stays"
-        >
+        <mat-tab label="Listed Stays">
           <div
             class="alert-info m-4"
             *ngIf="userStays.length == 0 || !_security.isVerified()"
@@ -85,16 +82,9 @@
               </div>
             </div>
             <div class="text-center">
-              <mat-paginator
-                *ngIf="pagination"
-                [length]="pagination.totalItems"
-                [pageSizeOptions]="[4, 8, 15, 25]"
-                showFirstLastButtons
-                [pageSize]="pageSize"
-                (page)="updatePagination($event)"
-                aria-label="Select page"
-              >
-              </mat-paginator>
+              <button class="m-4 rounded-circle" type="button">
+                <i class="fas fa-stream"></i> View all
+              </button>
             </div>
           </div>
         </mat-tab>
@@ -108,8 +98,8 @@
             No events listed. In order to be able to list your stays you need to
             verify either your phone number or email.
           </div>
-          <div *ngIf="userEvents.length == 0">
-            <div *ngFor="let event of userEvents" class="card-trip">
+          <div *ngIf="userEvents.length > 0">
+            <div *ngFor="let event of userEvents" class="card">
               <img
                 routerLink="/events/edit/{{ event.id }}"
                 style="cursor: pointer"

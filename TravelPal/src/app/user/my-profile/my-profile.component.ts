@@ -1,10 +1,3 @@
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
-import {
-  HttpClient,
-  HttpHeaderResponse,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
@@ -25,7 +18,7 @@ import { UserService } from '../user.service';
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
   userStays: AccommodationVM[] = [];
-  userEvents!: EventVM[];
+  userEvents: EventVM[] = [];
 
   showEditProfile = false;
   showVerify = false;
@@ -38,9 +31,7 @@ export class MyProfileComponent implements OnInit {
   constructor(
     public _security: SecurityService,
     private _user: UserService,
-    private _accommodation: AccommodationService,
-    private _toastr: ToastrService,
-    private _eventService: EventsService
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -52,19 +43,10 @@ export class MyProfileComponent implements OnInit {
 
     this._user.getUserById(id).subscribe((res) => {
       this.user = res;
-    });
-    if (this._security.isVerified()) {
-      this._accommodation
-        .getByUser(id, this.pageNumber, this.pageSize)
-        .subscribe((res) => {
-          this.userStays = res.result;
-          this.pagination = res.pagination;
-        });
-    }
-
-    this._eventService.getUserEvents(id).subscribe((res) => {
-      this.userEvents = res;
-      console.log(this.userEvents);
+      if (this._security.isVerified()) {
+        this.userStays = res.accommodations;
+        this.userEvents = res.events;
+      }
     });
   }
 

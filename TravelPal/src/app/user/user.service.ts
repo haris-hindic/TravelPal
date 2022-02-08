@@ -8,10 +8,11 @@ import { userEditVM, userProfileVM } from '../shared/models/user.model';
 })
 export class UserService {
   private readonly apiURL = `https://localhost:44325/api/Accounts`;
+  private readonly userApiURL = `https://localhost:44325/api/User`;
   constructor(private _http: HttpClient) {}
 
   getUserById(id: string) {
-    return this._http.get<userProfileVM>(`${this.apiURL}/profile?id=${id}`);
+    return this._http.get<userProfileVM>(`${this.userApiURL}/profile?id=${id}`);
   }
 
   sendEmailVerification(email: string) {
@@ -43,10 +44,10 @@ export class UserService {
   }
 
   updateProfile(id: string, editVM: userEditVM) {
-    return this._http.put(`${this.apiURL}/edit-profile/${id}`, editVM);
+    return this._http.put(`${this.userApiURL}/edit-profile/${id}`, editVM);
   }
 
   updatePicture(id: string, picture: FormData) {
-    return this._http.post(`${this.apiURL}/change-photo/${id}`, picture);
+    return this._http.post(`${this.userApiURL}/change-photo/${id}`, picture);
   }
 }

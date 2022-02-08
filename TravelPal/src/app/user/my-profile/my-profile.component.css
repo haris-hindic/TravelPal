@@ -38,14 +38,18 @@ button[type="button"]:hover {
   color: #0a0a0b;
 }
 .card-trip {
-  margin: 35px;
+  text-align: center;
+  margin-top: 15px;
+  margin-left: 20px;
   overflow: hidden;
+  max-height: 200px;
+  max-width: 800px;
   background: white;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .card-trip > img {
-  height: 200px;
+  height: 100px;
   width: 100%;
   object-fit: cover;
 }
@@ -83,5 +87,5 @@ button[type="button"]:hover {
   -ms-transform: scale(1.05);
   -o-transform: scale(1.05);
   transform: scale(1.05);
-  transition: 0.9s;
+  transition: 0.7s;
 }

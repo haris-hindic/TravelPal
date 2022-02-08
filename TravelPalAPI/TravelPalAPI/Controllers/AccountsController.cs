@@ -33,7 +33,6 @@ namespace TravelPalAPI.Controllers
         private readonly ITokenService tokenService;
         private readonly IEmailSenderService emailService;
         private readonly IPhoneVerificationService phoneVerification;
-        private readonly IFileStorageService storageService;
         private readonly string clientURI= "http://localhost:4200/authentication/emailconfirmation";
         private IConfiguration configuration;
 
@@ -41,7 +40,7 @@ namespace TravelPalAPI.Controllers
         public AccountsController(AppDbContext appDb,UserManager<UserAccount> userManager,
             SignInManager<UserAccount> signInManager,ITokenService tokenService,
             IConfiguration configuration, IEmailSenderService emailService,
-            IPhoneVerificationService phoneVerification,IFileStorageService storageService)
+            IPhoneVerificationService phoneVerification)
         {
             this.appDb = appDb;
             this.userManager = userManager;
@@ -50,7 +49,6 @@ namespace TravelPalAPI.Controllers
             this.configuration = configuration;
             this.emailService = emailService;
             this.phoneVerification = phoneVerification;
-            this.storageService = storageService;
         }
 
         
@@ -159,41 +157,41 @@ namespace TravelPalAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("profile")]
-        public async Task<ActionResult<UserProfileVM>> UserProfile([FromQuery]string id)
-        {
-            var user = await userManager.FindByIdAsync(id);
+        //[HttpGet("profile")]
+        //public async Task<ActionResult<UserProfileVM>> UserProfile([FromQuery]string id)
+        //{
+        //    var user = await userManager.FindByIdAsync(id);
 
-            if (user == null) return BadRequest("User not found!");
+        //    if (user == null) return BadRequest("User not found!");
 
-            return new UserProfileVM
-            {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                EmailVerified=user.EmailConfirmed,
-                PhoneNumber = user.PhoneNumber,
-                PhoneNumberVerified=user.PhoneNumberConfirmed,
-                Picture=user.Picture
-            };
-        }
+        //    return new UserProfileVM
+        //    {
+        //        UserName = user.UserName,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        Email = user.Email,
+        //        EmailVerified=user.EmailConfirmed,
+        //        PhoneNumber = user.PhoneNumber,
+        //        PhoneNumberVerified=user.PhoneNumberConfirmed,
+        //        Picture=user.Picture
+        //    };
+        //}
 
-        [HttpPut("edit-profile/{id}")]
-        public async Task<IActionResult> EditProfile(string id,EditProfileVM edit)
-        {
-            var user = await userManager.FindByIdAsync(id);
+        //[HttpPut("edit-profile/{id}")]
+        //public async Task<IActionResult> EditProfile(string id,EditProfileVM edit)
+        //{
+        //    var user = await userManager.FindByIdAsync(id);
 
-            if (user == null) return BadRequest("User not found!");
+        //    if (user == null) return BadRequest("User not found!");
 
-            user.UserName = edit.UserName;
-            user.FirstName = edit.FirstName;
-            user.LastName = edit.LastName;
+        //    user.UserName = edit.UserName;
+        //    user.FirstName = edit.FirstName;
+        //    user.LastName = edit.LastName;
 
-            await userManager.UpdateAsync(user);
+        //    await userManager.UpdateAsync(user);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         [HttpGet("phone-verification")]
         public async Task<IActionResult> StartPhoneVerification([FromQuery] string id)
@@ -235,27 +233,27 @@ namespace TravelPalAPI.Controllers
             return Ok(result);
         }
 
-        public class PictureVM
-        {
-            public IFormFile Picture { get; set; }
-        }
+        //public class PictureVM
+        //{
+        //    public IFormFile Picture { get; set; }
+        //}
 
-        [HttpPost("change-photo/{id}")]
-        public async Task<IActionResult> Photo(string id,[FromForm]PictureVM formFile)
-        {
-            var user = await userManager.FindByIdAsync(id);
+        //[HttpPost("change-photo/{id}")]
+        //public async Task<IActionResult> Photo(string id,[FromForm]PictureVM formFile)
+        //{
+        //    var user = await userManager.FindByIdAsync(id);
 
-            if (user == null) return BadRequest("User not found!");
+        //    if (user == null) return BadRequest("User not found!");
 
-            if (!user.Picture.Contains("default"))
-                storageService.DeleteFile(user.Picture, "User");
+        //    if (!user.Picture.Contains("default"))
+        //        storageService.DeleteFile(user.Picture, "User");
 
-            user.Picture = storageService.SaveFile("User", formFile.Picture);
+        //    user.Picture = storageService.SaveFile("User", formFile.Picture);
 
-            await userManager.UpdateAsync(user);
+        //    await userManager.UpdateAsync(user);
             
 
-            return Ok(appDb.SaveChanges());
-        }
+        //    return Ok(appDb.SaveChanges());
+        //}
     }
 }

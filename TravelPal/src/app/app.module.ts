@@ -37,6 +37,7 @@ import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profil
 import { EventsModalComponent } from './events/events-modal/events-modal.component';
 import { VerifyComponent } from './user/my-profile/verify/verify.component';
 import { ProfilePictureComponent } from './user/my-profile/profile-picture/profile-picture.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +67,7 @@ import { ProfilePictureComponent } from './user/my-profile/profile-picture/profi
     EventsModalComponent,
     VerifyComponent,
     ProfilePictureComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
