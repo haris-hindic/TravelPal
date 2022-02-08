@@ -108,7 +108,7 @@
             No events listed. In order to be able to list your stays you need to
             verify either your phone number or email.
           </div>
-          <div *ngIf="userEvents.length == 0">
+          <div *ngIf="userEvents.length != 0">
             <div *ngFor="let event of userEvents" class="card-trip">
               <img
                 routerLink="/events/edit/{{ event.id }}"
