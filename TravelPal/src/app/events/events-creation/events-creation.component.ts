@@ -25,6 +25,7 @@ export class EventsCreationComponent implements OnInit {
   imgFiles: File[] = [];
   cities!: city[];
   countries!: country[];
+  test!: string;
 
   constructor(
     private eventService: EventsService,

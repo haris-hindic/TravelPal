@@ -158,6 +158,7 @@ export class EventsEditComponent implements OnInit {
         (err) => {
           this.errors = parseWebAPiErrors(err);
         }
+
       );
   }
 

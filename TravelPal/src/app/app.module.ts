@@ -37,6 +37,8 @@ import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profil
 import { EventsModalComponent } from './events/events-modal/events-modal.component';
 import { VerifyComponent } from './user/my-profile/verify/verify.component';
 import { ProfilePictureComponent } from './user/my-profile/profile-picture/profile-picture.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +79,7 @@ import { ProfilePictureComponent } from './user/my-profile/profile-picture/profi
     NoopAnimationsModule,
     SharedModule,
     NgxPaginationModule,
+    AngularEditorModule 
   ],
   providers: [
     {

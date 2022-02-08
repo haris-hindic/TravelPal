@@ -188,16 +188,9 @@
         <ng-template matStepLabel>Fill out ending informations</ng-template>
         <div class="mb-3">
           <label class="form-label">Description</label>
-          <textarea
-            class="form-control"
-            formControlName="eventdescription"
-            rows="3"
-            [class.is-invalid]="
-              groupData.get('eventdescription')?.errors &&
-              groupData.get('eventdescription')?.touched
-            "
-          >
-                <div class="invalid-feedback">Please select the Description></div></textarea
+          <angular-editor [placeholder]="'Enter text here...'" formControlName="eventdescription"></angular-editor>
+
+                <div class="invalid-feedback">Please select the Description></div>
           >
         </div>
         <div class="col-10 mb-3">
@@ -228,7 +221,7 @@
           <button class="btn btn-danger m-1" matStepperPrevious><</button>
           <button
             class="btn btn-success"
-            [disabled]="groupData.invalid"
+         
             (click)="saveData()"
           >
             Submit
