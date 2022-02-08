@@ -1,0 +1,16 @@
+button[type="button"] {
+  background: #18b8c4;
+  border: 1px solid #38ccd7;
+  color: black;
+  padding: 0 30px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+button[type="button"]:hover {
+  background: #38ccd7;
+  border: 1px solid #38ccd7;
+  color: #0a0a0b;
+}
