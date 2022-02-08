@@ -188,10 +188,15 @@
         <ng-template matStepLabel>Fill out ending informations</ng-template>
         <div class="mb-3">
           <label class="form-label">Description</label>
-          <angular-editor [placeholder]="'Enter text here...'" formControlName="eventdescription"></angular-editor>
-
-                <div class="invalid-feedback">Please select the Description></div>
-          >
+          <angular-editor
+            [placeholder]="'Description'"
+            formControlName="eventdescription"
+            [class.is-invalid]="
+              groupData.get('eventdescription')?.errors &&
+              groupData.get('eventdescription')?.touched
+            "
+          ></angular-editor>
+          <div class="invalid-feedback">Please select the Description</div>
         </div>
         <div class="col-10 mb-3">
           <label class="form-label">Select picture</label>
@@ -219,13 +224,7 @@
         </div>
         <div class="col-6 mt-1 text-end">
           <button class="btn btn-danger m-1" matStepperPrevious><</button>
-          <button
-            class="btn btn-success"
-         
-            (click)="saveData()"
-          >
-            Submit
-          </button>
+          <button class="btn btn-success" (click)="saveData()">Submit</button>
         </div>
       </form>
     </mat-step>
