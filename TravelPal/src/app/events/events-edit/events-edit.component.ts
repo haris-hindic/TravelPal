@@ -49,48 +49,43 @@ export class EventsEditComponent implements OnInit {
       date: ['', { validators: [Validators.required] }],
       duration: [0, { validators: [Validators.required] }],
       eventdescription: ['', { validators: [Validators.required] }],
-      locationvm: this.builder.group(
-        {
-          country: ['', { validators: [Validators.required] }],
-          cityId:   [{ value: ''}, { validators: [Validators.required] }, ],
-          address: ['', {validators: [Validators.required]}],
-          longitude: [0,{validators: [Validators.required]}],
-          latitude: [0,{validators: [Validators.required]}]
+      locationvm: this.builder.group({
+        country: ['', { validators: [Validators.required] }],
+        cityId: [{ value: '' }, { validators: [Validators.required] }],
+        address: ['', { validators: [Validators.required] }],
+        longitude: [0, { validators: [Validators.required] }],
+        latitude: [0, { validators: [Validators.required] }],
       }),
     });
     this.loadData();
   }
-  loadData()
-  {
+  loadData() {
     this.aRoute.params.subscribe((params) => {
       this.eventService.getSpecific(params.id).subscribe((e: any) => {
         this.fillInputs(e);
-        this.event=e;
+        this.event = e;
         console.log(e);
         this.currentImages = e.images;
-        
+
         // Get countries
-        this.countryCity
-        .getCountries()
-        .subscribe((country) => {
+        this.countryCity.getCountries().subscribe((country) => {
           console.log(country);
           this.countries = country;
         });
 
         // Get cities
         this.countryCity
-        .getCitiesByCountry(this.event.locationVM.countryId)
-        .subscribe((city) => {
-          const index = city.findIndex(
-            (x) => x.id == this.event.locationVM.cityId
-          );
-          city.splice(index, 1);
-          this.cities = city;
-        });
+          .getCitiesByCountry(this.event.locationVM.countryId)
+          .subscribe((city) => {
+            const index = city.findIndex(
+              (x) => x.id == this.event.locationVM.cityId
+            );
+            city.splice(index, 1);
+            this.cities = city;
+          });
       });
     });
     console.log(this.event?.locationVM?.countryId);
-   
   }
 
   EditData() {
@@ -101,24 +96,39 @@ export class EventsEditComponent implements OnInit {
     this.groupData.get('name')?.patchValue(value.name);
     this.groupData.get('price')?.patchValue(value.price);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
-    this.groupData.get('date')?.patchValue(this.formatDate(new Date(value.date)));
+    this.groupData
+      .get('date')
+      ?.patchValue(this.formatDate(new Date(value.date)));
     this.groupData.get('duration')?.patchValue(value.duration);
-    this.groupData.get('locationvm.address')?.patchValue(value.locationVM.address);
+    this.groupData
+      .get('locationvm.address')
+      ?.patchValue(value.locationVM.address);
     this.groupData.get('eventdescription')?.patchValue(value.eventDescription);
-    this.groupData.get('locationvm.latitude')?.patchValue(value.locationVM.latitude);
-    this.groupData.get('locationvm.longitude')?.patchValue(value.locationVM.longitude);
-    this.groupData.get('locationvm')?.get('id')?.patchValue(value.locationVM.id);
-    this.groupData.get('locationvm')?.get('country')?.patchValue(value.locationVM.country);
-    this.groupData.get('locationvm')?.get('cityId')?.patchValue(value.locationVM.cityId);
+    this.groupData
+      .get('locationvm.latitude')
+      ?.patchValue(value.locationVM.latitude);
+    this.groupData
+      .get('locationvm.longitude')
+      ?.patchValue(value.locationVM.longitude);
+    this.groupData
+      .get('locationvm')
+      ?.get('id')
+      ?.patchValue(value.locationVM.id);
+    this.groupData
+      .get('locationvm')
+      ?.get('country')
+      ?.patchValue(value.locationVM.country);
+    this.groupData
+      .get('locationvm')
+      ?.get('cityId')
+      ?.patchValue(value.locationVM.cityId);
 
-    console.log("Country -> " + value.locationVM.country);
-    console.log("CityId -> " + value.locationVM.city);
-    console.log("Duration -> " + value.duration);
-
-
+    console.log('Country -> ' + value.locationVM.country);
+    console.log('CityId -> ' + value.locationVM.city);
+    console.log('Duration -> ' + value.duration);
   }
-    formatDate(date: Date) {
-    let MM = '' + (date.getMonth()+1);
+  formatDate(date: Date) {
+    let MM = '' + (date.getMonth() + 1);
     let dd = '' + date.getDate();
     const yyyy = date.getFullYear();
     if (MM.length < 2) MM = '0' + MM;
@@ -127,7 +137,6 @@ export class EventsEditComponent implements OnInit {
   }
 
   saveData() {
-
     this.eventService
       .edit(this.aRoute.snapshot.params.id as number, this.groupData.value)
       .subscribe(
@@ -137,9 +146,11 @@ export class EventsEditComponent implements OnInit {
               console.log(img);
               this.formData.append('images', img);
             });
-            this.imageService
-              .addImages(this.aRoute.snapshot.params.id as number, this.formData,'events')
-            
+            this.imageService.addImages(
+              this.aRoute.snapshot.params.id as number,
+              this.formData,
+              'events'
+            );
           }
           this.router.navigateByUrl('events');
           this.toastr.info('Event edited!');
@@ -148,8 +159,6 @@ export class EventsEditComponent implements OnInit {
           this.errors = parseWebAPiErrors(err);
         }
       );
-
-    
   }
 
   change(event: any) {
@@ -167,7 +176,6 @@ export class EventsEditComponent implements OnInit {
     this.imageService.deleteImage(id, 'events').subscribe((a) => {
       this.toastr.error('Image deleted!');
       this.loadData();
-
     });
   }
 
@@ -185,10 +193,11 @@ export class EventsEditComponent implements OnInit {
   changed(countryId: any) {
     this.groupData.get('locationvm.cityId')?.reset();
 
-    this.countryCity.getCitiesByCountry(countryId.target.value).subscribe((c) => {
-      this.cities = c;
-      this.groupData.get('locationvm.cityId')?.enable();
-    });
+    this.countryCity
+      .getCitiesByCountry(countryId.target.value)
+      .subscribe((c) => {
+        this.cities = c;
+        this.groupData.get('locationvm.cityId')?.enable();
+      });
   }
-
 }

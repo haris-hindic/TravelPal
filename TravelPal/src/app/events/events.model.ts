@@ -26,18 +26,16 @@ export class EventVM {
   duration!: string;
   eventDescription!: string;
   locationVM!: LocationVM;
-  images!: EventImages[]
+  images!: EventImages[];
 }
 
-export class EventImages
-{
+export class EventImages {
   id!: number;
   imagePath!: string;
   eventId!: number;
-  event!: Event
+  event!: Event;
 }
-export class EventSearchVM
-{
+export class EventSearchVM {
   location!: string;
   from!: string;
   to!: string;

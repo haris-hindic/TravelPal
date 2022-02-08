@@ -7,20 +7,21 @@ import { EventsService } from '../events.service';
 @Component({
   selector: 'app-events-user',
   templateUrl: './events-user.component.html',
-  styleUrls: ['./events-user.component.css']
+  styleUrls: ['./events-user.component.css'],
 })
 export class EventsUserComponent implements OnInit {
-
   name: string = '-1';
-  id: string =  '-1';
+  id: string = '-1';
   events!: EventVM[];
   page!: number;
   currentEvent!: any;
-  IsEventsLoaded: boolean = false; 
-  
+  IsEventsLoaded: boolean = false;
 
-  constructor(public securityService: SecurityService, private eventService: EventsService,
-      private toastr: ToastrService) { }
+  constructor(
+    public securityService: SecurityService,
+    private eventService: EventsService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.name = this.securityService.getFieldFromJWT('userName');
@@ -28,23 +29,18 @@ export class EventsUserComponent implements OnInit {
 
     this.loadEvents();
   }
-  
-  loadEvents()
-  {
-    this.eventService.getUserEvents(this.id).subscribe((e: any) =>
-      {
-        this.events = e;
-        console.log(this.events);
-        this.IsEventsLoaded = true;
-      })
+
+  loadEvents() {
+    this.eventService.getUserEvents(this.id).subscribe((e: any) => {
+      this.events = e;
+      console.log(this.events);
+      this.IsEventsLoaded = true;
+    });
   }
 
-  deleteEvent(id: number)
-  {
-    this.eventService.delete(id).subscribe((x)=> this.loadEvents());
+  deleteEvent(id: number) {
+    this.eventService.delete(id).subscribe((x) => this.loadEvents());
     console.log(this.events);
-    this.toastr.error("Event deleted");
+    this.toastr.error('Event deleted');
   }
-  
-
 }

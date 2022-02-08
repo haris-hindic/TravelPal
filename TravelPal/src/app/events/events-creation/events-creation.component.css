@@ -1,12 +1,11 @@
-.container{
-    margin-top: 35px;
+.container {
+  margin-top: 35px;
 }
-.gridc{
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-
+.gridc {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
 }
-img{
-    width: 200px;
-    height: 200px;
+img {
+  width: 200px;
+  height: 200px;
 }

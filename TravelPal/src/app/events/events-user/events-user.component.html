@@ -1,57 +1,92 @@
-<div class="page-content page-container" id="page-content" [ngClass]="{'blur-filter': currentEvent}"  *ngIf="IsEventsLoaded">
-    <div class="padding">
-        <div class="row container d-flex">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Hello, {{name}}</h4>
-                        <p class="card-description">Your Event list: </p>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Date</th>
-                                        <th>Price</th>
-                                        <th>Location</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let event of events">
-                                        <td>{{event?.name}}</td>
-                                        <td>{{event?.date | date}}</td>
-                                        <td>{{event?.price}}</td>
-                                        <td>[{{event?.locationVM?.country}}] {{event?.locationVM?.city}}</td>
-                                        <td>
-                                            <button class="btn btn-outline-success m-1 mt-0" (click)="currentEvent= event">Details</button>
-                                            <button class="btn btn-outline-warning m-1 mt-0" routerLink='../../events/edit/{{event.id}}'>Edit</button>
-                                            <button class="btn btn-outline-danger mt-0 m-1" (click)="deleteEvent(event.id)">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                               
-                            </table>
-                        </div>
-                        <nav aria-label="nav">
-                            <ul class="pagination justify-content-center">
-                              <li class="page-item disabled">
-                              </li>
-                              <pagination-controls (pageChange)="page=$event"></pagination-controls>
-                            </ul>
-                          </nav>
-                        <div class="row">
-                            <div class="col-6 text-start">
-                        <button class="btn btn-info" routerLink='../../events'>All events</button></div>
-                        <div class="col-6 text-end">
-                            <button class="btn btn-success" routerLink='../../events/creation'>Create new event</button></div>
-                    </div>
-                    </div>
-                </div>
+<div
+  class="page-content page-container"
+  id="page-content"
+  [ngClass]="{ 'blur-filter': currentEvent }"
+  *ngIf="IsEventsLoaded"
+>
+  <div class="padding">
+    <div class="row container d-flex">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Hello, {{ name }}</h4>
+            <p class="card-description">Your Event list:</p>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let event of events">
+                    <td>{{ event?.name }}</td>
+                    <td>{{ event?.date | date }}</td>
+                    <td>{{ event?.price }}</td>
+                    <td>
+                      [{{ event?.locationVM?.country }}]
+                      {{ event?.locationVM?.city }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-outline-success m-1 mt-0"
+                        (click)="currentEvent = event"
+                      >
+                        Details
+                      </button>
+                      <button
+                        class="btn btn-outline-warning m-1 mt-0"
+                        routerLink="../../events/edit/{{ event.id }}"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-outline-danger mt-0 m-1"
+                        (click)="deleteEvent(event.id)"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+            <nav aria-label="nav">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled"></li>
+                <pagination-controls
+                  (pageChange)="page = $event"
+                ></pagination-controls>
+              </ul>
+            </nav>
+            <div class="row">
+              <div class="col-6 text-start">
+                <button class="btn btn-info" routerLink="../../events">
+                  All events
+                </button>
+              </div>
+              <div class="col-6 text-end">
+                <button
+                  class="btn btn-success"
+                  routerLink="../../events/creation"
+                >
+                  Create new event
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-<app-events-modal *ngIf="currentEvent" (clsModal)="currentEvent=null" [currentEvent]="currentEvent"></app-events-modal>
+<app-events-modal
+  *ngIf="currentEvent"
+  (clsModal)="currentEvent = null"
+  [currentEvent]="currentEvent"
+></app-events-modal>
