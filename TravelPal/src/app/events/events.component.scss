@@ -1,15 +1,14 @@
-
 body {
-	font-family: "Baloo 2", cursive;
-	font-size: 16px;
-	color: #ffffff;
-	text-rendering: optimizeLegibility;
-	font-weight: initial;
+  font-family: "Baloo 2", cursive;
+  font-size: 16px;
+  color: #ffffff;
+  text-rendering: optimizeLegibility;
+  font-weight: initial;
 }
 .postcard {
   flex-wrap: wrap;
   display: flex;
-  
+
   box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
   border-radius: 10px;
   margin: 0 0 2rem 0;
@@ -17,30 +16,31 @@ body {
   position: relative;
   color: #ffffff;
 
-	&.dark {
-		background-color: #18151f;
-	}
-	&.light {
-		background-color: #e1e5ea;
-	}
-	
-	.t-dark {
-		color: #18151f;
-	}
-	
+  &.dark {
+    background-color: #18151f;
+  }
+  &.light {
+    background-color: #e1e5ea;
+  }
+
+  .t-dark {
+    color: #18151f;
+  }
+
   a {
     color: inherit;
   }
-	
-	h1,	.h1 {
-		margin-bottom: 0.5rem;
-		font-weight: 500;
-		line-height: 1.2;
-	}
-	
-	.small {
-		font-size: 80%;
-	}
+
+  h1,
+  .h1 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .small {
+    font-size: 80%;
+  }
 
   .postcard__title {
     font-size: 1.75rem;
@@ -80,13 +80,13 @@ body {
     text-align: justify;
     height: 100%;
   }
-  
+
   .postcard__tagbox {
     display: flex;
     flex-flow: row wrap;
     font-size: 14px;
     margin: 20px 0 0 0;
-		padding: 0;
+    padding: 0;
     justify-content: center;
 
     .tag__item {
@@ -105,45 +105,46 @@ body {
     }
   }
 }
-  .postcard {
-    flex-wrap: inherit;
+.postcard {
+  flex-wrap: inherit;
 
-    .postcard__title {
-      font-size: 2rem;
-    }
-
-    .postcard__img {
-      max-width: 297px;
-      max-height: 297px;
-      transition: transform 0.3s ease;
-    }
-
-    .postcard__text {
-      padding: 3rem;
-      width: 100%;
-    }
-
-
+  .postcard__title {
+    font-size: 2rem;
   }
 
-.postcard .postcard__tagbox .green.play:hover {
-	color: black;
-}
-.blue:nth-child(2n)::before {
-	background-image: linear-gradient(30deg, rgba(0, 118, 189, 0.1), transparent 50%);
-}
-
-.modal-image
-  {
-    width: 466px;
-    height: 350px;
+  .postcard__img {
+    max-width: 297px;
+    max-height: 297px;
     transition: transform 0.3s ease;
   }
 
-  .blur-filter {
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
+  .postcard__text {
+    padding: 3rem;
+    width: 100%;
+  }
+}
+
+.postcard .postcard__tagbox .green.play:hover {
+  color: black;
+}
+.blue:nth-child(2n)::before {
+  background-image: linear-gradient(
+    30deg,
+    rgba(0, 118, 189, 0.1),
+    transparent 50%
+  );
+}
+
+.modal-image {
+  width: 466px;
+  height: 350px;
+  transition: transform 0.3s ease;
+}
+
+.blur-filter {
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
 }

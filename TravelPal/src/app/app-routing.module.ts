@@ -50,7 +50,7 @@ const appRoutes: Routes = [
   {
     path: 'events/creation',
     component: EventsCreationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, VerifiedGuard],
   },
   {
     path: 'events/edit/:id',

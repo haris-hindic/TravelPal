@@ -63,9 +63,7 @@
                 </time>
               </div>
               <div class="postcard__bar"></div>
-              <div class="postcard__preview-txt">
-                {{ event.eventDescription }}
-              </div>
+              <div class="postcard__preview-txt" [innerHtml]="event.eventDescription"></div>
               <ul class="postcard__tagbox">
                 <li class="tag__item">
                   <i class="far fa-money-bill-alt"></i> {{ event.price }}€

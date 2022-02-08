@@ -1,148 +1,232 @@
-  <div class="container">
-      <h1>Host new event</h1>
-      <app-display-errors
-      *ngIf="errors.length > 0"
-      [errors]="errors"
-    ></app-display-errors>
+<div class="container">
+  <h1>Host new event</h1>
+  <app-display-errors
+    *ngIf="errors.length > 0"
+    [errors]="errors"
+  ></app-display-errors>
   <mat-stepper [linear]="false" #stepper>
     <mat-step>
       <form [formGroup]="groupData">
         <ng-template matStepLabel>Fill out basics</ng-template>
-         <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" formControlName="name"
-        [class.is-invalid]='groupData.get("name")?.errors && groupData.get("name")?.touched'>
-        <div *ngIf="groupData.get('name')?.hasError('required') " class="invalid-feedback">
-            Please enter the name</div>
-            <div *ngIf="groupData.get('name')?.hasError('minlength')" class="invalid-feedback">
-                Name must be at least 3 characters</div>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            [class.is-invalid]="
+              groupData.get('name')?.errors && groupData.get('name')?.touched
+            "
+          />
+          <div
+            *ngIf="groupData.get('name')?.hasError('required')"
+            class="invalid-feedback"
+          >
+            Please enter the name
+          </div>
+          <div
+            *ngIf="groupData.get('name')?.hasError('minlength')"
+            class="invalid-feedback"
+          >
+            Name must be at least 3 characters
+          </div>
 
-                <div class="mb-3">
-
-                    <label class="form-label">Price</label>
-                    <input type="number" class="form-control" formControlName="price"
-                    [class.is-invalid]='groupData.get("price")?.errors && groupData.get("price")?.touched'>
-                    <div class="invalid-feedback">Please enter the valid price
-                </div>
-            </div>
-    </div>
-           <div class="col-6 text-end">
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="price"
+              [class.is-invalid]="
+                groupData.get('price')?.errors &&
+                groupData.get('price')?.touched
+              "
+            />
+            <div class="invalid-feedback">Please enter the valid price</div>
+          </div>
+        </div>
+        <div class="col-6 text-end">
           <button class="btn btn-primary" matStepperNext>></button>
         </div>
       </form>
     </mat-step>
-        
-        <mat-step>
-            <form [formGroup]="groupData">
-            <ng-template matStepLabel>Fill out time informations</ng-template>
-            <div class="mb-3">
-                <label class="form-label">Date</label>
-                <input type="date" class="form-control" formControlName="date"
-                [class.is-invalid]='groupData.get("date")?.errors && groupData.get("date")?.touched'>
-                <div class="invalid-feedback">Please enter the date
-            </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Duration</label>
-                <input type="number" class="form-control" formControlName="duration"
-                [class.is-invalid]='groupData.get("duration")?.errors && groupData.get("duration")?.touched'>
-                <div class="invalid-feedback">Please enter duration
-            </div>
-            </div>
-            <div class="col-6 mt-1 text-end">
-              <button class="btn btn-danger m-2" matStepperPrevious><</button>
-              <button class="btn btn-primary" matStepperNext>></button>
-            </div>
-        </form>
-        </mat-step>
 
-        <mat-step>
-            <form [formGroup]="groupData">
-            <ng-template matStepLabel>Fill out location informations</ng-template>
-            <div class="gridc" formGroupName="locationvm">
-                <div class="mb-3">
-                <label class="form-label"  id="grid" >Country</label>
-                <select class="form-select"  (change)="changed(country.value)" #country
-                [class.is-invalid]='groupData.get("country")?.errors && groupData.get("country")?.touched'>
+    <mat-step>
+      <form [formGroup]="groupData">
+        <ng-template matStepLabel>Fill out time informations</ng-template>
+        <div class="mb-3">
+          <label class="form-label">Date</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="date"
+            [class.is-invalid]="
+              groupData.get('date')?.errors && groupData.get('date')?.touched
+            "
+          />
+          <div class="invalid-feedback">Please enter the date</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Duration</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="duration"
+            [class.is-invalid]="
+              groupData.get('duration')?.errors &&
+              groupData.get('duration')?.touched
+            "
+          />
+          <div class="invalid-feedback">Please enter duration</div>
+        </div>
+        <div class="col-6 mt-1 text-end">
+          <button class="btn btn-danger m-2" matStepperPrevious><</button>
+          <button class="btn btn-primary" matStepperNext>></button>
+        </div>
+      </form>
+    </mat-step>
 
+    <mat-step>
+      <form [formGroup]="groupData">
+        <ng-template matStepLabel>Fill out location informations</ng-template>
+        <div class="gridc" formGroupName="locationvm">
+          <div class="mb-3">
+            <label class="form-label" id="grid">Country</label>
+            <select
+              class="form-select"
+              (change)="changed(country.value)"
+              #country
+              [class.is-invalid]="
+                groupData.get('country')?.errors &&
+                groupData.get('country')?.touched
+              "
+            >
+              <option value="" disabled selected>Select a country</option>
+              <option
+                #country
+                *ngFor="let country of countries"
+                [value]="country.id"
+              >
+                {{ country.name }}
+              </option>
+            </select>
 
-                <option value="" disabled selected>Select a country</option>
-                <option #country *ngFor="let country of countries" [value]="country.id">{{country.name}}</option></select>
-                
+            <div class="invalid-feedback">Please enter country</div>
+          </div>
 
-                <div class="invalid-feedback">Please enter country</div>
-            </div>
-        
-                <div class="mb-3">
-                <label class="form-label"  >City</label>
-                <select class="form-select" formControlName="cityId"
-                [class.is-invalid]='groupData.get("cityId")?.errors && groupData.get("cityId")?.touched'>
+          <div class="mb-3">
+            <label class="form-label">City</label>
+            <select
+              class="form-select"
+              formControlName="cityId"
+              [class.is-invalid]="
+                groupData.get('cityId')?.errors &&
+                groupData.get('cityId')?.touched
+              "
+            >
+              <option *ngFor="let city of cities" [value]="city.id">
+                {{ city.name }}
+              </option>
+            </select>
+            <div class="invalid-feedback">Please enter the city</div>
+          </div>
 
-                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option></select>
-                <div class="invalid-feedback">Please enter the city</div>
-            </div>
-        
-                <div class="mb-3">
-                <label class="form-label" id="grid" >Address</label>
-                <input type="text" class="form-control" id="grid" formControlName="address"
-                [class.is-invalid]='groupData.get("address")?.errors && groupData.get("address")?.touched'>
-                <div class="invalid-feedback">Please enter the address</div>
-            </div>
-            </div>
-            <div class="col-6 mt-1 text-end">
-                <button class="btn btn-danger m-2" matStepperPrevious><</button>
-                <button class="btn btn-primary" matStepperNext>></button>
-              </div>
-        </form>
-        </mat-step>
-    
-        <mat-step>
-            <ng-template matStepLabel>Selection location on map</ng-template>
-            <div class="row"  [formGroup]="groupData">
-            <div class="col-8">
-                <app-map (onClicked)="map($event)" 
-                [mapIconURL]="'https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-drink-healthy-lifestyle-icongeek26-linear-colour-icongeek26.png'">
-                    
-                </app-map>
-            </div>
-                <div class="col-3 mt-5" formGroupName="locationvm">
-                <label class="form-label" >Longitue:</label>
-                <input type="number" class="form-control" formControlName="longitude" readonly/>
-                <label class="form-label" >Latitude:</label>
-                <input type="number" class="form-control" formControlName="latitude" readonly/>
-                </div>
-                
-            </div>
-        </mat-step>
-        <mat-step>
-            <form [formGroup]="groupData">
-            <ng-template matStepLabel>Fill out ending informations</ng-template>
-            <div class="mb-3">
-                <label class="form-label" >Description</label>
-                <textarea class="form-control" formControlName="eventdescription" rows="3"
-                [class.is-invalid]='groupData.get("eventdescription")?.errors && groupData.get("eventdescription")?.touched'>
-                <div class="invalid-feedback">Please select the Description></div></textarea>
-            </div>
-            <div class="col-10 mb-3">
-                <label class="form-label">Select picture</label>
-                <input type="file" class="form-control" (change)="change($event)"
-                    [class.is-invalid]='images.length<1 && groupData.valid'>
+          <div class="mb-3">
+            <label class="form-label" id="grid">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="grid"
+              formControlName="address"
+              [class.is-invalid]="
+                groupData.get('address')?.errors &&
+                groupData.get('address')?.touched
+              "
+            />
+            <div class="invalid-feedback">Please enter the address</div>
+          </div>
+        </div>
+        <div class="col-6 mt-1 text-end">
+          <button class="btn btn-danger m-2" matStepperPrevious><</button>
+          <button class="btn btn-primary" matStepperNext>></button>
+        </div>
+      </form>
+    </mat-step>
 
-                <div class="invalid-feedback">Please select the images</div>
+    <mat-step>
+      <ng-template matStepLabel>Selection location on map</ng-template>
+      <div class="row" [formGroup]="groupData">
+        <div class="col-8">
+          <app-map
+            (onClicked)="map($event)"
+            [mapIconURL]="
+              'https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-drink-healthy-lifestyle-icongeek26-linear-colour-icongeek26.png'
+            "
+          >
+          </app-map>
+        </div>
+        <div class="col-3 mt-5" formGroupName="locationvm">
+          <label class="form-label">Longitue:</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="longitude"
+            readonly
+          />
+          <label class="form-label">Latitude:</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="latitude"
+            readonly
+          />
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <form [formGroup]="groupData">
+        <ng-template matStepLabel>Fill out ending informations</ng-template>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <angular-editor
+            [placeholder]="'Description'"
+            formControlName="eventdescription"
+            [class.is-invalid]="
+              groupData.get('eventdescription')?.errors &&
+              groupData.get('eventdescription')?.touched
+            "
+          ></angular-editor>
+          <div class="invalid-feedback">Please select the Description</div>
+        </div>
+        <div class="col-10 mb-3">
+          <label class="form-label">Select picture</label>
+          <input
+            type="file"
+            class="form-control"
+            (change)="change($event)"
+            [class.is-invalid]="images.length < 1 && groupData.valid"
+          />
 
-                <div *ngIf="images && images.length > 0">
-                    <div *ngFor="let img of images; let i=index">
-            
-                        <img [src]="img"><br>
-                        <button type="submit" class="btn btn-danger" (click)="deleteImg(i)">Delete this image</button>
-                    </div>
-                </div>
-             </div>
-             <div class="col-6 mt-1 text-end">
-                <button class="btn btn-danger m-1" matStepperPrevious><</button>
-                <button class="btn btn-success"  [disabled]="groupData.invalid" (click)="saveData()" >Submit</button>
-              </div>
-                </form>
-                </mat-step>
+          <div class="invalid-feedback">Please select the images</div>
+
+          <div *ngIf="images && images.length > 0">
+            <div *ngFor="let img of images; let i = index">
+              <img [src]="img" /><br />
+              <button
+                type="submit"
+                class="btn btn-danger"
+                (click)="deleteImg(i)"
+              >
+                Delete this image
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 mt-1 text-end">
+          <button class="btn btn-danger m-1" matStepperPrevious><</button>
+          <button class="btn btn-success" (click)="saveData()">Submit</button>
+        </div>
+      </form>
+    </mat-step>
   </mat-stepper>
 </div>

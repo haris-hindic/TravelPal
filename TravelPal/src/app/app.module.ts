@@ -38,6 +38,8 @@ import { EventsModalComponent } from './events/events-modal/events-modal.compone
 import { VerifyComponent } from './user/my-profile/verify/verify.component';
 import { ProfilePictureComponent } from './user/my-profile/profile-picture/profile-picture.component';
 import { FooterComponent } from './footer/footer.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +81,7 @@ import { FooterComponent } from './footer/footer.component';
     NoopAnimationsModule,
     SharedModule,
     NgxPaginationModule,
+    AngularEditorModule,
   ],
   providers: [
     {

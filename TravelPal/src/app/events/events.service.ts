@@ -17,18 +17,18 @@ export class EventsService {
     return this.http.get<EventVM[]>(this.url);
   }
   getSpecific(id: number) {
-    return this.http.get<EventVM>(this.url + "/"  + id);
+    return this.http.get<EventVM>(this.url + '/' + id);
   }
 
   post(event: EventCreationVM) {
     return this.http.post(this.url, event);
   }
   delete(id: number) {
-    return this.http.delete(this.url + "/" + id, { responseType: 'text' });
+    return this.http.delete(this.url + '/' + id, { responseType: 'text' });
   }
 
   edit(id: number, event: EventEditVM) {
-    return this.http.put(this.url + "/" + id, event);
+    return this.http.put(this.url + '/' + id, event);
   }
 
   getUserEvents(id: string) {
