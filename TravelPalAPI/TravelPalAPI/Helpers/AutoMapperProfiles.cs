@@ -11,6 +11,7 @@ using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.EventImages;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
+using TravelPalAPI.ViewModels.Reservation;
 
 namespace TravelPalAPI.Helpers
 {
@@ -73,6 +74,11 @@ namespace TravelPalAPI.Helpers
                 .ForMember(x => x.Id, user => user.MapFrom(x => x.Id))
                 .ForMember(x => x.UserName, user => user.MapFrom(x => x.UserName));
 
+            //Reservation
+            CreateMap<ReservationCreationVM, Reservation>();
+            CreateMap<Reservation, ReservationVM>()
+                .ForMember(x => x.Status, opts => opts.MapFrom(x => x.Status.Description))
+                .ForMember(x => x.Accommodation, opts => opts.MapFrom(x => x.Accommodation.Name));
 
         }
     }

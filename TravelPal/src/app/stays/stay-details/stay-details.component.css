@@ -44,6 +44,7 @@
   font-size: 14px;
   cursor: pointer;
 }
+button[type="submit"],
 button[type="reset"] {
   background: #18b8c4;
   border: 1px solid #38ccd7;
@@ -55,6 +56,7 @@ button[type="reset"] {
   transition: all 0.2s;
 }
 
+button[type="submit"],
 button[type="reset"]:hover {
   background: #38ccd7;
   border: 1px solid #38ccd7;

@@ -1,0 +1,292 @@
+<div class="container mb-5">
+  <h1>Stay reservation</h1>
+  <!-- <app-display-errors
+    *ngIf="errors.length > 0"
+    [errors]="errors"
+  ></app-display-errors> -->
+  <form class="row g-3" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-stepper class="mt-2" orientation="vertical" [linear]="false" #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Fill out your personal info</ng-template>
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label">First Name</label>
+            <input
+              [ngClass]="
+                !form.get('firstName')?.valid && form.get('firstName')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="firstName"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('firstName')?.valid && form.get('firstName')?.touched
+              "
+              >The first name is a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Last name</label>
+            <input
+              [ngClass]="
+                !form.get('lastName')?.valid && form.get('lastName')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="lastName"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('lastName')?.valid && form.get('lastName')?.touched
+              "
+              >The Last Name is a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Email</label>
+            <input
+              [ngClass]="
+                !form.get('email')?.valid && form.get('email')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="email"
+              class="form-control"
+              formControlName="email"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="!form.get('email')?.valid && form.get('email')?.touched"
+              >The email are a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Phone Number</label>
+            <input
+              [ngClass]="
+                !form.get('phoneNumber')?.valid &&
+                form.get('phoneNumber')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="tel"
+              class="form-control"
+              formControlName="phoneNumber"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('phoneNumber')?.valid &&
+                form.get('phoneNumber')?.touched
+              "
+              >The phone number is a required field!</label
+            >
+          </div>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-primary mt-1"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Payment informamtion</ng-template>
+
+        <div class="row g-3 mt-2" formGroupName="paymentInfo">
+          <div class="col-5">
+            <label class="form-label">Country</label>
+            <input
+              [ngClass]="
+                !form.get('country')?.valid && form.get('country')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="country"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('country')?.valid && form.get('country')?.touched
+              "
+              >The country is a required field!</label
+            >
+          </div>
+
+          <div class="col-5">
+            <label class="form-label">City</label>
+            <input
+              [ngClass]="
+                !form.get('city')?.valid && form.get('city')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="city"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="!form.get('city')?.valid && form.get('city')?.touched"
+              >The city is a required field!</label
+            >
+          </div>
+
+          <div class="col-2">
+            <label class="form-label">Postal Code</label>
+            <input
+              [ngClass]="
+                !form.get('postalCode')?.valid &&
+                form.get('postalCode')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="number"
+              class="form-control"
+              formControlName="postalCode"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('postalCode')?.valid &&
+                form.get('postalCode')?.touched
+              "
+              >The postal code is a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Credit card number</label>
+            <input
+              [ngClass]="
+                !form.get('paymentInfo.ccNumber')?.valid &&
+                form.get('paymentInfo.ccNumber')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="ccNumber"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('paymentInfo.ccNumber')?.valid &&
+                form.get('paymentInfo.ccNumber')?.touched
+              "
+              >The credit card number is a required field!</label
+            >
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">CCV code</label>
+            <input
+              [ngClass]="
+                !form.get('paymentInfo.ccvCode')?.valid &&
+                form.get('paymentInfo.ccvCode')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="text"
+              class="form-control"
+              formControlName="ccvCode"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('paymentInfo.ccvCode')?.valid &&
+                form.get('paymentInfo.ccvCode')?.touched
+              "
+              >The CCV code is a required field!</label
+            >
+          </div>
+
+          <div class="col-4">
+            <label class="form-label">Exp month</label>
+            <input
+              [ngClass]="
+                !form.get('paymentInfo.expMonth')?.valid &&
+                form.get('paymentInfo.expMonth')?.touched
+                  ? 'border-danger'
+                  : ''
+              "
+              type="date"
+              class="form-control"
+              formControlName="expMonth"
+            />
+            <label
+              class="form-label text-danger"
+              *ngIf="
+                !form.get('paymentInfo.expMonth')?.valid &&
+                form.get('paymentInfo.expMonth')?.touched
+              "
+              >The exp month is a required field!</label
+            >
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-1 mt-1"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary me-1 mt-1"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Complete reservation</ng-template>
+
+        <hr />
+        <div>
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-1"
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger me-1"
+            (click)="stepper.reset()"
+          >
+            Reset
+          </button>
+          <!-- <a routerLink="/stays"  class="btn btn-secondary me-2">Cancel</a> -->
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="btn btn-primary me-1"
+          >
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </form>
+</div>
