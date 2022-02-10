@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mt-5">
-    <div style="overflow: scroll" class="col-7">
+    <div style="overflow: scroll; max-height: 700px" class="col-7">
       <form (ngSubmit)="searchStays()">
         <div [formGroup]="searchForm" class="row">
           <div class="col-4">
@@ -73,7 +73,7 @@
         </mat-paginator>
       </div>
     </div>
-    <div class="col-5 mt-4">
+    <div class="col-5">
       <app-map-multiple-markers [stays]="stays"></app-map-multiple-markers>
     </div>
   </div>

@@ -97,7 +97,7 @@ namespace TravelPalAPI.Repositories.Implementation
                    Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   AccommodationDetails = null,//mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
                }).AsNoTracking();
@@ -105,7 +105,8 @@ namespace TravelPalAPI.Repositories.Implementation
             }
             else
             {
-                accommodations = appDb.Accommodations.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                accommodations = appDb.Accommodations
+                    .Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                .Select(x => new AccommodationVM
                {
                    Id = x.Id,
@@ -116,8 +117,8 @@ namespace TravelPalAPI.Repositories.Implementation
                    Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
+                   AccommodationDetails = null,// mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages),
 
                }).AsNoTracking();
             }
@@ -165,7 +166,7 @@ namespace TravelPalAPI.Repositories.Implementation
                    Rooms = x.Rooms,
                    User = mapper.Map<UserVM>(x.Host),
                    Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
+                   AccommodationDetails = null,//mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
 
                });

@@ -101,13 +101,40 @@
     </div>
     <div class="col-3 m-2 offset-4">
       <div class="reserve">
-        <div class="reservation">
-          <button type="reset">Proceed to reservation</button>
-          <a routerLink="/stays/search" type="reset" id="back" class="mt-2"
-            >Go Back</a
-          >
-          <!-- <button routerLink="/stays" class="mt-4" id="back">Go back</button> -->
-        </div>
+        <form (ngSubmit)="toReservation()">
+          <div [formGroup]="reservation" class="reservation">
+            <mat-form-field appearance="fill">
+              <mat-label>Enter when you want to reserve</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  placeholder="Start date"
+                  formControlName="start"
+                />
+                <input
+                  matEndDate
+                  placeholder="End date"
+                  formControlName="end"
+                />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <hr />
+            <button type="submit">Proceed to reservation</button>
+            <button
+              routerLink="/stays/search"
+              type="reset"
+              id="back"
+              class="mt-2"
+            >
+              Go Back
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

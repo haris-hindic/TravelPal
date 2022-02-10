@@ -37,7 +37,9 @@ import { EditProfileComponent } from './user/my-profile/edit-profile/edit-profil
 import { EventsModalComponent } from './events/events-modal/events-modal.component';
 import { VerifyComponent } from './user/my-profile/verify/verify.component';
 import { ProfilePictureComponent } from './user/my-profile/profile-picture/profile-picture.component';
+import { FooterComponent } from './footer/footer.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     EventsModalComponent,
     VerifyComponent,
     ProfilePictureComponent,
+    FooterComponent,
+    StayReserveComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +83,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     NoopAnimationsModule,
     SharedModule,
     NgxPaginationModule,
-    AngularEditorModule 
+    AngularEditorModule,
   ],
   providers: [
     {

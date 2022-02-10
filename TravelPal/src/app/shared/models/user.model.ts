@@ -1,3 +1,7 @@
+import { EventVM } from 'src/app/events/events.model';
+import { AccommodationVM } from 'src/app/stays/stays.model';
+import { PaginatedResult } from './pagination';
+
 export interface userVM {
   id: string;
   userName: string;
@@ -16,6 +20,8 @@ export interface userProfileVM {
   phoneNumber: string;
   phoneNumberVerified: boolean;
   picture: string;
+  accommodations: AccommodationVM[];
+  events: EventVM[];
 }
 
 export interface userEditVM {

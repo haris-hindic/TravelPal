@@ -25,6 +25,8 @@ namespace TravelPalAPI.Database
         public DbSet<EventImages> EventImages { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Reservation> Reservations{ get; set; }
+        public DbSet<Status> Statuses{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

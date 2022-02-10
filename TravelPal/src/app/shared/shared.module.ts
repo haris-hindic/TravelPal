@@ -9,6 +9,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [],
@@ -25,6 +28,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatMenuModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
   exports: [
     SweetAlert2Module,
@@ -36,6 +42,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatMenuModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
 })
 export class SharedModule {}

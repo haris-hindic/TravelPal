@@ -11,7 +11,6 @@ using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.EventImages;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
-using TravelPalAPI.ViewModels.Message;
 
 namespace TravelPalAPI.Helpers
 {
@@ -74,7 +73,6 @@ namespace TravelPalAPI.Helpers
                 .ForMember(x => x.Id, user => user.MapFrom(x => x.Id))
                 .ForMember(x => x.UserName, user => user.MapFrom(x => x.UserName));
 
-            //Message
 
             CreateMap<Message, MessageVM>()
                 .ForMember(x => x.SenderPhotoUrl, 

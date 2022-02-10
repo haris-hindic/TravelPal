@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.Helpers.Pagination;
+using TravelPalAPI.ViewModels.Accommodation;
+using TravelPalAPI.ViewModels.Event;
 
 namespace TravelPalAPI.ViewModels.User
 {
@@ -15,6 +18,8 @@ namespace TravelPalAPI.ViewModels.User
         public string PhoneNumber { get; set; }
         public bool PhoneNumberVerified { get; set; }
         public string Picture { get; set; }
+        public IEnumerable<AccommodationVM> Accommodations { get; set; }
+        public IEnumerable<EventVM> Events { get; set; }
 
     }
 }
