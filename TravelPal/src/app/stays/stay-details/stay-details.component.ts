@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
+import { ReservationService } from '../reservations/reservation.service';
 import { AccommodationVM } from '../stays.model';
 
 @Component({
@@ -18,12 +19,14 @@ export class StayDetailsComponent implements OnInit {
     private _route: ActivatedRoute,
     private _accommodationService: AccommodationService,
     private _formBuilder: FormBuilder,
-    private _securityService: SecurityService,
-    private _router: Router
+    public _securityService: SecurityService,
+    private _router: Router,
+    private _reservation: ReservationService
   ) {}
 
   ngOnInit(): void {
     this.reservation = this._formBuilder.group({
+      name: '',
       start: '',
       end: '',
       price: 0,
@@ -40,6 +43,7 @@ export class StayDetailsComponent implements OnInit {
         .getById(params.id)
         .subscribe((data: AccommodationVM) => {
           this.stay = data;
+          this.reservation.get('name')!.patchValue(data.name);
         });
     });
     this.reservation
@@ -58,7 +62,7 @@ export class StayDetailsComponent implements OnInit {
 
     console.log(JSON.stringify(this.reservation.value));
 
+    this._reservation.setReservationInfo(this.reservation.value);
     this._router.navigate(['/stays/reserve/' + this.stay.id]);
-    //localStorage.setItem('reservation',JSON.stringify(this.reservation.value))
   }
 }

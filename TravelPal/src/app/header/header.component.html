@@ -76,6 +76,9 @@
           <button mat-menu-item [matMenuTriggerFor]="events">
             <i class="fas fa-hiking"></i> My Events
           </button>
+          <button mat-menu-item [matMenuTriggerFor]="reservations">
+            <i class="fas fa-calendar-plus"></i> My Reservations
+          </button>
           <button mat-menu-item [matMenuTriggerFor]="myProfile">
             <i class="far fa-user-circle"></i> My Profile
           </button>
@@ -97,6 +100,11 @@
           <a routerLink="/stays/create" mat-menu-item
             ><i class="fas fa-plus"></i> List new</a
           >
+        </mat-menu>
+
+        <mat-menu #reservations="matMenu">
+          <a routerLink="/user-reservations" mat-menu-item> Stays reserved</a>
+          <a mat-menu-item> Events...</a>
         </mat-menu>
 
         <mat-menu #events="matMenu">
