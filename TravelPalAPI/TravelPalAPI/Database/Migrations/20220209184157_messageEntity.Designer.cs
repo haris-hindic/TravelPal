@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220209184157_messageEntity")]
+    partial class messageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -470,7 +472,10 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<bool>("RecipientDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RecipientId")
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RecipientUsername")
@@ -479,7 +484,10 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SenderId")
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SenderUsername")
@@ -487,9 +495,9 @@ namespace TravelPalAPI.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipientId");
+                    b.HasIndex("RecipientId1");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("SenderId1");
 
                     b.ToTable("Messages");
                 });
@@ -654,12 +662,12 @@ namespace TravelPalAPI.Database.Migrations
                 {
                     b.HasOne("TravelPalAPI.Models.UserAccount", "Recipient")
                         .WithMany("MessagesReceived")
-                        .HasForeignKey("RecipientId")
+                        .HasForeignKey("RecipientId1")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TravelPalAPI.Models.UserAccount", "Sender")
                         .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
+                        .HasForeignKey("SenderId1")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Recipient");

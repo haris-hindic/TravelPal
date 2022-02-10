@@ -28,6 +28,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccommodationRepository, AccommodationRepository>();
             services.AddScoped<IAccommodationImageRepository, AccommodationImageRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddScoped<IPhoneVerificationService, PhoneVerificationService>();
             services.AddScoped<IEventRepository, EventRepository>();
