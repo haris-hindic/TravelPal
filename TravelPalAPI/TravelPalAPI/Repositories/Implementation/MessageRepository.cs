@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,14 +59,30 @@ namespace TravelPalAPI.Repositories.Implementation
             return await PagedList<MessageVM>.Create(msg, msgParams.PageNumber, msgParams.PageSize); // -
         }
 
-        public IEnumerable<MessageVM> GetMessageThread(int currentUserId, int recipientId)
+        public IEnumerable<MessageVM> GetConversation(string senderId, string recipientId)
         {
-            throw new NotImplementedException();
+            var msg = _context.Messages.Include(x=> x.Sender).Include(x=> x.Recipient).Where(
+            x => x.Recipient.Id == senderId && x.Sender.Id == recipientId
+            || x.Sender.Id == senderId && x.Recipient.Id == recipientId).OrderBy(x=> x.MessageSent).ToList();
+
+            var unreadMsg = msg.Where(x => x.DateRead == null && x.Recipient.Id == senderId).ToList();
+
+            if(unreadMsg.Any())
+            {
+                foreach (var item in unreadMsg)
+                {
+                    item.DateRead = DateTime.Now;
+                }
+
+                _context.SaveChanges();
+            }
+
+            return _mapper.Map<IEnumerable<MessageVM>>(msg);
         }
 
         public void SaveAll()
         {
-            _context.SaveChanges(); // async ?
+            _context.SaveChanges(); 
         }
     }
 }

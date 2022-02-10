@@ -79,6 +79,14 @@ namespace TravelPalAPI.Controllers
 
             return messages;
         }
+
+        [HttpGet("conversation/{userOne}/{userTwo}")]
+        public ActionResult<IEnumerable<MessageVM>> GetConversation(string userOne, string userTwo)
+        {
+            var user = _dbContext.UserAccounts.FirstOrDefault(x => x.Id == userOne);
+
+            return Ok(_messageRepository.GetConversation(user.Id, userTwo));
+        }
     }
 }
     

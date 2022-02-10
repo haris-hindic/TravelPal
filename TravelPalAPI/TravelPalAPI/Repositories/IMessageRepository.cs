@@ -15,7 +15,7 @@ namespace TravelPalAPI.Repositories
         void DeleteMessage(Message message);
         Message GetMessage(int id);
         Task<PagedList<MessageVM>> GetMessagesForUser(MessageParams msgParams);
-        IEnumerable<MessageVM> GetMessageThread(int currentUserId, int recipientId);
+        IEnumerable<MessageVM> GetConversation(string currentUserId, string recipientId);
         void SaveAll();
 
     }
