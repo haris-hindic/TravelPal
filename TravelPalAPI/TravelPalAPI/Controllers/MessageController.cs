@@ -37,8 +37,8 @@ namespace TravelPalAPI.Controllers
         [HttpPost]
         public ActionResult<Message> CreateMessage(MessageCreationVM createMessage)
         {
-            var recipient = _dbContext.UserAccounts.Find(createMessage.SenderId);
-            var sender = _dbContext.UserAccounts.Find(createMessage.RecipientId);
+            var recipient = _dbContext.UserAccounts.Find(createMessage.RecipientId);
+            var sender = _dbContext.UserAccounts.Find(createMessage.SenderId);
 
             if(recipient == null || sender == null)
             {

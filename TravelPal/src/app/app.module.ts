@@ -40,6 +40,8 @@ import { ProfilePictureComponent } from './user/my-profile/profile-picture/profi
 import { FooterComponent } from './footer/footer.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
+import { MessagesComponent } from './messages/messages.component';
+
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-res
     ProfilePictureComponent,
     FooterComponent,
     StayReserveComponent,
+    MessagesComponent,
+    
   ],
   imports: [
     BrowserModule,

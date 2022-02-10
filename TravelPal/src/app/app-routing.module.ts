@@ -20,6 +20,7 @@ import { EmailConfirmationComponent } from './email/email-confirmation/email-con
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
 import { VerifiedGuard } from './guards/verified.guard';
 import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -87,6 +88,13 @@ const appRoutes: Routes = [
     path: 'authentication/emailconfirmation',
     component: EmailConfirmationComponent,
   },
+  //messages
+  {
+    path: 'messages/:id',
+    component: MessagesComponent,
+    canActivate:[AuthGuard]
+  },
+
   { path: '**', redirectTo: '' },
 ];
 @NgModule({

@@ -8,12 +8,17 @@ import { SecurityService } from '../security/security.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+
+  id!: string;
+
   constructor(
     public _securityService: SecurityService,
     private _router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.id = this._securityService.getFieldFromJWT('id');
+  }
 
   logout() {
     this._securityService.logout();

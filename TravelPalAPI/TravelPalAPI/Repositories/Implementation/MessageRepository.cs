@@ -43,6 +43,19 @@ namespace TravelPalAPI.Repositories.Implementation
 
         public async Task<PagedList<MessageVM>> GetMessagesForUser(MessageParams msgParams)
         {
+
+           /* var unreadMsg = _context.Messages.Where(x => x.DateRead == null && x.Recipient.Id == msgParams.UserId).ToList();
+
+            if (unreadMsg.Any())
+            {
+                foreach (var item in unreadMsg)
+                {
+                    item.DateRead = DateTime.Now;
+                }
+
+                _context.SaveChanges();
+            }*/
+
             var messages = _context.Messages
                 .OrderByDescending(m => m.MessageSent)
                 .AsQueryable();
@@ -56,10 +69,10 @@ namespace TravelPalAPI.Repositories.Implementation
 
             var msg = messages.ProjectTo<MessageVM>(_mapper.ConfigurationProvider);
 
-            return await PagedList<MessageVM>.Create(msg, msgParams.PageNumber, msgParams.PageSize); // -
+            return await PagedList<MessageVM>.Create(msg, msgParams.PageNumber, msgParams.PageSize); 
         }
 
-        public IEnumerable<MessageVM> GetConversation(string senderId, string recipientId)
+        public IEnumerable<MessageVM> GetConversation(string recipientId, string senderId)
         {
             var msg = _context.Messages.Include(x=> x.Sender).Include(x=> x.Recipient).Where(
             x => x.Recipient.Id == senderId && x.Sender.Id == recipientId
