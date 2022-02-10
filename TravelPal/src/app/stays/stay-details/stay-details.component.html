@@ -99,7 +99,10 @@
         "
       ></app-map>
     </div>
-    <div class="col-3 m-2 offset-4">
+    <div
+      *ngIf="stay.user.id !== _securityService.getFieldFromJWT('id')"
+      class="col-3 m-2 offset-4"
+    >
       <div class="reserve">
         <form (ngSubmit)="toReservation()">
           <div [formGroup]="reservation" class="reservation">

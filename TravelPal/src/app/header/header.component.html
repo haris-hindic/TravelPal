@@ -79,13 +79,26 @@
           {{ _securityService.getFieldFromJWT("userName") }}
         </a>
         <mat-menu #user="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="stays" routerLink="user-stays/{{ _securityService.getFieldFromJWT('id') }}">
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="stays"
+            routerLink="user-stays/{{ _securityService.getFieldFromJWT('id') }}"
+          >
             <i class="fas fa-home"></i> My Stays
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="events"  routerLink="user-events/{{ _securityService.getFieldFromJWT('id') }}">
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="events"
+            routerLink="user-events/{{
+              _securityService.getFieldFromJWT('id')
+            }}"
+          >
             <i class="fas fa-hiking"></i> My Events
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="myProfile" routerLink="/user/profile">
+          <button mat-menu-item [matMenuTriggerFor]="reservations">
+            <i class="fas fa-calendar-plus"></i> My Reservations
+          </button>
+          <button mat-menu-item [matMenuTriggerFor]="myProfile">
             <i class="far fa-user-circle"></i> My Profile
           </button>
           <button
@@ -107,6 +120,11 @@
           <a routerLink="/stays/create" mat-menu-item
             ><i class="fas fa-plus"></i> List new</a
           >
+        </mat-menu>
+
+        <mat-menu #reservations="matMenu">
+          <a routerLink="/user-reservations" mat-menu-item> Stays reserved</a>
+          <a mat-menu-item> Events...</a>
         </mat-menu>
 
         <mat-menu #events="matMenu">

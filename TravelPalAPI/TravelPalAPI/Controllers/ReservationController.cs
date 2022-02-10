@@ -18,7 +18,7 @@ namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsVerified")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsVerified")]
     public class ReservationController : ControllerBase
     {
         private readonly AppDbContext appDb;
@@ -84,7 +84,7 @@ namespace TravelPalAPI.Controllers
             return Ok(mapper.Map<List<ReservationVM>>(reservations));
         }
 
-        [HttpPut("cancel/{id}")]
+        [HttpGet("cancel/{id}")]
         public async Task<ActionResult> CreateReservation(int id)
         {
             var obj = await appDb.Reservations.FirstOrDefaultAsync(x=>x.Id==id);
@@ -96,7 +96,7 @@ namespace TravelPalAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("confirm/{id}")]
+        [HttpGet("confirm/{id}")]
         public async Task<ActionResult> ConfirmReservation(int id)
         {
             var obj = await appDb.Reservations.FirstOrDefaultAsync(x => x.Id == id);

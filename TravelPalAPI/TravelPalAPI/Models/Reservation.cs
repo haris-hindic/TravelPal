@@ -22,5 +22,8 @@ namespace TravelPalAPI.Models
 
         public int StatusId { get; set; }
         public Status Status { get; set; }
+
+        public int PaymentInfoId { get; set; }
+        public PaymentInfo PaymentInfo { get; set; }
     }
 }

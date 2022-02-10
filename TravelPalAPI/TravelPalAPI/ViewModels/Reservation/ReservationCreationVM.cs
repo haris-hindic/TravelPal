@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.ViewModels.PaymentInfo;
 
 namespace TravelPalAPI.ViewModels.Reservation
 {
@@ -12,5 +13,6 @@ namespace TravelPalAPI.ViewModels.Reservation
         public float Price { get; set; }
         public string GuestId { get; set; }
         public int AccommodationId { get; set; }
+        public PaymentInfoCreationVM PaymentInfo { get; set; }
     }
 }

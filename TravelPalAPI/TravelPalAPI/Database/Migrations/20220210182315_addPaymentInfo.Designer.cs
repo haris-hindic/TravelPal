@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220210182315_addPaymentInfo")]
+    partial class addPaymentInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -747,11 +749,6 @@ namespace TravelPalAPI.Database.Migrations
             modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>
                 {
                     b.Navigation("Reservation");
-            modelBuilder.Entity("TravelPalAPI.Models.UserAccount", b =>
-                {
-                    b.Navigation("MessagesReceived");
-
-                    b.Navigation("MessagesSent");
                 });
 #pragma warning restore 612, 618
         }

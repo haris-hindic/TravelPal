@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReservationCreationVM, ReservationVM } from './reservation.model';
+import {
+  ReservationCreationVM,
+  ReservationTempInfo,
+  ReservationUserInfoVM,
+  ReservationVM,
+} from './reservation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,18 +16,28 @@ export class ReservationService {
 
   constructor(private _http: HttpClient) {}
 
-  setReservationInfo(reservation: ReservationCreationVM) {
+  getUserInfo(id: string) {
+    return this._http.get<ReservationUserInfoVM>(
+      `${this.apiURL}/user-info/${id}`
+    );
+  }
+
+  setReservationInfo(reservation: ReservationTempInfo) {
     const reservationJson = JSON.stringify(reservation);
 
     localStorage.setItem(this.storageKey, reservationJson);
   }
 
-  getReservationInfo(): ReservationCreationVM {
-    const reservation: ReservationCreationVM = JSON.parse(
+  getReservationInfo(): ReservationTempInfo {
+    const reservation: ReservationTempInfo = JSON.parse(
       localStorage.getItem(this.storageKey) as string
     );
-    localStorage.removeItem(this.storageKey);
+
     return reservation;
+  }
+
+  removeReservationInfo() {
+    localStorage.removeItem(this.storageKey);
   }
 
   create(reservation: ReservationCreationVM) {
@@ -39,5 +54,9 @@ export class ReservationService {
     return this._http.get<ReservationVM[]>(
       `${this.apiURL}/stay-reservations/${id}`
     );
+  }
+
+  cancel(id: number) {
+    return this._http.get(`${this.apiURL}/cancel/${id}`);
   }
 }

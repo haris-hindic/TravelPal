@@ -27,9 +27,14 @@ namespace TravelPalAPI.Database
         public DbSet<Message> Messages { get; set; }
         public DbSet<Reservation> Reservations{ get; set; }
         public DbSet<Status> Statuses{ get; set; }
+        public DbSet<PaymentInfo> PaymentInfos{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Reservation>().HasOne(x => x.PaymentInfo)
+                .WithOne(x => x.Reservation).HasForeignKey<Reservation>(x => x.PaymentInfoId);
+
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Message>()

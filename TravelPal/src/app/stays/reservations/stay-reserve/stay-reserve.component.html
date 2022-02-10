@@ -1,4 +1,4 @@
-<div class="container mb-5">
+<div *ngIf="userInfo" class="container mb-5">
   <h1>Stay reservation</h1>
   <!-- <app-display-errors
     *ngIf="errors.length > 0"
@@ -12,85 +12,41 @@
           <div class="col-6">
             <label class="form-label">First Name</label>
             <input
-              [ngClass]="
-                !form.get('firstName')?.valid && form.get('firstName')?.touched
-                  ? 'border-danger'
-                  : ''
-              "
+              [value]="userInfo.firstName"
               type="text"
               class="form-control"
-              formControlName="firstName"
+              disabled
             />
-            <label
-              class="form-label text-danger"
-              *ngIf="
-                !form.get('firstName')?.valid && form.get('firstName')?.touched
-              "
-              >The first name is a required field!</label
-            >
           </div>
 
           <div class="col-6">
             <label class="form-label">Last name</label>
             <input
-              [ngClass]="
-                !form.get('lastName')?.valid && form.get('lastName')?.touched
-                  ? 'border-danger'
-                  : ''
-              "
+              [value]="userInfo.lastName"
               type="text"
               class="form-control"
-              formControlName="lastName"
+              disabled
             />
-            <label
-              class="form-label text-danger"
-              *ngIf="
-                !form.get('lastName')?.valid && form.get('lastName')?.touched
-              "
-              >The Last Name is a required field!</label
-            >
           </div>
 
           <div class="col-6">
             <label class="form-label">Email</label>
             <input
-              [ngClass]="
-                !form.get('email')?.valid && form.get('email')?.touched
-                  ? 'border-danger'
-                  : ''
-              "
+              [value]="userInfo.email"
               type="email"
               class="form-control"
-              formControlName="email"
+              disabled
             />
-            <label
-              class="form-label text-danger"
-              *ngIf="!form.get('email')?.valid && form.get('email')?.touched"
-              >The email are a required field!</label
-            >
           </div>
 
           <div class="col-6">
             <label class="form-label">Phone Number</label>
             <input
-              [ngClass]="
-                !form.get('phoneNumber')?.valid &&
-                form.get('phoneNumber')?.touched
-                  ? 'border-danger'
-                  : ''
-              "
+              [value]="userInfo.phoneNumber"
               type="tel"
               class="form-control"
-              formControlName="phoneNumber"
+              disabled
             />
-            <label
-              class="form-label text-danger"
-              *ngIf="
-                !form.get('phoneNumber')?.valid &&
-                form.get('phoneNumber')?.touched
-              "
-              >The phone number is a required field!</label
-            >
           </div>
         </div>
         <div>
@@ -156,7 +112,7 @@
                   ? 'border-danger'
                   : ''
               "
-              type="number"
+              type="text"
               class="form-control"
               formControlName="postalCode"
             />
@@ -179,7 +135,7 @@
                   ? 'border-danger'
                   : ''
               "
-              type="text"
+              type="number"
               class="form-control"
               formControlName="ccNumber"
             />
@@ -218,22 +174,23 @@
 
           <div class="col-4">
             <label class="form-label">Exp month</label>
+
             <input
               [ngClass]="
-                !form.get('paymentInfo.expMonth')?.valid &&
-                form.get('paymentInfo.expMonth')?.touched
+                !form.get('paymentInfo.expDate')?.valid &&
+                form.get('paymentInfo.expDate')?.touched
                   ? 'border-danger'
                   : ''
               "
               type="date"
               class="form-control"
-              formControlName="expMonth"
+              formControlName="expDate"
             />
             <label
               class="form-label text-danger"
               *ngIf="
-                !form.get('paymentInfo.expMonth')?.valid &&
-                form.get('paymentInfo.expMonth')?.touched
+                !form.get('paymentInfo.expDate')?.valid &&
+                form.get('paymentInfo.expDate')?.touched
               "
               >The exp month is a required field!</label
             >
@@ -259,7 +216,25 @@
       </mat-step>
 
       <mat-step>
-        <ng-template matStepLabel>Complete reservation</ng-template>
+        <ng-template matStepLabel>Reservation summary</ng-template>
+
+        <details class="mt-2">
+          <summary>
+            <div class="row">
+              <div class="col-6">Stay:</div>
+              <div class="col-6">{{ reservation.name }}</div>
+              <div class="col-6">Start of reservation:</div>
+              <div class="col-6">{{ reservation.start | date }}</div>
+              <div class="col-6">End of reservation:</div>
+              <div class="col-6">{{ reservation.end | date }}</div>
+              <hr />
+              <div class="col-6">Total price:</div>
+              <div class="col-6">
+                {{ reservation.price | currency }}
+              </div>
+            </div>
+          </summary>
+        </details>
 
         <hr />
         <div>

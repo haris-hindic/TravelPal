@@ -6,12 +6,31 @@ export interface ReservationUserInfoVM {
   phoneNumber: string;
 }
 
+export interface ReservationTempInfo {
+  name: string;
+  start: Date;
+  end: Date;
+  price: number;
+  guestId: string;
+  accommodationId: number;
+}
+
 export interface ReservationCreationVM {
   start: Date;
   end: Date;
   price: number;
   guestId: string;
   accommodationId: number;
+  paymentInfo: PaymentInfoCreationVM;
+}
+
+export interface PaymentInfoCreationVM {
+  country: string;
+  city: string;
+  postalCode: string;
+  ccNumber: number;
+  expDate: Date;
+  ccvCode: string;
 }
 
 export interface ReservationVM {

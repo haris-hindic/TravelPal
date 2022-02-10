@@ -21,6 +21,7 @@ import { MyProfileComponent } from './user/my-profile/my-profile.component';
 import { VerifiedGuard } from './guards/verified.guard';
 import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
 import { MessagesComponent } from './messages/messages.component';
+import { UserReservationsComponent } from './stays/reservations/user-reservations/user-reservations.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,6 +33,11 @@ const appRoutes: Routes = [
     path: 'user-stays/:id',
     component: StayUserComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-reservations',
+    component: UserReservationsComponent,
+    canActivate: [VerifiedGuard],
   },
   {
     path: 'stays/create',

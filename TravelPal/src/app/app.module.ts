@@ -42,6 +42,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
 import { MessagesComponent } from './messages/messages.component';
 
+import { UserReservationsComponent } from './stays/reservations/user-reservations/user-reservations.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { MessagesComponent } from './messages/messages.component';
     FooterComponent,
     StayReserveComponent,
     MessagesComponent,
-    
+    UserReservationsComponent,
   ],
   imports: [
     BrowserModule,
