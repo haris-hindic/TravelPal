@@ -11,5 +11,7 @@ namespace TravelPalAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Picture { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
     }
 }

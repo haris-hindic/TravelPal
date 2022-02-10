@@ -85,6 +85,12 @@ namespace TravelPalAPI.Helpers
             //PaymentInfo
             CreateMap<PaymentInfoCreationVM, PaymentInfo>();
 
+
+            CreateMap<Message, MessageVM>()
+                .ForMember(x => x.SenderPhotoUrl, 
+                opt => opt.MapFrom(src => src.Sender.Picture.FirstOrDefault()))
+                .ForMember(x => x.RecipientPhotoUrl, 
+                opt => opt.MapFrom(src => src.Recipient.Picture.FirstOrDefault()));
         }
     }
 }

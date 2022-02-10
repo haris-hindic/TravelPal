@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220209184157_messageEntity")]
+    partial class messageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -451,94 +453,53 @@ namespace TravelPalAPI.Database.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CcNumber")
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RecipientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CcvCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentInfos");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Reservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccommodationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("GuestId")
+                    b.Property<string>("RecipientId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PaymentInfoId")
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SenderId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<string>("SenderId1")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccommodationId");
-
-                    b.HasIndex("GuestId");
-
-                    b.HasIndex("PaymentInfoId")
-                        .IsUnique();
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
+                    b.Property<string>("SenderUsername")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.HasIndex("RecipientId1");
+
+                    b.HasIndex("SenderId1");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.UserAccount", b =>
@@ -697,37 +658,21 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Reservation", b =>
+            modelBuilder.Entity("TravelPalAPI.Models.Message", b =>
                 {
-                    b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
-                        .WithMany("Reservations")
-                        .HasForeignKey("AccommodationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("TravelPalAPI.Models.UserAccount", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TravelPalAPI.Models.UserAccount", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId");
+                    b.HasOne("TravelPalAPI.Models.UserAccount", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId1")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TravelPalAPI.Models.PaymentInfo", "PaymentInfo")
-                        .WithOne("Reservation")
-                        .HasForeignKey("TravelPalAPI.Models.Reservation", "PaymentInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Recipient");
 
-                    b.HasOne("TravelPalAPI.Models.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Accommodation");
-
-                    b.Navigation("Guest");
-
-                    b.Navigation("PaymentInfo");
-
-                    b.Navigation("Status");
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Accommodation", b =>
@@ -735,8 +680,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("AccommodationDetails");
 
                     b.Navigation("AccommodationImages");
-
-                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
@@ -744,9 +687,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>
-                {
-                    b.Navigation("Reservation");
             modelBuilder.Entity("TravelPalAPI.Models.UserAccount", b =>
                 {
                     b.Navigation("MessagesReceived");

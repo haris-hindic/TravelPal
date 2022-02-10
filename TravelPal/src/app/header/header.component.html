@@ -70,10 +70,20 @@
           {{ _securityService.getFieldFromJWT("userName") }}
         </a>
         <mat-menu #user="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="stays">
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="stays"
+            routerLink="user-stays/{{ _securityService.getFieldFromJWT('id') }}"
+          >
             <i class="fas fa-home"></i> My Stays
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="events">
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="events"
+            routerLink="user-events/{{
+              _securityService.getFieldFromJWT('id')
+            }}"
+          >
             <i class="fas fa-hiking"></i> My Events
           </button>
           <button mat-menu-item [matMenuTriggerFor]="reservations">
@@ -86,6 +96,7 @@
             *ngIf="isAdmin()"
             mat-menu-item
             [matMenuTriggerFor]="adminMenu"
+            routerLink="admin/users"
           >
             <i class="fas fa-user-secret"></i> All Users
           </button>
