@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DateFilterFn } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityService } from 'src/app/security/security.service';
 import { AccommodationService } from '../accommodation.service';
@@ -14,7 +15,23 @@ import { AccommodationVM } from '../stays.model';
 export class StayDetailsComponent implements OnInit {
   stay!: AccommodationVM;
 
+  today = new Date();
+
   reservation!: FormGroup;
+
+  DateFilter: DateFilterFn<Date> = (date: Date | null): boolean => {
+    const m = date as Date;
+    for (const x of this.stay.dateReserved) {
+      if (
+        m >= new Date(x.start.toString()) &&
+        m <= new Date(x.end.toString())
+      ) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   constructor(
     private _route: ActivatedRoute,
     private _accommodationService: AccommodationService,
@@ -43,6 +60,7 @@ export class StayDetailsComponent implements OnInit {
         .getById(params.id)
         .subscribe((data: AccommodationVM) => {
           this.stay = data;
+          console.log(data);
           this.reservation.get('name')!.patchValue(data.name);
         });
     });

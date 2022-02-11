@@ -41,3 +41,8 @@ export interface ReservationVM {
   accommodation: string;
   status: string;
 }
+
+export interface ReservationDatesVM {
+  start: Date;
+  end: Date;
+}

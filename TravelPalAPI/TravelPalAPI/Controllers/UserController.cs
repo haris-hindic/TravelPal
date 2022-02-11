@@ -59,8 +59,7 @@ namespace TravelPalAPI.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PhoneNumberVerified = user.PhoneNumberConfirmed,
                 Picture = user.Picture,
-                Accommodations= imapper.Map<List<AccommodationVM>>( appDb.Accommodations.Include(x=>x.AccommodationImages).Include(x => x.Location)
-                .ThenInclude(x=>x.City).ThenInclude(x=>x.Country).Where(x=>x.HostId==user.Id).Take(3).ToList()),
+                Accommodations = accRepo.GetByUserId(id, new UserParams()).Result,
                 Events= eventRepo.GetByUserId(user.Id)
             };
         }

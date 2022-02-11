@@ -22,7 +22,7 @@ namespace TravelPalAPI.Models
         public UserAccount Host { get; set; }
 
         public AccommodationDetails AccommodationDetails { get; set; }
-        public ICollection<AccommodationImage> AccommodationImages { get; set; }
-        public ICollection<Reservation> Reservations{ get; set; }
+        public List<AccommodationImage> AccommodationImages { get; set; }
+        public List<Reservation> Reservations{ get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace TravelPalAPI.ViewModels.User
         public string PhoneNumber { get; set; }
         public bool PhoneNumberVerified { get; set; }
         public string Picture { get; set; }
-        public IEnumerable<AccommodationVM> Accommodations { get; set; }
+        public IEnumerable<AccommodationBasicVM> Accommodations { get; set; }
         public IEnumerable<EventVM> Events { get; set; }
 
     }

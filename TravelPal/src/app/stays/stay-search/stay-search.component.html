@@ -46,18 +46,15 @@
         <img
           routerLink="/stays/details/{{ stay.id }}"
           style="cursor: pointer"
-          [src]="stay.images[0].imagePath"
+          [src]="stay.image"
         />
         <div class="card-trip-infos">
           <div>
             <h2>{{ stay.name }}</h2>
-            <p>{{ stay.location.country }},{{ stay.location.city }}</p>
+            <p>{{ stay.country }},{{ stay.city }}</p>
           </div>
           <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
-          <img
-            [src]="stay.user.picture"
-            class="card-trip-user avatar-bordered"
-          />
+          <img [src]="stay.userImage" class="card-trip-user avatar-bordered" />
         </div>
       </div>
       <div class="text-center m-3">

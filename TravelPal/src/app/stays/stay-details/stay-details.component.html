@@ -108,7 +108,11 @@
           <div [formGroup]="reservation" class="reservation">
             <mat-form-field appearance="fill">
               <mat-label>Enter when you want to reserve</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
+              <mat-date-range-input
+                [dateFilter]="DateFilter"
+                [min]="today"
+                [rangePicker]="picker"
+              >
                 <input
                   matStartDate
                   placeholder="Start date"

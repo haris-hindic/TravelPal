@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EventVM } from 'src/app/events/events.model';
-import { AccommodationVM } from 'src/app/stays/stays.model';
+import {
+  AccommodationBasicVM,
+  AccommodationVM,
+} from 'src/app/stays/stays.model';
 
 @Component({
   selector: 'app-map-multiple-markers',
@@ -8,21 +11,17 @@ import { AccommodationVM } from 'src/app/stays/stays.model';
   styleUrls: ['./map-multiple-markers.component.css'],
 })
 export class MapMultipleMarkersComponent implements OnInit {
-  @Input() stays!: AccommodationVM[];
+  @Input() stays!: AccommodationBasicVM[];
   @Input() events!: EventVM[];
   @Input() isEvents: boolean = false;
   @Output() modalEvent = new EventEmitter<EventVM>();
   showModal!: any;
 
-  constructor() {
-    
-
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 
-  setEvent(event: EventVM)
-  {
+  setEvent(event: EventVM) {
     this.showModal = true;
     this.modalEvent.emit(event);
   }

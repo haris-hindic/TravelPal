@@ -60,7 +60,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpGet,AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<AccommodationVM>>> Get([FromQuery]string location, [FromQuery] double price,[FromQuery]UserParams userParams)
+        public async Task<ActionResult<IEnumerable<AccommodationBasicVM>>> Get([FromQuery]string location, [FromQuery] double price,[FromQuery]UserParams userParams)
         {
             var searchVM = string.IsNullOrEmpty(location) && price==0 ? null : new AccommodationSearchVM { Location = location, Price = price };
 
@@ -73,7 +73,7 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpGet, Route("user/{id}")]
-        public async Task<ActionResult<PagedList<AccommodationVM>>> GetByUser(string id, [FromQuery] UserParams userParams)
+        public async Task<ActionResult<PagedList<AccommodationBasicVM>>> GetByUser(string id, [FromQuery] UserParams userParams)
         {
             var accommodations = await accommodationRepo.GetByUserId(id,userParams);
             if (accommodations == null) return NotFound();

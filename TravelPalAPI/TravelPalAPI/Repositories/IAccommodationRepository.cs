@@ -13,9 +13,9 @@ namespace TravelPalAPI.Repositories
         Accommodation Add(AccommodationCreationVM accommodation);
         bool Update(int id, AccommodationEditVM accommodation);
         bool Ownership(string userId, int accommodationId);
-        Task<PagedList<AccommodationVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams);
+        Task<PagedList<AccommodationBasicVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams);
         AccommodationVM GetById(int id);
-        Task<PagedList<AccommodationVM>> GetByUserId(string id,UserParams userParams);
+        Task<PagedList<AccommodationBasicVM>> GetByUserId(string id,UserParams userParams);
         void Delete(int id);
         bool SaveChanges();
     }

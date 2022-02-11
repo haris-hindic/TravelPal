@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PaginatedResult } from '../shared/models/pagination';
 import {
+  AccommodationBasicVM,
   AccommodationCreationVM,
   AccommodationEditVM,
   AccommodationSearchVM,
@@ -15,8 +16,8 @@ import { map } from 'rxjs/operators';
 export class AccommodationService {
   _apiURL = `https://localhost:44325/api/accommodation`;
 
-  paginatdResult: PaginatedResult<AccommodationVM[]> = new PaginatedResult<
-    AccommodationVM[]
+  paginatdResult: PaginatedResult<AccommodationBasicVM[]> = new PaginatedResult<
+    AccommodationBasicVM[]
   >();
 
   constructor(private _http: HttpClient) {}
@@ -30,7 +31,7 @@ export class AccommodationService {
     }
 
     return this._http
-      .get<AccommodationVM[]>(
+      .get<AccommodationBasicVM[]>(
         `${this._apiURL}?location=${
           !search.location ? '' : search.location
         }&price=${!search.price ? 0 : search.price}`,
@@ -68,7 +69,7 @@ export class AccommodationService {
     }
 
     return this._http
-      .get<AccommodationVM[]>(`${this._apiURL}/user/${id}`, {
+      .get<AccommodationBasicVM[]>(`${this._apiURL}/user/${id}`, {
         observe: 'response',
         params,
       })

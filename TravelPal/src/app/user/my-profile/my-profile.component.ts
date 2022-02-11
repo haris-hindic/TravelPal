@@ -7,7 +7,10 @@ import { SecurityService } from 'src/app/security/security.service';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { userEditVM, userProfileVM } from 'src/app/shared/models/user.model';
 import { AccommodationService } from 'src/app/stays/accommodation.service';
-import { AccommodationVM } from 'src/app/stays/stays.model';
+import {
+  AccommodationBasicVM,
+  AccommodationVM,
+} from 'src/app/stays/stays.model';
 import { UserService } from '../user.service';
 
 @Component({
@@ -17,7 +20,7 @@ import { UserService } from '../user.service';
 })
 export class MyProfileComponent implements OnInit {
   user!: userProfileVM;
-  userStays: AccommodationVM[] = [];
+  userStays: AccommodationBasicVM[] = [];
   userEvents: EventVM[] = [];
 
   showEditProfile = false;

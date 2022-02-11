@@ -71,14 +71,18 @@
               <img
                 routerLink="/stays/details/{{ stay.id }}"
                 style="cursor: pointer"
-                [src]="stay.images[0].imagePath"
+                [src]="stay.image"
               />
               <div class="card-trip-infos">
                 <div>
                   <h2>{{ stay.name }}</h2>
-                  <p>{{ stay.location.country }},{{ stay.location.city }}</p>
+                  <p>{{ stay.country }},{{ stay.city }}</p>
                 </div>
                 <h2 class="card-trip-pricing">{{ stay.price | currency }}</h2>
+                <img
+                  [src]="stay.userImage"
+                  class="card-trip-user avatar-bordered"
+                />
               </div>
             </div>
             <div class="text-center">
@@ -98,7 +102,7 @@
             No events listed. In order to be able to list your stays you need to
             verify either your phone number or email.
           </div>
-          
+
           <div *ngIf="userEvents.length > 0">
             <div *ngFor="let event of userEvents" class="card">
               <img

@@ -4,6 +4,7 @@ import {
   LocationVM,
 } from '../shared/models/location.model';
 import { userVM } from '../shared/models/user.model';
+import { ReservationDatesVM } from './reservations/reservation.model';
 
 export interface AccommodationVM {
   id: number;
@@ -16,6 +17,19 @@ export interface AccommodationVM {
   location: LocationVM;
   accommodationDetails: AccommodationDetailsVM;
   images: Image[];
+  dateReserved: ReservationDatesVM[];
+}
+
+export interface AccommodationBasicVM {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  country: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  userImage: string;
 }
 
 export interface AccommodationCreationVM {

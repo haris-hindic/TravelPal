@@ -6,7 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from 'src/app/security/security.service';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { AccommodationService } from '../accommodation.service';
-import { AccommodationSearchVM, AccommodationVM } from '../stays.model';
+import {
+  AccommodationBasicVM,
+  AccommodationSearchVM,
+  AccommodationVM,
+} from '../stays.model';
 
 @Component({
   selector: 'app-stay-search',
@@ -14,7 +18,7 @@ import { AccommodationSearchVM, AccommodationVM } from '../stays.model';
   styleUrls: ['./stay-search.component.css'],
 })
 export class StayHomepageComponent implements OnInit {
-  stays!: AccommodationVM[];
+  stays!: AccommodationBasicVM[];
   pagination!: Pagination;
   pageNumber = 1;
   pageSize = 4;

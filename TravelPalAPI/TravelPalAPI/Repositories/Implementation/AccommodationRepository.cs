@@ -13,6 +13,7 @@ using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
+using TravelPalAPI.ViewModels.Reservation;
 
 namespace TravelPalAPI.Repositories.Implementation
 {
@@ -74,58 +75,57 @@ namespace TravelPalAPI.Repositories.Implementation
             appDb.Locations.Remove(accommodationLocation);
         }
 
-        public async Task<PagedList<AccommodationVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams)
+        public async Task<PagedList<AccommodationBasicVM>> GetAll(AccommodationSearchVM searchVM,UserParams userParams)
         {
-            IQueryable<AccommodationVM> accommodations;
+            IQueryable<AccommodationBasicVM> accommodations;
 
             if (searchVM != null)
             {
 
-                accommodations = appDb.Accommodations.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                accommodations = appDb.Accommodations
                .Where(x => ((string.IsNullOrEmpty(searchVM.Location) ||
                             x.Location.Address.ToLower().StartsWith(searchVM.Location.ToLower()) ||
                             x.Location.City.Name.ToLower().StartsWith(searchVM.Location.ToLower()) ||
                             x.Location.City.Country.Name.ToLower().StartsWith(searchVM.Location.ToLower()))
                             && (searchVM.Price == 0 || x.Price <= searchVM.Price)))
-               .Select(x => new AccommodationVM
-               {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Price = x.Price,
-                   Description = x.Description,
-                   Capacity = x.Capacity,
-                   Rooms = x.Rooms,
-                   User = mapper.Map<UserVM>(x.Host),
-                   Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = null,//mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
+              .Select(x => new AccommodationBasicVM
+              {
+                  Id = x.Id,
+                  Name = x.Name,
+                  Price = x.Price,
+                  Image = x.AccommodationImages.First().ImagePath,
+                  Country = x.Location.City.Country.Name,
+                  City = x.Location.City.Name,
+                  Latitude = x.Location.Latitude,
+                  Longitude = x.Location.Longitude,
+                  UserImage = x.Host.Picture
 
-               }).AsNoTracking();
+              }).AsNoTracking();
 
             }
             else
             {
                 accommodations = appDb.Accommodations
-                    .Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
-               .Select(x => new AccommodationVM
+               .Select(x => new AccommodationBasicVM
                {
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
-                   Description = x.Description,
-                   Capacity = x.Capacity,
-                   Rooms = x.Rooms,
-                   User = mapper.Map<UserVM>(x.Host),
-                   Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = null,// mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages),
+                   Image = x.AccommodationImages.First().ImagePath,
+                   Country = x.Location.City.Country.Name,
+                   City = x.Location.City.Name,
+                   Latitude = x.Location.Latitude,
+                   Longitude = x.Location.Longitude,
+                  UserImage = x.Host.Picture
 
                }).AsNoTracking();
             }
 
+            var x = accommodations.ToList();
 
-            return await PagedList<AccommodationVM>.Create(accommodations, userParams.PageNumber, userParams.PageSize);
+            return await PagedList<AccommodationBasicVM>.Create(accommodations, userParams.PageNumber, userParams.PageSize);
         }
+
 
         public AccommodationVM GetById(int id)
         {
@@ -144,34 +144,34 @@ namespace TravelPalAPI.Repositories.Implementation
                     User = mapper.Map<UserVM>(x.Host),
                     Location = mapper.Map<LocationVM>(x.Location),
                     AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
+                    Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages),
+                    DateReserved= x.Reservations.Where(x=>x.Status.Description=="Active").Select(x=>new ReservationDatesVM { End=x.End,Start=x.Start}).ToList()
                 }).FirstOrDefault(x => x.Id == id);
 
             return accommodation;
         }
 
-        public async Task<PagedList<AccommodationVM>> GetByUserId(string id, UserParams userParams)
+        public async Task<PagedList<AccommodationBasicVM>> GetByUserId(string id, UserParams userParams)
         {
             if (!appDb.UserAccounts.Any(x => x.Id == id)) return null;
 
             var accommodations = appDb.Accommodations.Where(x => x.HostId == id)
                 .Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
-               .Select(x => new AccommodationVM
+               .Select(x => new AccommodationBasicVM
                {
                    Id = x.Id,
                    Name = x.Name,
                    Price = x.Price,
-                   Description=x.Description,
-                   Capacity = x.Capacity,
-                   Rooms = x.Rooms,
-                   User = mapper.Map<UserVM>(x.Host),
-                   Location = mapper.Map<LocationVM>(x.Location),
-                   AccommodationDetails = null,//mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
-                   Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages)
+                   Image = x.AccommodationImages.First().ImagePath,
+                   Country = x.Location.City.Country.Name,
+                   City = x.Location.City.Name,
+                   Latitude = x.Location.Latitude,
+                   Longitude = x.Location.Longitude,
+                   UserImage = x.Host.Picture
 
                });
 
-            return await PagedList<AccommodationVM>.Create(accommodations,userParams.PageNumber,userParams.PageSize);
+            return await PagedList<AccommodationBasicVM>.Create(accommodations,userParams.PageNumber,userParams.PageSize);
         }
 
         public bool SaveChanges()

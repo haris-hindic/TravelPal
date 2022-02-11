@@ -7,6 +7,7 @@ using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
+using TravelPalAPI.ViewModels.Reservation;
 
 namespace TravelPalAPI.ViewModels.Accommodation
 {
@@ -22,5 +23,6 @@ namespace TravelPalAPI.ViewModels.Accommodation
         public LocationVM Location { get; set; }
         public AccommodationDetailsVM AccommodationDetails { get; set; }
         public List<AccommodationImageVM> Images { get; set; }
+        public List<ReservationDatesVM> DateReserved { get; set; }
     }
 }

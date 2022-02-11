@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { AccommodationService } from '../accommodation.service';
-import { AccommodationVM } from '../stays.model';
+import { AccommodationBasicVM, AccommodationVM } from '../stays.model';
 
 @Component({
   selector: 'app-stay-user',
@@ -13,7 +13,7 @@ import { AccommodationVM } from '../stays.model';
   styleUrls: ['./stay-user.component.css'],
 })
 export class StayUserComponent implements OnInit {
-  stays!: AccommodationVM[];
+  stays!: AccommodationBasicVM[];
   pagination!: Pagination;
   pageNumber = 1;
   pageSize = 4;
