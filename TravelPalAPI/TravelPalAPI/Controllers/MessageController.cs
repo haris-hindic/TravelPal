@@ -87,6 +87,19 @@ namespace TravelPalAPI.Controllers
 
             return Ok(_messageRepository.GetConversation(user.Id, userTwo));
         }
+
+        [HttpGet("readMessages")]
+        public void ReadMessages(string id)
+        {
+            var user = _dbContext.UserAccounts.Where(x => x.Id == id).FirstOrDefault();
+            var usrMsg = _dbContext.Messages.Where(x => x.RecipientId == user.Id && x.DateRead == null).ToList();
+
+            foreach (var msg in usrMsg)
+            {
+                msg.DateRead = DateTime.Now;
+            }
+            _dbContext.SaveChanges();
+        }
     }
 }
     

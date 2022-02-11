@@ -22,12 +22,12 @@ export class MessagesComponent implements OnInit {
  
 
   ngOnInit(): void {
+    this.userId = this.securityService.getFieldFromJWT('id');
     this.loadData();
   }
 
   loadData()
   {
-    this.userId = this.securityService.getFieldFromJWT('id');
     console.log(this.userId);
 
     this.messageService.getMessages(this.pageNumber,this.pageSize,this.container,  this.userId).subscribe(x=>
@@ -36,6 +36,10 @@ export class MessagesComponent implements OnInit {
       this.pagination = x.pagination;
       console.log(this.container);
       console.log(this.messages);
+      if(this.container == "Unread")
+      {
+        this.messageService.readMessages(this.userId).subscribe();
+    }
     }
   );
  

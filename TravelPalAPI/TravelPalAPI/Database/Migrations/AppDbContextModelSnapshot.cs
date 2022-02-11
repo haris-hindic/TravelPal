@@ -747,13 +747,14 @@ namespace TravelPalAPI.Database.Migrations
             modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>
                 {
                     b.Navigation("Reservation");
-            modelBuilder.Entity("TravelPalAPI.Models.UserAccount", b =>
-                {
-                    b.Navigation("MessagesReceived");
+                    modelBuilder.Entity("TravelPalAPI.Models.UserAccount", b =>
+                        {
+                            b.Navigation("MessagesReceived");
 
-                    b.Navigation("MessagesSent");
-                });
+                            b.Navigation("MessagesSent");
+                        });
 #pragma warning restore 612, 618
+                });
         }
     }
 }

@@ -37,4 +37,9 @@ export class MessageService {
       })
     );
   }
+
+   readMessages(id: string)
+   {
+     return this.http.get(this.url + `readMessages?id=${id}`);
+   }
 }
