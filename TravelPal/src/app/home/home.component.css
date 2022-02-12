@@ -135,8 +135,9 @@ button {
   justify-content: center;
 }
 ._wrk_drm_trvl_box img {
-  width: auto;
-  height: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 200px;
 }
 ._wrk_drm_trvl_h2 {
   font-family: Poppins;
