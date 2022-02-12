@@ -1,7 +1,9 @@
-<div class="row ms-4 ms-2" *ngIf="messages">
+<div class="row ms-4 ms-2" *ngIf="messages" style="cursor: pointer;">
   <div class="btn-group" name="container">
     <button
       class="btn btn-primary"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
       (click)="container = 'Unread'"
       (click)="loadData()"
     >
@@ -10,6 +12,7 @@
     <button
       class="btn btn-primary"
       btnRadio="Inbox"
+      routerLinkActive="active-link"
       (click)="container = 'Inbox'"
       (click)="loadData()"
     >
@@ -18,6 +21,7 @@
     <button
       class="btn btn-primary"
       btnRadio="Outbox"
+      routerLinkActive="active-link"
       (click)="container = 'Outbox'"
       (click)="loadData()"
     >
@@ -38,18 +42,18 @@
       <tr *ngFor="let message of messages">
         <td>{{ message.content }}</td>
         <div *ngIf="container == 'Outbox'">
-          <td>
+          <td routerLink="/messages/conversation/{{ message.recipientId }}">
             <strong>{{ message.recipientUsername }}</strong>
           </td>
         </div>
         <div *ngIf="container != 'Outbox'">
-          <td>
+          <td routerLink="/messages/conversation/{{ message.senderId }}">
             <strong>{{ message.senderUsername }}</strong>
           </td>
         </div>
         <td>{{ message.messageSent }}</td>
         <td>
-          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger" (click)="deleteMessage(message.id)">Delete</button>
         </td>
       </tr>
     </table>

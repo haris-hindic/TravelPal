@@ -100,6 +100,33 @@ namespace TravelPalAPI.Controllers
             }
             _dbContext.SaveChanges();
         }
+
+        [HttpDelete("{userId}/{msgId}")]
+        public ActionResult DeleteMessage(int msgId, string userId)
+        {
+            var msg = _messageRepository.GetMessage(msgId);
+
+            if(userId != msg.SenderId && userId != msg.RecipientId)
+            {
+                return Unauthorized();
+            }
+
+            if (msg.SenderId == userId)
+                msg.SenderDeleted = true;
+
+            if (msg.RecipientId == userId)
+                msg.RecipientDeleted = true;
+
+            if(msg.SenderDeleted && msg.RecipientDeleted)
+            {
+                _messageRepository.DeleteMessage(msg);
+            }
+
+            return Ok(_dbContext.SaveChanges());
+
     }
+    }
+
+   
 }
     

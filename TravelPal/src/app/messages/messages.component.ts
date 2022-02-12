@@ -34,8 +34,6 @@ export class MessagesComponent implements OnInit {
       .subscribe((x) => {
         this.messages = x.result;
         this.pagination = x.pagination;
-        console.log(this.container);
-        console.log(this.messages);
         if (this.container == 'Unread') {
           this.messageService.readMessages(this.userId).subscribe();
         }
@@ -47,5 +45,13 @@ export class MessagesComponent implements OnInit {
       this.pageNumber = event.page;
       this.loadData();
     }
+  }
+
+  deleteMessage(id: number)
+  {
+    this.messageService.deleteMessage(id, this.userId).subscribe(x=>
+      {
+        this.loadData();
+      })
   }
 }

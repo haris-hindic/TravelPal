@@ -43,6 +43,7 @@ import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-res
 import { MessagesComponent } from './messages/messages.component';
 
 import { UserReservationsComponent } from './stays/reservations/user-reservations/user-reservations.component';
+import { ConversationComponent } from './messages/conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { UserReservationsComponent } from './stays/reservations/user-reservation
     StayReserveComponent,
     MessagesComponent,
     UserReservationsComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

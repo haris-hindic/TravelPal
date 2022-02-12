@@ -62,9 +62,9 @@ namespace TravelPalAPI.Repositories.Implementation
 
             messages = msgParams.Container switch
             {
-                "Inbox" => messages.Where(u => u.Recipient.Id == msgParams.UserId),
-                "Outbox" => messages.Where(u => u.Sender.Id == msgParams.UserId),
-                _ => messages.Where(u => u.Recipient.Id == msgParams.UserId && u.DateRead == null)
+                "Inbox" => messages.Where(u => u.Recipient.Id == msgParams.UserId && u.RecipientDeleted == false),
+                "Outbox" => messages.Where(u => u.Sender.Id == msgParams.UserId && u.SenderDeleted == false),
+                _ => messages.Where(u => u.Recipient.Id == msgParams.UserId && u.DateRead == null && u.RecipientDeleted==false)
             };
 
             var msg = messages.ProjectTo<MessageVM>(_mapper.ConfigurationProvider);
@@ -72,23 +72,16 @@ namespace TravelPalAPI.Repositories.Implementation
             return await PagedList<MessageVM>.Create(msg, msgParams.PageNumber, msgParams.PageSize); 
         }
 
-        public IEnumerable<MessageVM> GetConversation(string recipientId, string senderId)
+        public IEnumerable<MessageVM> GetConversation(string userId, string recipientId)
         {
-            var msg = _context.Messages.Include(x=> x.Sender).Include(x=> x.Recipient).Where(
-            x => x.Recipient.Id == senderId && x.Sender.Id == recipientId
-            || x.Sender.Id == senderId && x.Recipient.Id == recipientId).OrderBy(x=> x.MessageSent).ToList();
+            var msg = _context.Messages
+                .Include(x=> x.Sender).
+                Include(x=> x.Recipient)
+                .Where(x => (x.Recipient.Id == userId && x.RecipientDeleted == false && x.Sender.Id == recipientId) || (x.RecipientId == recipientId
+            && x.Sender.Id == userId && x.SenderDeleted == false)).OrderBy(x=> x.MessageSent).ToList();
 
-            var unreadMsg = msg.Where(x => x.DateRead == null && x.Recipient.Id == senderId).ToList();
+            var unreadMsg = msg.Where(x => x.DateRead == null && x.Recipient.Id == userId).ToList();
 
-            if(unreadMsg.Any())
-            {
-                foreach (var item in unreadMsg)
-                {
-                    item.DateRead = DateTime.Now;
-                }
-
-                _context.SaveChanges();
-            }
 
             return _mapper.Map<IEnumerable<MessageVM>>(msg);
         }

@@ -22,6 +22,7 @@ import { VerifiedGuard } from './guards/verified.guard';
 import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-reserve.component';
 import { MessagesComponent } from './messages/messages.component';
 import { UserReservationsComponent } from './stays/reservations/user-reservations/user-reservations.component';
+import { ConversationComponent } from './messages/conversation/conversation.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -98,6 +99,11 @@ const appRoutes: Routes = [
   {
     path: 'messages/:id',
     component: MessagesComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'messages/conversation/:id',
+    component: ConversationComponent,
     canActivate:[AuthGuard]
   },
 

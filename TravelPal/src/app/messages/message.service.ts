@@ -11,7 +11,12 @@ export class MessageService {
 
   constructor(private http: HttpClient) {}
 
-  getMessages<T>(pageNumber: number, pageSize: number, container: string, userId: string) {
+  getMessages<T>(
+    pageNumber: number,
+    pageSize: number,
+    container: string,
+    userId: string
+  ) {
     let params = new HttpParams();
 
     params = params.append('pageNumber', pageNumber.toString());
@@ -38,8 +43,21 @@ export class MessageService {
     );
   }
 
-   readMessages(id: string)
-   {
-     return this.http.get(this.url + `readMessages?id=${id}`);
-   }
+  sendMessage(data: any) 
+  {
+    return this.http.post(this.url, data);
+  }
+
+  readMessages(id: string) {
+    return this.http.get(this.url + `readMessages?id=${id}`);
+  }
+
+  getConversation(userOne: string, userTwo: string) {
+    return this.http.get(this.url + 'conversation/' + userOne + '/' + userTwo);
+  }
+
+  deleteMessage(msgId: number, userId: string)
+  {
+    return this.http.delete(this.url + `${userId}/${msgId}`);
+  }
 }
