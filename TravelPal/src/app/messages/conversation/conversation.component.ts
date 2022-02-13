@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SecurityService } from 'src/app/security/security.service';
-import { Message } from 'src/app/shared/models/message.model';
-import { userEditVM } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/user/user.service';
 import { MessageService } from '../message.service';
 
@@ -13,17 +11,18 @@ import { MessageService } from '../message.service';
   styleUrls: ['./conversation.component.css'],
 })
 export class ConversationComponent implements OnInit {
-  primaryUserId!: string;
   // @Input() secondUserId!: string;
   secondUserId!: string;
+  primaryUserId!: string;
   formData!: FormGroup;
   messages!: any;
   input: string = '';
   recipient: any;
+  currentUser: any;
 
   constructor(
     private securityService: SecurityService,
-    private messageService: MessageService,
+    public messageService: MessageService,
     private aRoute: ActivatedRoute,
     private builder: FormBuilder,
     private userService: UserService
@@ -42,7 +41,12 @@ export class ConversationComponent implements OnInit {
       content: ['', { Validators: [Validators.required] }],
     });
 
-    this.loadMessages();
+    this.primaryUserId = this.securityService.getFieldFromJWT('id');
+    this.messageService.createHubConnection(this.primaryUserId,this.secondUserId);
+
+   // this.loadMessages();
+
+    console.log("hubconnect");
   }
 
   loadData()
@@ -50,15 +54,13 @@ export class ConversationComponent implements OnInit {
     this.aRoute.params.subscribe((x) => {
       this.secondUserId = x['id'];
     });
-    this.primaryUserId = this.securityService.getFieldFromJWT('id');
     this.userService.getUserById(this.secondUserId).subscribe(x=>
       {
         this.recipient = x;
-        console.log(this.recipient);
       })
   }
 
-  loadMessages() {
+  /*loadMessages() {
     this.messageService
       .getConversation(this.primaryUserId, this.secondUserId)
       .subscribe((x: any) => {
@@ -66,13 +68,16 @@ export class ConversationComponent implements OnInit {
         console.log(this.messages);
         this.messageService.readMessages(this.primaryUserId).subscribe();
       });
-  }
+
+  }*/
 
   sendMessage() {
-    console.log(this.formData.value);
-    this.messageService.sendMessage(this.formData.value).subscribe((x) => {
-      this.loadMessages();
+    this.messageService.sendMessage(this.formData.value).then(() => {
       this.input = '';
     });
+  }
+
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
   }
 }

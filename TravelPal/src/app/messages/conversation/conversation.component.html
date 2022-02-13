@@ -1,4 +1,4 @@
-<body>
+<body *ngIf="(messageService.msgConversation$ | async)?.length != 0">
   <div class="container" style="overflow-y:scroll;" #scroll [scrollTop]="scroll.scrollHeight" >
     <div class="row" >
       <section class="chat" >
@@ -7,7 +7,8 @@
           <p class="name" >{{recipient.userName}}</p></div>
          
         <div class="messages-chat" style="overflow: hidden;">
-          <div *ngFor="let message of messages" #msg  style="overflow: hidden;">
+          <div *ngFor="let message of (messageService.msgConversation$ | async)"   style="overflow: hidden;">
+            
           <div class="message text-only" *ngIf="message.senderId==secondUserId">
             <div class="message">
               <div class="photo" style="background-image: url({{recipient.picture}});">
@@ -23,7 +24,7 @@
               >(unread)
             </span>
           </div>
-          <p class="time" *ngIf="message.senderId==secondUserId"> {{message.dataRead}}</p>
+          <p class="time" *ngIf="message.senderId==secondUserId"> {{message.dateRead}}</p>
           <div class="message text-only" *ngIf="message.senderId==primaryUserId">
             <div class="response">
               <p class="text" > {{message.content}}</p>

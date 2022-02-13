@@ -1,6 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
+import { take } from 'rxjs/operators';
+import { SecurityService } from '../security/security.service';
+import { Message } from '../shared/models/message.model';
 import { PaginatedResult } from '../shared/models/pagination';
 
 @Injectable({
@@ -8,8 +13,13 @@ import { PaginatedResult } from '../shared/models/pagination';
 })
 export class MessageService {
   url = 'https://localhost:44325/api/message/';
+  hubUrl = 'https://localhost:44325/hubs/';
+  private hubConnect!: HubConnection;
+  private msgConversationSource = new BehaviorSubject<Message[]> ([]);
 
-  constructor(private http: HttpClient) {}
+  msgConversation$ = this.msgConversationSource.asObservable();
+
+  constructor(private http: HttpClient, private securityService: SecurityService) {}
 
   getMessages<T>(
     pageNumber: number,
@@ -43,9 +53,9 @@ export class MessageService {
     );
   }
 
-  sendMessage(data: any) 
+  async sendMessage(data: any) 
   {
-    return this.http.post(this.url, data);
+    return this.hubConnect.invoke('SendMessage', data).catch(err=> console.log(err));
   }
 
   readMessages(id: string) {
@@ -60,4 +70,35 @@ export class MessageService {
   {
     return this.http.delete(this.url + `${userId}/${msgId}`);
   }
-}
+
+  createHubConnection(currentUserId: string, otherUserId: string)
+  {
+
+    this.hubConnect = new HubConnectionBuilder().withUrl(this.hubUrl + `message/?user=${currentUserId}&other=${otherUserId}`,
+    {
+      accessTokenFactory: () => this.securityService.getToken()!
+    })
+    .withAutomaticReconnect()
+    .build();
+  
+    this.hubConnect.start().catch(err=>console.log(err));
+
+    this.hubConnect.on('ReceiveMessageConversation', messages=>
+    {
+      this.msgConversationSource.next(messages);
+    });
+
+    this.hubConnect.on('NewMessage', message=>
+    {
+      this.msgConversation$.pipe(take(1)).subscribe(x=>
+        {
+          this.msgConversationSource.next([...x, message])
+        });
+    })
+  }
+
+  stopHubConnection()
+  {
+    this.hubConnect.stop();
+  }
+} 

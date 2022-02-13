@@ -22,6 +22,7 @@ using TravelPalAPI.Database;
 using TravelPalAPI.Extensions;
 using TravelPalAPI.Helpers;
 using TravelPalAPI.Models;
+using TravelPalAPI.SignalR;
 
 namespace TravelPalAPI
 {
@@ -42,8 +43,8 @@ namespace TravelPalAPI
 
             services.AddHttpContextAccessor();
             services.AddControllers();
-
             services.AddIdentityServices(Configuration);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,14 +68,16 @@ namespace TravelPalAPI
             app.UseAuthorization();
             
              app.UseCors(builder => builder
-                .AllowAnyOrigin()
+                .SetIsOriginAllowed(x => _ = true)
                 .AllowAnyMethod()
+                .AllowCredentials()
                 .AllowAnyHeader()
                 );
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }
