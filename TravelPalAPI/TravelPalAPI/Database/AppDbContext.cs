@@ -28,6 +28,8 @@ namespace TravelPalAPI.Database
         public DbSet<Reservation> Reservations{ get; set; }
         public DbSet<Status> Statuses{ get; set; }
         public DbSet<PaymentInfo> PaymentInfos{ get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Connection> Connections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

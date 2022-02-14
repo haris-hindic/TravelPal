@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TravelPalAPI.Models
-{
+{ 
     public class UserAccount : IdentityUser
     {
         public string FirstName { get; set; }

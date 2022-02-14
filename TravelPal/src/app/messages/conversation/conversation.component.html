@@ -1,61 +1,90 @@
-<body *ngIf="(messageService.msgConversation$ | async)?.length != 0">
-  <div class="container" style="overflow-y:scroll;" #scroll [scrollTop]="scroll.scrollHeight" >
-    <div class="row" >
-      <section class="chat" >
+<body>
+  <div
+    class="container"
+    style="overflow-y: scroll"
+    #scroll
+    [scrollTop]="scroll.scrollHeight"
+  >
+    <div class="row">
+      <section class="chat">
         <div class="header-chat">
           <i class="icon fa fa-user-o" aria-hidden="true"></i>
-          <p class="name" >{{recipient.userName}}</p></div>
-         
-        <div class="messages-chat" style="overflow: hidden;">
-          <div *ngFor="let message of (messageService.msgConversation$ | async)"   style="overflow: hidden;">
-            
-          <div class="message text-only" *ngIf="message.senderId==secondUserId">
-            <div class="message">
-              <div class="photo" style="background-image: url({{recipient.picture}});">
-              </div>
-            </div> 
-            <p class="text" > {{message.content}}</p>
-            <span class="hover">{{ message.messageSent | date }}</span>
-            <span
+          <p class="name">{{ recipient.userName }}</p>
+        </div>
+
+        <div class="messages-chat" style="overflow: hidden">
+          <div
+            *ngFor="let message of messageService.msgConversation$ | async"
+            style="overflow: hidden"
+          >
+            <div *ngIf="(messageService.msgConversation$ | async)?.length != 0">
+              <div
+                class="message text-only"
+                *ngIf="message.senderId == secondUserId"
+              >
+                <div class="message">
+                  <div
+                    class="photo"
+                    style="background-image: url({{ recipient.picture }});"
+                  ></div>
+                </div>
+                <p class="text">{{ message.content }}</p>
+                <span class="hover">{{ message.messageSent | date }}</span>
+                <!-- <span
               class="text-danger"
               *ngIf="
-                message.dateRead == null && message.senderId != primaryUserId
+                message.dateRead == null && message.senderId == primaryUserId
               "
               >(unread)
-            </span>
-          </div>
-          <p class="time" *ngIf="message.senderId==secondUserId"> {{message.dateRead}}</p>
-          <div class="message text-only" *ngIf="message.senderId==primaryUserId">
-            <div class="response">
-              <p class="text" > {{message.content}}</p>
-              <span class="hover" >{{ message.messageSent | date }}</span>
-              <span
-                class="text-danger"
-                *ngIf="
-                  message.dateRead == null && message.senderId != primaryUserId
-                "
-                >(unread)
-              </span>
-            </div>
-        </div></div>
-        <div class="footer-chat">
-          <form>
-            <div class="input-group" [formGroup]="formData">
-              <input
-                type="text"
-                class="form-control input-sm"
-                placeholder="Send a private message"
-                formControlName="content"
-                [(ngModel)]="input"
-      
-              />
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="submit" (click)="sendMessage()" [disabled]="formData.invalid || input==''">Send</button>
+            </span> -->
+              </div>
+              <p class="time" *ngIf="message.senderId == secondUserId">
+                {{ message.dateRead }}
+              </p>
+              <div
+                class="message text-only"
+                *ngIf="message.senderId == primaryUserId"
+              >
+                <div class="response">
+                  <p class="text">{{ message.content }}</p>
+                  <span class="hover">{{ message.messageSent | date }}</span>
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      message.dateRead == null &&
+                      message.senderId == primaryUserId
+                    "
+                    >(unread)
+                  </span>
+                </div>
               </div>
             </div>
-          </form>
-        </div></div>
+          </div>
+          <div class="footer-chat">
+            <form>
+              <div class="input-group" [formGroup]="formData">
+                <input
+                  type="text"
+                  class="form-control input-sm"
+                  placeholder="Send a private message"
+                  formControlName="content"
+                  [(ngModel)]="input"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-primary"
+                    type="submit"
+                    (click)="sendMessage()"
+                    [disabled]="formData.invalid || input == ''"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>
     </div>
-  </div> 
+  </div>
 </body>

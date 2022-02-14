@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214095607_testv10")]
+    partial class testv10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,24 +355,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Connection", b =>
-                {
-                    b.Property<string>("ConnectionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ConnectionId");
-
-                    b.HasIndex("GroupName");
-
-                    b.ToTable("Connections");
-                });
-
             modelBuilder.Entity("TravelPalAPI.Models.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -441,16 +425,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventImages");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Group", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Location", b =>
@@ -729,13 +703,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Connection", b =>
-                {
-                    b.HasOne("TravelPalAPI.Models.Group", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("GroupName");
-                });
-
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
                     b.HasOne("TravelPalAPI.Models.UserAccount", "Host")
@@ -837,11 +804,6 @@ namespace TravelPalAPI.Database.Migrations
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Group", b =>
-                {
-                    b.Navigation("Connections");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>

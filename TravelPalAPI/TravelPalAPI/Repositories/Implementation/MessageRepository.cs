@@ -44,18 +44,7 @@ namespace TravelPalAPI.Repositories.Implementation
         public async Task<PagedList<MessageVM>> GetMessagesForUser(MessageParams msgParams)
         {
 
-           /* var unreadMsg = _context.Messages.Where(x => x.DateRead == null && x.Recipient.Id == msgParams.UserId).ToList();
-
-            if (unreadMsg.Any())
-            {
-                foreach (var item in unreadMsg)
-                {
-                    item.DateRead = DateTime.Now;
-                }
-
-                _context.SaveChanges();
-            }*/
-
+          
             var messages = _context.Messages
                 .OrderByDescending(m => m.MessageSent)
                 .AsQueryable();
@@ -82,6 +71,17 @@ namespace TravelPalAPI.Repositories.Implementation
 
             var unreadMsg = msg.Where(x => x.DateRead == null && x.Recipient.Id == userId).ToList();
 
+            if (unreadMsg.Any())
+            {
+                foreach (var item in unreadMsg)
+                {
+                    item.DateRead = DateTime.Now;
+                }
+
+                _context.SaveChanges();
+            }
+
+
 
             return _mapper.Map<IEnumerable<MessageVM>>(msg);
         }
@@ -89,6 +89,27 @@ namespace TravelPalAPI.Repositories.Implementation
         public void SaveAll()
         {
             _context.SaveChanges(); 
+        }
+
+        public void AddGroup(Group group)
+        {
+            _context.Groups.Add(group);
+        }
+
+        public void RemoveConnection(Connection connection)
+        {
+            _context.Connections.Remove(connection);
+        }
+
+        public Connection GetConnection(string connectionId)
+        {
+            return _context.Connections.Find(connectionId);
+        }
+
+        public Group GetMessageGroup(string groupName)
+        {
+            return _context.Groups.Include(x => x.Connections).SingleOrDefault(x => x.Name == groupName);
+
         }
     }
 }

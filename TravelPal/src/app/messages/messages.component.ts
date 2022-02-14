@@ -47,11 +47,9 @@ export class MessagesComponent implements OnInit {
     }
   }
 
-  deleteMessage(id: number)
-  {
-    this.messageService.deleteMessage(id, this.userId).subscribe(x=>
-      {
-        this.loadData();
-      })
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id, this.userId).subscribe((x) => {
+      this.loadData();
+    });
   }
 }
