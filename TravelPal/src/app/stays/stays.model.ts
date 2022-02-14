@@ -26,6 +26,7 @@ export interface AccommodationBasicVM {
   price: number;
   image: string;
   country: string;
+  address: string;
   city: string;
   latitude: number;
   longitude: number;

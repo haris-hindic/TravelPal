@@ -95,12 +95,13 @@ namespace TravelPalAPI.Repositories.Implementation
                   Price = x.Price,
                   Image = x.AccommodationImages.First().ImagePath,
                   Country = x.Location.City.Country.Name,
+                  Address = x.Location.Address,
                   City = x.Location.City.Name,
                   Latitude = x.Location.Latitude,
                   Longitude = x.Location.Longitude,
                   UserImage = x.Host.Picture
 
-              }).AsNoTracking();
+              }).OrderBy(x => x.Name).AsNoTracking();
 
             }
             else
@@ -113,12 +114,13 @@ namespace TravelPalAPI.Repositories.Implementation
                    Price = x.Price,
                    Image = x.AccommodationImages.First().ImagePath,
                    Country = x.Location.City.Country.Name,
+                   Address=x.Location.Address,
                    City = x.Location.City.Name,
                    Latitude = x.Location.Latitude,
                    Longitude = x.Location.Longitude,
                   UserImage = x.Host.Picture
 
-               }).AsNoTracking();
+               }).OrderBy(x=>x.Name).AsNoTracking();
             }
 
             var x = accommodations.ToList();
@@ -165,6 +167,7 @@ namespace TravelPalAPI.Repositories.Implementation
                    Image = x.AccommodationImages.First().ImagePath,
                    Country = x.Location.City.Country.Name,
                    City = x.Location.City.Name,
+                   Address = x.Location.Address,
                    Latitude = x.Location.Latitude,
                    Longitude = x.Location.Longitude,
                    UserImage = x.Host.Picture
