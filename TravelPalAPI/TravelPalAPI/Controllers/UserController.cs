@@ -27,10 +27,11 @@ namespace TravelPalAPI.Controllers
         private readonly IFileStorageService storageService;
         private readonly IAccommodationRepository accRepo;
         private readonly IEventRepository eventRepo;
+        private readonly IMessageRepository messageRepo;
         private readonly IMapper imapper;
 
         public UserController(UserManager<UserAccount> userManager,AppDbContext appDb,IFileStorageService storageService,
-            IAccommodationRepository accRepo,IEventRepository eventRepo,IMapper imapper)
+            IAccommodationRepository accRepo,IEventRepository eventRepo,IMapper imapper, IMessageRepository messageRepo)
         {
             this.userManager = userManager;
             this.appDb = appDb;
@@ -38,6 +39,7 @@ namespace TravelPalAPI.Controllers
             this.accRepo = accRepo;
             this.eventRepo = eventRepo;
             this.imapper = imapper;
+            this.messageRepo = messageRepo;
         }
 
 
@@ -60,7 +62,8 @@ namespace TravelPalAPI.Controllers
                 PhoneNumberVerified = user.PhoneNumberConfirmed,
                 Picture = user.Picture,
                 Accommodations = accRepo.GetByUserId(id, new UserParams()).Result,
-                Events= eventRepo.GetByUserId(user.Id)
+                Events = eventRepo.GetByUserId(user.Id),
+                MessagesReceived = messageRepo.GetReceivedMsg(user.Id)
             };
         }
 

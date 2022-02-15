@@ -86,8 +86,9 @@ namespace TravelPalAPI.SignalR
 
             if(group.Connections.Any(x=> x.Username == recipient.UserName))
             {
-                message.DateRead = DateTime.UtcNow;
+                message.DateRead = DateTime.Now;
             }
+
             _messageRepository.AddMessage(message);
 
             Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageVM>(message));

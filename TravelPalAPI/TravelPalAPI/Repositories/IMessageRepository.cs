@@ -21,6 +21,7 @@ namespace TravelPalAPI.Repositories
         void RemoveConnection(Connection connection);
         Connection GetConnection(string connectionId);
         Group GetMessageGroup(string groupName);
+        ICollection<MessageVM> GetReceivedMsg(string id);
         void SaveAll();
 
     }

@@ -46,6 +46,7 @@ export class ConversationComponent implements OnInit {
       this.secondUserId
     );
 
+    this.messageService.rMessages.emit(true);
     // this.loadMessages();
 
     console.log('hubconnect');

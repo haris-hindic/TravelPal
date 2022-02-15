@@ -3,6 +3,7 @@ import {
   AccommodationBasicVM,
   AccommodationVM,
 } from 'src/app/stays/stays.model';
+import { Message } from './message.model';
 import { PaginatedResult } from './pagination';
 
 export interface userVM {
@@ -12,6 +13,7 @@ export interface userVM {
   eventsListed: number;
   isAdmin: boolean;
   picture: string;
+  MessagesReceived: Message[];
 }
 
 export interface userProfileVM {

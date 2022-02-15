@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.Event;
+using TravelPalAPI.ViewModels.Message;
 
 namespace TravelPalAPI.ViewModels.User
 {
@@ -20,6 +21,8 @@ namespace TravelPalAPI.ViewModels.User
         public string Picture { get; set; }
         public IEnumerable<AccommodationBasicVM> Accommodations { get; set; }
         public IEnumerable<EventVM> Events { get; set; }
+
+        public ICollection<MessageVM> MessagesReceived { get; set; }
 
     }
 }

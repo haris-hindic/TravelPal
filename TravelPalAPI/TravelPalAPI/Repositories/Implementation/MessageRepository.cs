@@ -99,6 +99,7 @@ namespace TravelPalAPI.Repositories.Implementation
         public void RemoveConnection(Connection connection)
         {
             _context.Connections.Remove(connection);
+            _context.SaveChanges();
         }
 
         public Connection GetConnection(string connectionId)
@@ -109,7 +110,23 @@ namespace TravelPalAPI.Repositories.Implementation
         public Group GetMessageGroup(string groupName)
         {
             return _context.Groups.Include(x => x.Connections).SingleOrDefault(x => x.Name == groupName);
+        }
 
+        public ICollection<MessageVM> GetReceivedMsg(string id)
+        {
+            var msg = _context.Messages.Where(x => x.RecipientId == id).Select(x => new MessageVM
+            {
+                Id = x.Id,
+                Content = x.Content,
+                DateRead = x.DateRead,
+                MessageSent = x.MessageSent,
+                RecipientId = x.RecipientId,
+                RecipientUsername = x.RecipientUsername,
+                SenderId = x.SenderId,
+                SenderUsername = x.SenderUsername
+            }).ToList();
+        
+            return msg;
         }
     }
 }

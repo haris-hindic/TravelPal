@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
@@ -17,12 +17,17 @@ export class MessageService {
   private hubConnect!: HubConnection;
   private msgConversationSource = new BehaviorSubject<Message[]>([]);
 
+
   msgConversation$ = this.msgConversationSource.asObservable();
+
+  rMessages = new EventEmitter<boolean>();
 
   constructor(
     private http: HttpClient,
     private securityService: SecurityService
-  ) {}
+  ) {
+
+  }
 
   getMessages<T>(
     pageNumber: number,
@@ -96,6 +101,8 @@ export class MessageService {
         this.msgConversationSource.next([...x, message]);
       });
     });
+
+
   }
 
   stopHubConnection() {
