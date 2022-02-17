@@ -10,7 +10,7 @@ namespace TravelPalAPI.ViewModels.PaymentInfo
         public string Country { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
-        public int CcNumber { get; set; }
+        public string CcNumber { get; set; }
         public DateTime ExpDate { get; set; }
         public string CcvCode { get; set; }
     }
