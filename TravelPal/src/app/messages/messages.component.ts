@@ -27,8 +27,6 @@ export class MessagesComponent implements OnInit {
   }
 
   loadData() {
-    console.log(this.userId);
-
     this.messageService
       .getMessages(this.pageNumber, this.pageSize, this.container, this.userId)
       .subscribe((x) => {
@@ -47,11 +45,9 @@ export class MessagesComponent implements OnInit {
     }
   }
 
-  deleteMessage(id: number)
-  {
-    this.messageService.deleteMessage(id, this.userId).subscribe(x=>
-      {
-        this.loadData();
-      })
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id, this.userId).subscribe((x) => {
+      this.loadData();
+    });
   }
 }

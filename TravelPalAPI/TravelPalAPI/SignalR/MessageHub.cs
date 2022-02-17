@@ -42,13 +42,17 @@ namespace TravelPalAPI.SignalR
 
             Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
+            AddToGroup(Context, groupName, currentUser.UserName);
+
             var messages =  _messageRepository.GetConversation(currentUser.Id, otherUser.Id);
 
             Clients.Group(groupName).SendAsync("ReceiveMessageConversation", messages);
+
         }
 
         public override async Task OnDisconnectedAsync(Exception ex)
         {
+            await RemoveFromMessageGroup(Context.ConnectionId);
             await base.OnDisconnectedAsync(ex);
         }
 
@@ -76,21 +80,51 @@ namespace TravelPalAPI.SignalR
                 Content = messageCreationVM.Content
             };
 
+            var groupName = GetGroupName(sender.UserName, recipient.UserName);
+
+            var group = _messageRepository.GetMessageGroup(groupName);
+
+            if(group.Connections.Any(x=> x.Username == recipient.UserName))
+            {
+                message.DateRead = DateTime.Now;
+            }
+
             _messageRepository.AddMessage(message);
 
-
-            var group = GetGroupName(sender.UserName, recipient.UserName);
-
-            Clients.Group(group).SendAsync("NewMessage", _mapper.Map<MessageVM>(message));
+            Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageVM>(message));
             
             _messageRepository.SaveAll();
         }
 
 
-        private string GetGroupName(string currentUser, string otherUser)
+        public  string GetGroupName(string currentUser, string otherUser)
         {
             var stringCompare = string.CompareOrdinal(currentUser, otherUser) < 0;
             return stringCompare ? $"{currentUser}-{otherUser}" : $"{otherUser}-{currentUser}";
+        }
+
+        public void AddToGroup(HubCallerContext context, string groupName, string userId)
+        {
+            var group = _messageRepository.GetMessageGroup(groupName);
+            var connection = new Connection(context.ConnectionId, userId);
+
+            if(group==null)
+            {
+                group = new Group(groupName);
+                _messageRepository.AddGroup(group);
+            }
+
+            group.Connections.Add(connection);
+
+            _dbContext.SaveChanges();
+        }
+
+        public async Task RemoveFromMessageGroup(string connectionId)
+        {
+            var connection = _messageRepository.GetConnection(connectionId);
+            _messageRepository.RemoveConnection(connection);
+
+            _dbContext.SaveChanges();
         }
     }
 

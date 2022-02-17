@@ -16,6 +16,12 @@ namespace TravelPalAPI.Repositories
         Message GetMessage(int id);
         Task<PagedList<MessageVM>> GetMessagesForUser(MessageParams msgParams);
         IEnumerable<MessageVM> GetConversation(string currentUserId, string recipientId);
+
+        void AddGroup(Group group);
+        void RemoveConnection(Connection connection);
+        Connection GetConnection(string connectionId);
+        Group GetMessageGroup(string groupName);
+        ICollection<MessageVM> GetReceivedMsg(string id);
         void SaveAll();
 
     }

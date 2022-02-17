@@ -29,7 +29,6 @@ export class ConversationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
     this.loadData();
 
     this.formData = this.builder.group({
@@ -42,22 +41,24 @@ export class ConversationComponent implements OnInit {
     });
 
     this.primaryUserId = this.securityService.getFieldFromJWT('id');
-    this.messageService.createHubConnection(this.primaryUserId,this.secondUserId);
+    this.messageService.createHubConnection(
+      this.primaryUserId,
+      this.secondUserId
+    );
 
-   // this.loadMessages();
+    this.messageService.rMessages.emit(true);
+    // this.loadMessages();
 
-    console.log("hubconnect");
+    console.log('hubconnect');
   }
 
-  loadData()
-  {
+  loadData() {
     this.aRoute.params.subscribe((x) => {
       this.secondUserId = x['id'];
     });
-    this.userService.getUserById(this.secondUserId).subscribe(x=>
-      {
-        this.recipient = x;
-      })
+    this.userService.getUserById(this.secondUserId).subscribe((x) => {
+      this.recipient = x;
+    });
   }
 
   /*loadMessages() {

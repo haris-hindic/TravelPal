@@ -11,8 +11,6 @@ body {
   height: 700px;
 }
 
-
-
 .chat {
   width: 100%;
   overflow: hidden;
@@ -181,7 +179,7 @@ body {
   display: none;
 }
 
-.response, .message.text-only:hover .hover{
+.response,
+.message.text-only:hover .hover {
   display: block;
 }
-

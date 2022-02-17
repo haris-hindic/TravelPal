@@ -144,10 +144,11 @@
         </mat-menu>
 
         <a
-        class="btn btn-outline-secondary rounded-circle me-1"
-        routerLink="messages/{{id}}"
-        ><i class="fa fa-envelope"></i> Messages</a
-      >
+          class="btn btn-outline-secondary rounded-circle me-1"
+          routerLink="messages/{{ id }}"
+          ><i class="far fa-comment" *ngIf="!flag"></i>
+          <i class="fas fa-comment" *ngIf="flag"></i> Messages</a
+        >
         <a
           (click)="logout()"
           class="btn btn-outline-secondary rounded-circle me-1"

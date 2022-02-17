@@ -1,61 +1,70 @@
-<div class="row ms-4 ms-2" *ngIf="messages" style="cursor: pointer;">
-  <div class="btn-group" name="container">
-    <button
-      class="btn btn-primary"
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="container = 'Unread'"
-      (click)="loadData()"
-    >
-      <i class="fa fa-envelope"></i> Unread
-    </button>
-    <button
-      class="btn btn-primary"
-      btnRadio="Inbox"
-      routerLinkActive="active-link"
-      (click)="container = 'Inbox'"
-      (click)="loadData()"
-    >
-      <i class="fa fa-envelope-open"></i> Inbox
-    </button>
-    <button
-      class="btn btn-primary"
-      btnRadio="Outbox"
-      routerLinkActive="active-link"
-      (click)="container = 'Outbox'"
-      (click)="loadData()"
-    >
-      <i class="fa fa-paper-plane"></i> Outbox
-    </button>
-  </div>
+<div class="container">
+  <div
+    class="row mt-4"
+    *ngIf="messages"
+    style="cursor: pointer; overflow: hidden"
+  >
+    <div class="btn-group" name="container">
+      <button
+        class="btn btn-primary"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="container = 'Unread'"
+        (click)="loadData()"
+      >
+        <i class="fa fa-envelope"></i> Unread
+      </button>
+      <button
+        class="btn btn-primary"
+        routerLinkActive="active-link"
+        (click)="container = 'Inbox'"
+        (click)="loadData()"
+      >
+        <i class="fa fa-envelope-open"></i> Inbox
+      </button>
+      <button
+        class="btn btn-primary"
+        routerLinkActive="active-link"
+        (click)="container = 'Outbox'"
+        (click)="loadData()"
+      >
+        <i class="fa fa-paper-plane"></i> Outbox
+      </button>
+    </div>
 
-  <div class="row" *ngIf="messages.length == 0">There are no messages!</div>
+    <div class="row" *ngIf="messages.length == 0">There are no messages!</div>
 
-  <div class="row" *ngIf="messages.length > 0">
-    <table class="table table-hover" style="cursor: pointer">
-      <tr>
-        <th style="width: 40%">Message</th>
-        <th style="width: 20%">From/ To</th>
-        <th style="width: 20%">Sent / Received</th>
-        <th style="width: 20%"></th>
-      </tr>
-      <tr *ngFor="let message of messages">
-        <td>{{ message.content }}</td>
-        <div *ngIf="container == 'Outbox'">
-          <td routerLink="/messages/conversation/{{ message.recipientId }}">
-            <strong>{{ message.recipientUsername }}</strong>
+    <div class="row" *ngIf="messages.length > 0">
+      <table class="table table-hover" style="cursor: pointer">
+        <tr>
+          <th style="width: 40%">Message</th>
+          <th style="width: 20%">From/ To</th>
+          <th style="width: 20%">Sent / Received</th>
+          <th style="width: 20%"></th>
+        </tr>
+        <tr *ngFor="let message of messages">
+          <td>{{ message.content }}</td>
+          <div *ngIf="container == 'Outbox'">
+            <td routerLink="/messages/conversation/{{ message.recipientId }}">
+              <strong>{{ message.recipientUsername }}</strong>
+            </td>
+          </div>
+          <div *ngIf="container != 'Outbox'">
+            <td routerLink="/messages/conversation/{{ message.senderId }}">
+              <strong>{{ message.senderUsername }}</strong>
+            </td>
+          </div>
+          <td>{{ message.messageSent | date }}</td>
+          <td>
+            <button
+              class="btn btn-outline-danger"
+              (click)="deleteMessage(message.id)"
+            >
+              Delete
+            </button>
           </td>
-        </div>
-        <div *ngIf="container != 'Outbox'">
-          <td routerLink="/messages/conversation/{{ message.senderId }}">
-            <strong>{{ message.senderUsername }}</strong>
-          </td>
-        </div>
-        <td>{{ message.messageSent }}</td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteMessage(message.id)">Delete</button>
-        </td>
-      </tr>
-    </table>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
