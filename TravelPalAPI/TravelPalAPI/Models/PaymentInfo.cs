@@ -14,7 +14,7 @@ namespace TravelPalAPI.Models
         public int CcNumber { get; set; }
         public DateTime ExpDate { get; set; }
         public string CcvCode { get; set; }
-
         public Reservation Reservation { get; set; }
+        public EventSignUp EventSignUp { get; set; }
     }
 }

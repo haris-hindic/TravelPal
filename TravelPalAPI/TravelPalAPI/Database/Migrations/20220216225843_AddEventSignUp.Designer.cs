@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220216225843_AddEventSignUp")]
+    partial class AddEventSignUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,7 +455,10 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EventParticipantId")
+                    b.Property<int>("EventParticipantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventParticipantId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PaymentInfoId")
@@ -472,7 +477,7 @@ namespace TravelPalAPI.Database.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("EventParticipantId");
+                    b.HasIndex("EventParticipantId1");
 
                     b.HasIndex("PaymentInfoId")
                         .IsUnique();
@@ -806,14 +811,14 @@ namespace TravelPalAPI.Database.Migrations
             modelBuilder.Entity("TravelPalAPI.Models.EventSignUp", b =>
                 {
                     b.HasOne("TravelPalAPI.Models.Event", "Event")
-                        .WithMany("EventSignUps")
+                        .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TravelPalAPI.Models.UserAccount", "EventParticipant")
                         .WithMany()
-                        .HasForeignKey("EventParticipantId");
+                        .HasForeignKey("EventParticipantId1");
 
                     b.HasOne("TravelPalAPI.Models.PaymentInfo", "PaymentInfo")
                         .WithOne("EventSignUp")
@@ -908,8 +913,6 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
-                    b.Navigation("EventSignUps");
-
                     b.Navigation("Images");
                 });
 

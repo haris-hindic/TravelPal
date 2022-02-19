@@ -30,11 +30,15 @@ namespace TravelPalAPI.Database
         public DbSet<PaymentInfo> PaymentInfos{ get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
+        public DbSet<EventSignUp> EventSignUps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Reservation>().HasOne(x => x.PaymentInfo)
                 .WithOne(x => x.Reservation).HasForeignKey<Reservation>(x => x.PaymentInfoId);
+
+           modelBuilder.Entity<EventSignUp>().HasOne(x => x.PaymentInfo)
+               .WithOne(x => x.EventSignUp).HasForeignKey<EventSignUp>(x => x.PaymentInfoId);
 
 
             base.OnModelCreating(modelBuilder);

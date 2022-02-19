@@ -9,6 +9,7 @@ using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.EventImages;
+using TravelPalAPI.ViewModels.EventSignUp;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 using TravelPalAPI.ViewModels.Message;
@@ -86,12 +87,21 @@ namespace TravelPalAPI.Helpers
             //PaymentInfo
             CreateMap<PaymentInfoCreationVM, PaymentInfo>();
 
-
+            //Message
             CreateMap<Message, MessageVM>()
                 .ForMember(x => x.SenderPhotoUrl, 
                 opt => opt.MapFrom(src => src.Sender.Picture.FirstOrDefault()))
                 .ForMember(x => x.RecipientPhotoUrl, 
                 opt => opt.MapFrom(src => src.Recipient.Picture.FirstOrDefault()));
+
+            //EventSignUp
+
+            CreateMap<EventSignUp, EventSignUpVM>()
+                .ForMember(x => x.Status, vm => vm.MapFrom(x => x.Status.Description))
+                .ForMember(x => x.Event, vm => vm.MapFrom(x => x.Event.Name));
+            CreateMap<EventSignUpCreationVM, EventSignUp>()
+                .ForMember(x => x.PaymentInfo, vm => vm.MapFrom(x => x.PaymentInfo));
+            
         }
     }
 }
