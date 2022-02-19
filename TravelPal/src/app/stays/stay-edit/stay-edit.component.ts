@@ -161,7 +161,9 @@ export class StayEditComponent implements OnInit {
               )
               .subscribe(
                 () => {
-                  this._router.navigate(['stays']);
+                  this._router.navigate([
+                    `user-stays/${this._securityService.getFieldFromJWT('id')}`,
+                  ]);
                   this._toastr.info('Successfully edited!');
                 },
                 (err: any) => {
@@ -169,7 +171,9 @@ export class StayEditComponent implements OnInit {
                 }
               );
           } else {
-            this._router.navigate(['stays']);
+            this._router.navigate([
+              `user-stays/${this._securityService.getFieldFromJWT('id')}`,
+            ]);
             this._toastr.info('Successfully edited!');
           }
         },

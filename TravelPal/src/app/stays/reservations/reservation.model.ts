@@ -28,7 +28,7 @@ export interface PaymentInfoCreationVM {
   country: string;
   city: string;
   postalCode: string;
-  ccNumber: number;
+  ccNumber: string;
   expDate: Date;
   ccvCode: string;
 }

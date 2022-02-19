@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214095438_ccNumbertostring")]
+    partial class ccNumbertostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,24 +355,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Connection", b =>
-                {
-                    b.Property<string>("ConnectionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("GroupName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ConnectionId");
-
-                    b.HasIndex("GroupName");
-
-                    b.ToTable("Connections");
-                });
-
             modelBuilder.Entity("TravelPalAPI.Models.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -441,55 +425,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("EventImages");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.EventSignUp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EventParticipantId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PaymentInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("SignUpDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("EventParticipantId");
-
-                    b.HasIndex("PaymentInfoId")
-                        .IsUnique();
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("EventSignUps");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Group", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Location", b =>
@@ -768,13 +703,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Connection", b =>
-                {
-                    b.HasOne("TravelPalAPI.Models.Group", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("GroupName");
-                });
-
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
                     b.HasOne("TravelPalAPI.Models.UserAccount", "Host")
@@ -801,39 +729,6 @@ namespace TravelPalAPI.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.EventSignUp", b =>
-                {
-                    b.HasOne("TravelPalAPI.Models.Event", "Event")
-                        .WithMany("EventSignUps")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelPalAPI.Models.UserAccount", "EventParticipant")
-                        .WithMany()
-                        .HasForeignKey("EventParticipantId");
-
-                    b.HasOne("TravelPalAPI.Models.PaymentInfo", "PaymentInfo")
-                        .WithOne("EventSignUp")
-                        .HasForeignKey("TravelPalAPI.Models.EventSignUp", "PaymentInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelPalAPI.Models.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("EventParticipant");
-
-                    b.Navigation("PaymentInfo");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.Location", b =>
@@ -908,20 +803,11 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.Event", b =>
                 {
-                    b.Navigation("EventSignUps");
-
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("TravelPalAPI.Models.Group", b =>
-                {
-                    b.Navigation("Connections");
                 });
 
             modelBuilder.Entity("TravelPalAPI.Models.PaymentInfo", b =>
                 {
-                    b.Navigation("EventSignUp");
-
                     b.Navigation("Reservation");
                 });
 

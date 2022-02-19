@@ -41,7 +41,7 @@ export class StayReserveComponent implements OnInit {
         country: ['', { validators: [Validators.required] }],
         city: ['', { validators: [Validators.required] }],
         postalCode: ['', { validators: [Validators.required] }],
-        ccNumber: [0, { validators: [Validators.required] }],
+        ccNumber: ['', { validators: [Validators.required] }],
         expDate: ['', { validators: [Validators.required] }],
         ccvCode: ['', { validators: [Validators.required] }],
       }),
