@@ -11,7 +11,7 @@ namespace TravelPalAPI.ViewModels.EventSignUp
         public string EventParticipantId { get; set; }
         public int EventId { get; set; }
         public float Price { get; set; }
-        public DateTime SignUpDate { get; set; }
+        public DateTime SignUpDate { get; set; } = DateTime.Now;
         public PaymentInfoCreationVM PaymentInfo { get; set; }
     }
 }

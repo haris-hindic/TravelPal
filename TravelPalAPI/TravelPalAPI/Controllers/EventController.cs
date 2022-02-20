@@ -76,6 +76,5 @@ namespace TravelPalAPI.Controllers
             return eventRepository.GetAll(eventSearch);
         }
 
-
     }
 }

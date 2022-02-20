@@ -1,0 +1,110 @@
+<div class="container">
+  <!-- <app-display-errors
+      *ngIf="errors.length > 0"
+      [errors]="errors"
+    ></app-display-errors> -->
+  <mat-stepper [linear]="false" #stepper>
+    <mat-step>
+      <form [formGroup]="formGroupUserInfo">
+        <ng-template matStepLabel>Your informations</ng-template>
+        <div class="input-group-prepend">
+          <label class="form-label">FirstName</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="firstName"
+            readonly
+          />
+
+          <div class="mb-3">
+            <label class="form-label">LastName</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="lastName"
+              readonly
+            />
+
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="email"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-6 text-end">
+          <button class="btn btn-primary" matStepperNext>></button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [formGroup]="formGroup">
+      <form formGroupName="paymentInfo">
+        <ng-template matStepLabel>Fill out Payment informations</ng-template>
+        <div class="mb-3">
+          <label class="form-label">Country</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="country"
+            placeholder="Bosnia and Herzegovina"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">City</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="city"
+            placeholder="Sarajevo"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Postal Code</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="postalCode"
+            placeholder="71000"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Credit Card number</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ccNumber"
+            placeholder="XXXX XXXX XXXX XXXX"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">CCV</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ccvCode"
+            placeholder="XXX"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Card expiration date</label>
+          <input type="date" class="form-control" formControlName="expDate" />
+        </div>
+        <div class="col-6 mt-1 text-end">
+          <button class="btn btn-danger m-1" matStepperPrevious><</button>
+          <button
+            class="btn btn-success"
+            (click)="saveData()"
+            [disabled]="formGroup.invalid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

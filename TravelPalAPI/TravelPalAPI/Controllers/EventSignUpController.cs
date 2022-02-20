@@ -25,10 +25,10 @@ namespace TravelPalAPI.Controllers
             _eventSignUpRepository.Delete(id);
         }
 
-        [HttpGet]
-        public IEnumerable<EventSignUpVM> GetAll()
+        [HttpGet("getByUserId/{id}")]
+        public IEnumerable<EventSignUpVM> GetByUserId(string id)
         {
-            return _eventSignUpRepository.GetAll();
+            return _eventSignUpRepository.GetByUserId(id);
         }
 
         [HttpGet("{id}")]
@@ -43,6 +43,12 @@ namespace TravelPalAPI.Controllers
             var tempEventSignUp = _eventSignUpRepository.Post(eventSignUp);
 
             return tempEventSignUp;
+        }
+
+        [HttpGet("cancelSignUp/{id}")]
+        public void CancelSignUp(int id)
+        {
+            _eventSignUpRepository.CancelSignUp(id);
         }
     }
 }

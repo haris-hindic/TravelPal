@@ -23,6 +23,8 @@ import { StayReserveComponent } from './stays/reservations/stay-reserve/stay-res
 import { MessagesComponent } from './messages/messages.component';
 import { UserReservationsComponent } from './stays/reservations/user-reservations/user-reservations.component';
 import { ConversationComponent } from './messages/conversation/conversation.component';
+import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.component';
+import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -66,6 +68,16 @@ const appRoutes: Routes = [
     component: EventsCreationComponent,
     canActivate: [AuthGuard, VerifiedGuard],
   },
+    {
+    path: 'events/signUp/:id',
+    component: EventsSignUpComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'events/signUpCreation/:id',
+    component: EventsSignUpCreationComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'events/edit/:id',
     component: EventsEditComponent,
@@ -107,6 +119,7 @@ const appRoutes: Routes = [
     canActivate:[AuthGuard]
   },
 
+  // **
   { path: '**', redirectTo: '' },
 ];
 @NgModule({

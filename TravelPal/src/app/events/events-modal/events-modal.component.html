@@ -64,6 +64,15 @@
         >
           Close
         </button>
+        <button
+          type="button"
+          class="btn btn-info"
+          data-bs-dismiss="modal"
+          routerLink="/events/signUpCreation/{{currentEvent.id}}"
+          *ngIf="securityService.getFieldFromJWT('id')!=currentEvent.user.id"
+        >
+          Event SignUp
+        </button>
       </div>
     </div>
   </div>

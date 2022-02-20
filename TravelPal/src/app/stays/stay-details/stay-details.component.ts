@@ -15,7 +15,9 @@ import { AccommodationVM } from '../stays.model';
 export class StayDetailsComponent implements OnInit {
   stay!: AccommodationVM;
 
+  userId = this._securityService.getFieldFromJWT('id');
   today = new Date();
+
 
   reservation!: FormGroup;
 

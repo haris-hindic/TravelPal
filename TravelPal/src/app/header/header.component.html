@@ -115,7 +115,7 @@
 
         <mat-menu #reservations="matMenu">
           <a routerLink="/user-reservations" mat-menu-item> Stays reserved</a>
-          <a mat-menu-item> Events...</a>
+          <a mat-menu-item routerLink="/events/signUp/{{_securityService.getFieldFromJWT('id')}}"> Events signed up</a>
         </mat-menu>
 
         <mat-menu #events="matMenu">

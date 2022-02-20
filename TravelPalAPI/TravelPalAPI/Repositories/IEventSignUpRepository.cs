@@ -10,9 +10,12 @@ namespace TravelPalAPI.Repositories.Implementation
     public interface IEventSignUpRepository
     {
         int Post(EventSignUpCreationVM eventSignUp);
-        IEnumerable<EventSignUpVM> GetAll();
+        IEnumerable<EventSignUpVM> GetByUserId(string id);
         EventSignUpVM GetById(int id);
         void Delete(int id);
-        
+        public void CancelSignUp(int id);
+
+
+
     }
 }

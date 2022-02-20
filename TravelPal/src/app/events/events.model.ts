@@ -1,4 +1,5 @@
 import { LocationVM } from '../shared/models/location.model';
+import { userVM } from '../shared/models/user.model';
 
 export class EventCreationVM {
   name!: string;
@@ -24,6 +25,7 @@ export class EventVM {
   price!: number;
   date!: string;
   duration!: string;
+  user!: userVM;
   eventDescription!: string;
   locationVM!: LocationVM;
   images!: EventImages[];

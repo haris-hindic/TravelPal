@@ -23,9 +23,9 @@ namespace TravelPalAPI.Repositories.Implementation
             this._dbContext = dbContext;
             this._mapper = mapper;
         }
-        public IEnumerable<EventSignUpVM> GetAll()
+        public IEnumerable<EventSignUpVM> GetByUserId(string id)
         {
-            var eventSignUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x=>x.Status).ToList();
+            var eventSignUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x=>x.Status).Where(x=>x.EventParticipantId == id).ToList();
 
             return _mapper.Map<IEnumerable<EventSignUpVM>>(eventSignUps);
         }
@@ -43,20 +43,16 @@ namespace TravelPalAPI.Repositories.Implementation
 
         public int Post(EventSignUpCreationVM eventSignUpCreation)
         {
+            if (!_dbContext.Events.Any(x => x.Id == eventSignUpCreation.EventId))
+                return -1;
+
+
             var eventSignUp = _mapper.Map<EventSignUp>(eventSignUpCreation);
             eventSignUp.StatusId = _dbContext.Statuses.SingleOrDefault(x => x.Description == "Active").Id;
 
             _dbContext.EventSignUps.Add(eventSignUp);
             _dbContext.SaveChanges();
-            /*_dbContext.EventSignUps.Add(new EventSignUp()
-            {
-                EventId = eventSignUpCreation.EventId,
-                EventParticipantId = eventSignUpCreation.EventParticipantId,
-                PaymentInfo = _mapper.Map<PaymentInfo>(eventSignUpCreation.PaymentInfo),
-                Price = eventSignUpCreation.Price,
-                SignUpDate = eventSignUpCreation.SignUpDate
-            });
-            */
+          
             return eventSignUp.Id;
         }
         public void Delete(int id)
@@ -67,6 +63,18 @@ namespace TravelPalAPI.Repositories.Implementation
                 return;
 
             _dbContext.EventSignUps.Remove(eventSignUp);
+
+            _dbContext.SaveChanges();
+        }
+
+        public void CancelSignUp(int id)
+        {
+            var signUp = _dbContext.EventSignUps.Where(x => x.Id == id).SingleOrDefault();
+
+            if (signUp == null)
+                return;
+
+            signUp.Status = _dbContext.Statuses.SingleOrDefault(x => x.Description == "Cancelled");
 
             _dbContext.SaveChanges();
         }

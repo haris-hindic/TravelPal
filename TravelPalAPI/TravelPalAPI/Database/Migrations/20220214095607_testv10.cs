@@ -53,8 +53,7 @@ namespace TravelPalAPI.Database.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Messages");
+            
         }
     }
 }

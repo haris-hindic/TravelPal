@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { SecurityService } from 'src/app/security/security.service';
 import { EventVM } from '../events.model';
+import { EventsService } from '../events.service';
 
 @Component({
   selector: 'app-events-modal',
@@ -12,7 +14,7 @@ export class EventsModalComponent implements OnInit {
   @Output() clsModal = new EventEmitter<void>();
   @Output() blureOff = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(public securityService: SecurityService) {}
 
   ngOnInit(): void {}
 
@@ -20,4 +22,6 @@ export class EventsModalComponent implements OnInit {
     this.clsModal.emit();
     this.blureOff.emit();
   }
+
+
 }

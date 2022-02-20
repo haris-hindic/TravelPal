@@ -7,9 +7,11 @@ namespace TravelPalAPI.ViewModels.EventSignUp
 {
     public class EventSignUpVM
     {
+        public int Id { get; set; }
         public DateTime SignUpDate { get; set; }
         public float Price { get; set; }
         public string Event { get; set; }
         public string Status { get; set; }
+        public DateTime EventDate { get; set; }
     }
 }

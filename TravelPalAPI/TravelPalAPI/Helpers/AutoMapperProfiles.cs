@@ -98,7 +98,8 @@ namespace TravelPalAPI.Helpers
 
             CreateMap<EventSignUp, EventSignUpVM>()
                 .ForMember(x => x.Status, vm => vm.MapFrom(x => x.Status.Description))
-                .ForMember(x => x.Event, vm => vm.MapFrom(x => x.Event.Name));
+                .ForMember(x => x.Event, vm => vm.MapFrom(x => x.Event.Name))
+                .ForMember(x => x.EventDate, vm => vm.MapFrom(x => x.Event.Date));
             CreateMap<EventSignUpCreationVM, EventSignUp>()
                 .ForMember(x => x.PaymentInfo, vm => vm.MapFrom(x => x.PaymentInfo));
             
