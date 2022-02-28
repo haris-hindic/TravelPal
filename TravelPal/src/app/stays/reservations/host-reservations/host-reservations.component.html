@@ -1,0 +1,110 @@
+<div class="container" *ngIf="reservations">
+  <div class="mt-5 mb-5">
+    <div class="container mt-5">
+      <!-- Table -->
+      <div class="col" *ngIf="_securityService.isVerified()">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-2">
+              Hello {{ _securityService.getFieldFromJWT("userName") }}, the
+              following are all reservations of your listed accommodations
+            </h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Start</th>
+                  <th scope="col">End</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Accommodation</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of reservations">
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <p class="avatar rounded-circle mr-3">
+                        <span class="mb-0 text-sm">{{ r.start | date }}</span>
+                      </p>
+                    </div>
+                  </th>
+                  <td>
+                    {{ r.end | date }}
+                  </td>
+                  <td>
+                    {{ r.price | currency }}
+                  </td>
+                  <td>
+                    {{ r.accommodation }}
+                  </td>
+                  <td>
+                    {{ r.status }}
+                  </td>
+                  <td>
+                    <span class="ms-1">
+                      <button
+                        [disabled]="r.status !== 'Active'"
+                        [swal]="{
+                          title: 'Confirmation',
+                          text: 'Are you sure?',
+                          showCancelButton: true
+                        }"
+                        class="btn btn-outline-success me-1"
+                        (confirm)="confirm(r.id)"
+                      >
+                        Confirm
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer m-2">
+            <!-- <mat-paginator
+              *ngIf="pagination"
+              [length]="pagination.totalItems"
+              [pageSizeOptions]="[4, 8, 15, 25]"
+              showFirstLastButtons
+              [pageSize]="pageSize"
+              (page)="updatePagination($event)"
+              aria-label="Select page"
+            >
+            </mat-paginator> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-start mt-2">
+            <button class="btn btn-primary" routerLink="/">Go back</button>
+          </div>
+          <div class="col-6 mt-2 text-end">
+            <button
+              class="btn btn-success ms-2"
+              routerLink="/user-stays/{{
+                _securityService.getFieldFromJWT('id')
+              }}"
+            >
+              My stays
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col" *ngIf="!_securityService.isVerified()">
+        <div class="row">
+          <div class="col-12 alert-info">
+            In order to reserve a stay you will need to verify your email adress
+            or phone number.
+          </div>
+          <div class="col-6 mt-2 text-end">
+            <button class="btn btn-success ms-2" routerLink="/user/profile">
+              My profile
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

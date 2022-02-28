@@ -111,11 +111,21 @@
           <a routerLink="/stays/create" mat-menu-item
             ><i class="fas fa-plus"></i> List new</a
           >
+          <a routerLink="/host-reservations" mat-menu-item
+            ><i class="fal fa-sack-dollar"></i> Reservations</a
+          >
         </mat-menu>
 
         <mat-menu #reservations="matMenu">
           <a routerLink="/user-reservations" mat-menu-item> Stays reserved</a>
-          <a mat-menu-item routerLink="/events/signUp/{{_securityService.getFieldFromJWT('id')}}"> Events signed up</a>
+          <a
+            mat-menu-item
+            routerLink="/events/signUp/{{
+              _securityService.getFieldFromJWT('id')
+            }}"
+          >
+            Events signed up</a
+          >
         </mat-menu>
 
         <mat-menu #events="matMenu">

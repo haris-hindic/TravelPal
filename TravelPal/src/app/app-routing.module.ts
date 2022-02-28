@@ -25,6 +25,7 @@ import { UserReservationsComponent } from './stays/reservations/user-reservation
 import { ConversationComponent } from './messages/conversation/conversation.component';
 import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.component';
 import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
+import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,6 +41,11 @@ const appRoutes: Routes = [
   {
     path: 'user-reservations',
     component: UserReservationsComponent,
+    canActivate: [VerifiedGuard],
+  },
+  {
+    path: 'host-reservations',
+    component: HostReservationsComponent,
     canActivate: [VerifiedGuard],
   },
   {
@@ -68,15 +74,15 @@ const appRoutes: Routes = [
     component: EventsCreationComponent,
     canActivate: [AuthGuard, VerifiedGuard],
   },
-    {
+  {
     path: 'events/signUp/:id',
     component: EventsSignUpComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'events/signUpCreation/:id',
     component: EventsSignUpCreationComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'events/edit/:id',
@@ -111,12 +117,12 @@ const appRoutes: Routes = [
   {
     path: 'messages/:id',
     component: MessagesComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'messages/conversation/:id',
     component: ConversationComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
   },
 
   // **

@@ -86,7 +86,11 @@
               </div>
             </div>
             <div class="text-center">
-              <button class="m-4 rounded-circle" type="button">
+              <button
+                routerLink="/user-stays/{{ _security.getFieldFromJWT('id') }}"
+                class="m-4 rounded-circle"
+                type="button"
+              >
                 <i class="fas fa-stream"></i> View all
               </button>
             </div>

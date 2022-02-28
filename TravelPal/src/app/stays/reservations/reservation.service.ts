@@ -50,6 +50,12 @@ export class ReservationService {
     );
   }
 
+  getByHost(id: string) {
+    return this._http.get<ReservationVM[]>(
+      `${this.apiURL}/host-reservations/${id}`
+    );
+  }
+
   getByStay(id: number) {
     return this._http.get<ReservationVM[]>(
       `${this.apiURL}/stay-reservations/${id}`
@@ -58,5 +64,9 @@ export class ReservationService {
 
   cancel(id: number) {
     return this._http.get(`${this.apiURL}/cancel/${id}`);
+  }
+
+  confirm(id: number) {
+    return this._http.get(`${this.apiURL}/confirm/${id}`);
   }
 }

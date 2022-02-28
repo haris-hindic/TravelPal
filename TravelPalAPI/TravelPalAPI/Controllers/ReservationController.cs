@@ -74,6 +74,18 @@ namespace TravelPalAPI.Controllers
             return Ok(mapper.Map<List<ReservationVM>>(reservations));
         }
 
+        [HttpGet("host-reservations/{id}")]
+        public async Task<ActionResult<List<ReservationVM>>> ReservationsByHost(string id)
+        {
+            var host = await userManager.FindByIdAsync(id);
+
+            if (host == null) return BadRequest("User not found!");
+
+            var reservations = await appDb.Reservations.Include(x => x.Accommodation).Include(x => x.Status).Where(x => x.Accommodation.HostId == id).ToListAsync();
+
+            return Ok(mapper.Map<List<ReservationVM>>(reservations));
+        }
+
         [HttpGet("stay-reservations/{id}")]
         public async Task<ActionResult<List<ReservationVM>>> ReservationsByAccommodation(int id)
         {
