@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { EventVM } from '../events.model';
 import { EventsService } from '../events.service';
 
@@ -17,6 +19,12 @@ export class EventsUserComponent implements OnInit {
   currentEvent!: any;
   IsEventsLoaded: boolean = false;
 
+  
+  // pagination
+  pagination!: Pagination;
+  pageNumber = 1;
+  pageSize = 4;
+
   constructor(
     public securityService: SecurityService,
     private eventService: EventsService,
@@ -31,9 +39,9 @@ export class EventsUserComponent implements OnInit {
   }
 
   loadEvents() {
-    this.eventService.getUserEvents(this.id).subscribe((e: any) => {
-      this.events = e;
-      console.log(this.events);
+    this.eventService.getUserEvents(this.id, this.pageNumber, this.pageSize).subscribe((e) => {
+      this.events = e.result;
+      this.pagination = e.pagination;
       this.IsEventsLoaded = true;
     });
   }
@@ -42,5 +50,12 @@ export class EventsUserComponent implements OnInit {
     this.eventService.delete(id).subscribe((x) => this.loadEvents());
     console.log(this.events);
     this.toastr.error('Event deleted');
+  }
+
+  
+  onChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.loadEvents();
   }
 }

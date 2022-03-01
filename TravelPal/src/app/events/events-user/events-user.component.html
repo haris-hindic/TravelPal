@@ -55,38 +55,42 @@
                 </tbody>
               </table>
             </div>
-            <nav aria-label="nav">
-              <ul class="pagination justify-content-center">
-                <li class="page-item disabled"></li>
-                <pagination-controls
-                  (pageChange)="page = $event"
-                ></pagination-controls>
-              </ul>
-            </nav>
-            <div class="row">
-              <div class="col-6 text-start">
-                <button class="btn btn-info" routerLink="../../events">
-                  All events
-                </button>
-              </div>
-              <div class="col-6 text-end">
-                <button
-                  class="btn btn-success"
-                  routerLink="../../events/creation"
-                >
-                  Create new event
-                </button>
-              </div>
+            <div class="d-flex justify-content-center">
+              <mat-paginator
+                *ngIf="pagination"
+                [length]="pagination.totalItems"
+                [pageSizeOptions]="[4, 8, 15, 25]"
+                showFirstLastButtons
+                [pageSize]="pageSize"
+                (page)="onChange($event)"
+                aria-label="Select page"
+              >
+              </mat-paginator>
+            </div>
+              <div class="row">
+                <div class="col-6 text-start">
+                  <button class="btn btn-info" routerLink="../../events">
+                    All events
+                  </button>
+                </div>
+                <div class="col-6 text-end">
+                  <button
+                    class="btn btn-success"
+                    routerLink="../../events/creation"
+                  >
+                    Create new event
+                  </button>
+                </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<app-events-modal
-  *ngIf="currentEvent"
-  (clsModal)="currentEvent = null"
-  [currentEvent]="currentEvent"
-></app-events-modal>
+  <app-events-modal
+    *ngIf="currentEvent"
+    (clsModal)="currentEvent = null"
+    [currentEvent]="currentEvent"
+  ></app-events-modal>
+</div>

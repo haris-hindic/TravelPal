@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Helpers;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.EventImages;
@@ -76,11 +77,12 @@ namespace TravelPalAPI.Repositories.Implementation
         }
 
         [HttpPost("search"), AllowAnonymous]
-        public IEnumerable<EventVM> GetAll([FromBody] EventSearchVM eventSearch = null)
+        public async Task<PagedList<EventVM>> GetAll(UserParams _params, [FromBody] EventSearchVM eventSearch = null)
         {
             if (eventSearch == null)
             {
-                return appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+
+                var eventQuery = appDb.Events.Include(x => x.Location).ThenInclude(x => x.City).ThenInclude(x => x.Country)
                 .Select(e => new EventVM
                 {
                     Id = e.Id,
@@ -93,6 +95,7 @@ namespace TravelPalAPI.Repositories.Implementation
                     Price = e.Price,
                     Images = mapper.Map<List<EventImagesVM>>(e.Images)
                 });
+                return await PagedList<EventVM>.Create(eventQuery, _params.PageNumber, _params.PageSize);
             }
             else
             {                if (string.IsNullOrEmpty(eventSearch.From)) eventSearch.From = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
@@ -116,15 +119,14 @@ namespace TravelPalAPI.Repositories.Implementation
                    Price = e.Price,
                    Images = mapper.Map<List<EventImagesVM>>(e.Images)
                });
-                return a;
+                return await PagedList<EventVM>.Create(a, _params.PageNumber, _params.PageSize);
             }
         }
 
         [HttpGet]
         [Route("user/{id}")]
-        public List<EventVM> GetByUserId(string id)
+        public async Task<PagedList<EventVM>> GetByUserId(string id, UserParams _params)
         {
-
 
             var tempEvent = appDb.Events.Where(e => e.HostId == id).Include(x=> x.Location)
                 .ThenInclude(x=>x.City).ThenInclude(x=>x.Country).Select(e =>
@@ -139,10 +141,9 @@ namespace TravelPalAPI.Repositories.Implementation
                     LocationVM = mapper.Map<LocationVM>(e.Location),
                     Price = e.Price,
                     User = mapper.Map<UserVM>(e.Host)
-                }).ToList();
+                });
 
-
-            return tempEvent;
+             return await PagedList<EventVM>.Create(tempEvent, _params.PageNumber, _params.PageSize);
         }
 
         [HttpPut, Route("{id}")]
@@ -162,7 +163,6 @@ namespace TravelPalAPI.Repositories.Implementation
             appDb.SaveChanges();
         }
 
-       
     }
 }
 

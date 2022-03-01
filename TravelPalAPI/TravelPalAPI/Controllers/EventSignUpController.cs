@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TravelPalAPI.Extensions;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Repositories.Implementation;
 using TravelPalAPI.ViewModels.EventSignUp;
 
@@ -26,9 +28,14 @@ namespace TravelPalAPI.Controllers
         }
 
         [HttpGet("getByUserId/{id}")]
-        public IEnumerable<EventSignUpVM> GetByUserId(string id)
+        public async Task<PagedList<EventSignUpVM>> GetByUserId(string id, [FromQuery] UserParams _params)
         {
-            return _eventSignUpRepository.GetByUserId(id);
+            var events = await _eventSignUpRepository.GetByUserId(id, _params);
+
+            Response.AddPaginationHeader(events.CurrentPage, events.PageSize,
+            events.TotalCount, events.TotalPages);
+
+            return events;
         }
 
         [HttpGet("{id}")]

@@ -35,11 +35,17 @@
                 </tbody>
               </table>
             </div>
-            <nav aria-label="nav">
-              <ul class="pagination justify-content-center">
-                <li class="page-item disabled"></li>
-              </ul>
-            </nav>
+            <div class="d-flex justify-content-center">
+              <mat-paginator
+                *ngIf="pagination"
+                [length]="pagination.totalItems"
+                [pageSizeOptions]="[4, 8, 15, 25]"
+                showFirstLastButtons
+                [pageSize]="pageSize"
+                (page)="onChange($event)"
+                aria-label="Select page"
+              ></mat-paginator>
+            </div>
             <div class="row">
               <div class="col-6 text-end">
                 <button class="btn btn-info" routerLink="/events">

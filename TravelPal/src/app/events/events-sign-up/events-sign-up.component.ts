@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { EventsSignUpService } from './events-sign-up.service';
 import { EventSignUpVM } from './eventsSignUp.model';
 
@@ -11,6 +13,11 @@ import { EventSignUpVM } from './eventsSignUp.model';
 })
 export class EventsSignUpComponent implements OnInit {
   eventSignUps!: EventSignUpVM[];
+
+  // pagination
+  pagination!: Pagination;
+  pageNumber = 1;
+  pageSize = 4;
 
   constructor(
     private eventSignUpService: EventsSignUpService,
@@ -26,7 +33,8 @@ export class EventsSignUpComponent implements OnInit {
     this.eventSignUpService
       .getAll(this.securityService.getFieldFromJWT('id'))
       .subscribe((x) => {
-        this.eventSignUps = x;
+        this.eventSignUps = x.result;
+        this.pagination = x.pagination;
       });
   }
 
@@ -35,5 +43,10 @@ export class EventsSignUpComponent implements OnInit {
       this.toastr.error('EventSignUp Cancelled!');
       this.getAll();
     });
+  }
+  onChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.getAll();
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import {EventSignUpCreationVM, EventSignUpVM } from './eventsSignUp.model';
+import { map } from 'rxjs/operators';
+import { PaginatedResult } from 'src/app/shared/models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +10,29 @@ import {EventSignUpCreationVM, EventSignUpVM } from './eventsSignUp.model';
 export class EventsSignUpService {
 
   url = 'https://localhost:44325/api/eventSignUp/';
-
+  paginatedResult: PaginatedResult<EventSignUpVM[]> = new PaginatedResult<EventSignUpVM[]>();
 
   constructor(private http: HttpClient) { }
 
-  getAll(id: string)
+  getAll(id: string, page?: number, itemsPerPage?: number)
   {
-    return this.http.get<EventSignUpVM[]>(this.url + `getByUserId/${id}`);
+    let params = new HttpParams();
+    if(page!=null && itemsPerPage !=null)
+    {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    
+
+    return this.http.get<EventSignUpVM[]>(this.url + `getByUserId/${id}`, {observe: 'response', params}).pipe(map((response:any)=>
+    {
+      this.paginatedResult.result = response.body;
+      if(response.headers.get('Pagination')!=null)
+      {
+        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return this.paginatedResult;
+    }));;
   }
 
   cancelSignUp(id:number)

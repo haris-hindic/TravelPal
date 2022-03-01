@@ -62,7 +62,7 @@ namespace TravelPalAPI.Controllers
                 PhoneNumberVerified = user.PhoneNumberConfirmed,
                 Picture = user.Picture,
                 Accommodations = accRepo.GetByUserId(id, new UserParams()).Result,
-                Events = eventRepo.GetByUserId(user.Id),
+                Events = eventRepo.GetByUserId(user.Id, new UserParams()).Result,
                 MessagesReceived = messageRepo.GetReceivedMsg(user.Id)
             };
         }

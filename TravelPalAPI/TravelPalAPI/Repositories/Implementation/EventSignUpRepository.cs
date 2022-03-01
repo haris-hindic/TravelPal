@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.ViewModels.EventSignUp;
 using TravelPalAPI.ViewModels.PaymentInfo;
@@ -23,11 +24,21 @@ namespace TravelPalAPI.Repositories.Implementation
             this._dbContext = dbContext;
             this._mapper = mapper;
         }
-        public IEnumerable<EventSignUpVM> GetByUserId(string id)
+        public async Task<PagedList<EventSignUpVM>> GetByUserId(string id, UserParams _params)
         {
-            var eventSignUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x=>x.Status).Where(x=>x.EventParticipantId == id).ToList();
+            var eventSignUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x=>x.Status).Where(x=>x.EventParticipantId == id).Select(x=> new EventSignUpVM()
+            {
+                Price = x.Price,
+                EventDate = x.SignUpDate,
+                Event = x.Event.Name,
+                Id = x.Id,
+                SignUpDate = x.SignUpDate,
+                Status = x.Status.Description
+            });
 
-            return _mapper.Map<IEnumerable<EventSignUpVM>>(eventSignUps);
+            return await PagedList<EventSignUpVM>.Create(eventSignUps,
+                _params.PageNumber, _params.PageSize);
+           ;
         }
 
         public EventSignUpVM GetById(int id)

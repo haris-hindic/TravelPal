@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Extensions;
 using TravelPalAPI.Helpers;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Event;
@@ -52,17 +54,29 @@ namespace TravelPalAPI.Controllers
 
 
         [HttpGet,AllowAnonymous]
-        public IEnumerable<EventVM> GetAll()
+        public async Task<ActionResult<PagedList<EventVM>>> GetAll([FromQuery] UserParams _params)
         {
-            return eventRepository.GetAll();
+            var events = await eventRepository.GetAll(_params);
+
+            if (events == null)
+                return NotFound();
+
+          Response.AddPaginationHeader(events.CurrentPage, events.PageSize,
+          events.TotalCount, events.TotalPages);
+
+            return Ok(events);
 
         }
 
         [HttpGet]
         [Route("user/{id}")]
-        public ActionResult<List<EventVM>> GetByUserId(string id)
+        public async Task<ActionResult<PagedList<EventVM>>> GetByUserId(string id, [FromQuery] UserParams _params)
         {
-            return eventRepository.GetByUserId(id);
+            var events = await eventRepository.GetByUserId(id, _params);
+
+            Response.AddPaginationHeader(events.CurrentPage, events.PageSize,events.TotalCount, events.TotalPages);
+
+            return Ok(events);
         }
 
         [HttpPut, Route("{id}")]
@@ -70,10 +84,23 @@ namespace TravelPalAPI.Controllers
         {
            eventRepository.Update(id, _event);
         }
-        [HttpPost("search"), AllowAnonymous]
-        public IEnumerable<EventVM> Search([FromBody] EventSearchVM eventSearch = null)
+
+
+        [HttpGet("search"), AllowAnonymous]
+        public async Task<PagedList<EventVM>> Search([FromQuery] UserParams _params)
         {
-            return eventRepository.GetAll(eventSearch);
+
+            var dateFrom = Request.Query["dateFrom"];
+            var dateTo = Request.Query["dateTo"];
+            var location = Request.Query["location"];
+
+            var events = await eventRepository.GetAll(_params, new EventSearchVM() { From = dateFrom, To = dateTo, Location = location});
+
+            Response.AddPaginationHeader(events.CurrentPage, events.PageSize,
+            events.TotalCount, events.TotalPages);
+
+            return events;
+
         }
 
     }
