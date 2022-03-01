@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container bg-white mt-4 mb-4" *ngIf="users">
   <h2>User List</h2>
   <div class="container table-responsive py-5">
     <table class="table table-bordered table-hover">
@@ -30,20 +30,30 @@
             >
               Remove Admin
             </button>
-            <!-- <button
+            <button
               class="btn btn-outline-danger"
               [swal]="{
                 title: 'Confirmation',
                 text: 'Are you sure?',
                 showCancelButton: true
               }"
+              (confirm)="deleteUser(user.id)"
             >
-              Delete
-            </button> -->
+              Delete User
+            </button>
           </td>
         </tr>
-        <tr></tr>
       </tbody>
     </table>
+    <mat-paginator
+      *ngIf="pagination"
+      [length]="pagination.totalItems"
+      [pageSizeOptions]="[4, 8, 15, 25]"
+      showFirstLastButtons
+      [pageSize]="pageSize"
+      (page)="updatePagination($event)"
+      aria-label="Select page"
+    >
+    </mat-paginator>
   </div>
 </div>

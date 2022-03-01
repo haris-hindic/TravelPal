@@ -10,7 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Extensions;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
+using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Reservation;
 using TravelPalAPI.ViewModels.User;
 
@@ -18,105 +21,64 @@ namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsVerified")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsVerified")]
     public class ReservationController : ControllerBase
     {
-        private readonly AppDbContext appDb;
-        private readonly UserManager<UserAccount> userManager;
-        private readonly IMapper mapper;
+        private readonly IReservationRepository reservationRepository;
 
-        public ReservationController(AppDbContext appDb,UserManager<UserAccount> userManager,IMapper mapper)
+        public ReservationController(IReservationRepository reservationRepository)
         {
-            this.appDb = appDb;
-            this.userManager = userManager;
-            this.mapper = mapper;
+            this.reservationRepository = reservationRepository;
         }
 
         [HttpGet("user-info/{id}")]
         public async Task<ActionResult<ReservationUserInfoVM>> GetUserInfo(string id)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var userInfo = await reservationRepository.UserInfo(id);
 
-            if (user == null) return BadRequest("User not found!");
-
-            return new ReservationUserInfoVM
-            {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber
-            };
+            return userInfo != null ? userInfo : BadRequest("User not foud!"); 
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> CreateReservation([FromBody]ReservationCreationVM reservation)
+        public ActionResult CreateReservation([FromBody]ReservationCreationVM reservation)
         {
-            var obj = mapper.Map<Reservation>(reservation);
-
-            obj.Date = DateTime.Now;
-            obj.StatusId = (await appDb.Statuses.FirstOrDefaultAsync(x => x.Description == "Active")).Id;
-
-            appDb.Reservations.Add(obj);
-            await appDb.SaveChangesAsync();
+            reservationRepository.Create(reservation);
             return Ok();
         }
 
         [HttpGet("user-reservations/{id}")]
-        public async Task<ActionResult<List<ReservationVM>>> ReservationsByUser(string id)
+        public async Task<ActionResult<PagedList<ReservationVM>>> ReservationsByUser(string id,[FromQuery] UserParams userParams)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var reservations = await reservationRepository.ReservationsByUser(id, userParams);
 
-            if (user == null) return BadRequest("User not found!");
+            Response.AddPaginationHeader(reservations.CurrentPage, reservations.PageSize,
+                reservations.TotalCount, reservations.TotalPages);
 
-            var reservations = await appDb.Reservations.Include(x=>x.Accommodation).Include(x=>x.Status).Where(x => x.GuestId == id).ToListAsync();
-
-            return Ok(mapper.Map<List<ReservationVM>>(reservations));
+            return reservations != null ? reservations : BadRequest("User not found!");
         }
 
         [HttpGet("host-reservations/{id}")]
-        public async Task<ActionResult<List<ReservationVM>>> ReservationsByHost(string id)
+        public async Task<ActionResult<PagedList<ReservationVM>>> ReservationsByHost(string id, [FromQuery] UserParams userParams)
         {
-            var host = await userManager.FindByIdAsync(id);
+            var reservations = await reservationRepository.ReservationsByHost(id, userParams);
 
-            if (host == null) return BadRequest("User not found!");
+            Response.AddPaginationHeader(reservations.CurrentPage, reservations.PageSize,
+                reservations.TotalCount, reservations.TotalPages);
 
-            var reservations = await appDb.Reservations.Include(x => x.Accommodation).Include(x => x.Status).Where(x => x.Accommodation.HostId == id).ToListAsync();
-
-            return Ok(mapper.Map<List<ReservationVM>>(reservations));
-        }
-
-        [HttpGet("stay-reservations/{id}")]
-        public async Task<ActionResult<List<ReservationVM>>> ReservationsByAccommodation(int id)
-        {
-            if (appDb.Accommodations.Any(x=>x.Id==id)) return BadRequest("Accommodation not found!");
-
-            var reservations = await appDb.Reservations.Include(x => x.Accommodation).Include(x => x.Status).Where(x => x.AccommodationId == id).ToListAsync();
-
-            return Ok(mapper.Map<List<ReservationVM>>(reservations));
+            return reservations != null ? reservations : BadRequest("User not found!");
         }
 
         [HttpGet("cancel/{id}")]
-        public async Task<ActionResult> CreateReservation(int id)
+        public ActionResult CancelReservation(int id)
         {
-            var obj = await appDb.Reservations.FirstOrDefaultAsync(x=>x.Id==id);
-
-            obj.StatusId = (await appDb.Statuses.FirstOrDefaultAsync(x => x.Description == "Cancelled")).Id;
-
-            appDb.Reservations.Update(obj);
-            await appDb.SaveChangesAsync();
+            reservationRepository.CancelReservation(id);
             return Ok();
         }
 
         [HttpGet("confirm/{id}")]
-        public async Task<ActionResult> ConfirmReservation(int id)
+        public ActionResult ConfirmReservation(int id)
         {
-            var obj = await appDb.Reservations.FirstOrDefaultAsync(x => x.Id == id);
-
-            obj.StatusId = (await appDb.Statuses.FirstOrDefaultAsync(x => x.Description == "Completed")).Id;
-
-            appDb.Reservations.Update(obj);
-            await appDb.SaveChangesAsync();
+            reservationRepository.ConfirmReservation(id);
             return Ok();
         }
     }

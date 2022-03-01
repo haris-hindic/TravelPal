@@ -11,68 +11,54 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Extensions;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
+using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Identity;
 
 namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
     public class AdminController : ControllerBase
     {
-        private readonly AppDbContext appDb;
-        private readonly UserManager<UserAccount> userManager;
-        private readonly IMapper mapper;
-        private readonly string claimType = "role";
-        private readonly string claimValue = "admin";
+        private readonly IAdminRepository adminRepository;
 
-        public AdminController(AppDbContext appDb, UserManager<UserAccount> userManager, IMapper mapper)
+        public AdminController(IAdminRepository adminRepository)
         {
-            this.appDb = appDb;
-            this.userManager = userManager;
-            this.mapper = mapper;
+            this.adminRepository = adminRepository;
         }
 
-        //admin ctrl
-        [HttpGet("users"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
-        public async Task<ActionResult<List<UserVM>>> GetUsers()
+        [HttpGet("users")]
+        public async Task<ActionResult<PagedList<UserVM>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await appDb.UserAccounts.OrderBy(x => x.UserName).ToListAsync();
+            var usersVM = await adminRepository.GetUsers(userParams);
 
-            var usersVM = mapper.Map<List<UserVM>>(users);
-
-            var x = appDb.UserClaims.ToList();
-
-            foreach (var user in usersVM)
-            {
-                user.StaysListed = appDb.Accommodations.Where(x => x.HostId == user.Id).Count();
-
-                user.EventsListed = appDb.Events.Where(e => e.HostId == user.Id).Count();
-
-                user.IsAdmin = appDb.UserClaims
-                    .Any(x => x.UserId == user.Id && x.ClaimType == claimType && x.ClaimValue == claimValue);
-            }
+            Response.AddPaginationHeader(usersVM.CurrentPage, usersVM.PageSize, usersVM.TotalCount, usersVM.TotalPages);
 
             return usersVM;
         }
 
-        [HttpPost("makeAdmin"), 
-            Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+        [HttpPost("makeAdmin")]
         public async Task<ActionResult> MakeAdmin([FromBody] string userId)
         {
-            var user = await userManager.FindByIdAsync(userId);
-
-            await userManager.AddClaimAsync(user, new Claim("role", "admin"));
+            await adminRepository.MakeAdmin(userId);
             return NoContent();
         }
 
-        [HttpPost("removeAdmin"), 
-            Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+        [HttpPost("removeAdmin")]
         public async Task<ActionResult> RemoveAdmin([FromBody] string userId)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            await adminRepository.RemoveAdmin(userId);
+            return NoContent();
+        }
 
-            await userManager.RemoveClaimAsync(user, new Claim("role", "admin"));
+        [HttpPost("deleteUser")]
+        public async Task<ActionResult> DeleteUser([FromBody] string userId)
+        {
+            await adminRepository.DeleteUser(userId);
             return NoContent();
         }
 
