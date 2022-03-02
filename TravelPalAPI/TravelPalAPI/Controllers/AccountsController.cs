@@ -35,6 +35,7 @@ namespace TravelPalAPI.Controllers
         private readonly IEmailSenderService emailService;
         private readonly IPhoneVerificationService phoneVerification;
         private readonly string clientURI= "http://localhost:4200/authentication/emailconfirmation";
+        private readonly string clientChangePassURI= "http://localhost:4200/input-new-password";
         private IConfiguration configuration;
 
 
@@ -129,6 +130,48 @@ namespace TravelPalAPI.Controllers
                 await userManager.AddClaimAsync(user, new Claim("status", "verified"));
 
             return Ok();
+        }
+
+        [HttpGet("sendForgotPassword")]
+        public async Task<IActionResult> SendForgotPassword([FromQuery] string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest();
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            var info = new Dictionary<string, string>
+            {
+                {"token", token },
+                {"email", user.Email }
+            };
+
+            var callback = QueryHelpers.AddQueryString(clientChangePassURI, info);
+
+            emailService.SendEmail(configuration, user.UserName, user.Email, "Reset password",
+                    $"Dear {user.FirstName} {user.LastName}\nTo reset your password please click on link:\n\n" +
+                   $"{callback}");
+
+
+            return Ok();
+        }
+
+        [HttpPost("resetForgottenPass")]
+        public async Task<ActionResult> ResetForgottenPassword([FromBody] ChangePasswordVM userCredentials)
+        {
+
+            var user = await userManager.FindByEmailAsync(userCredentials.Email);
+
+            if (user == null)
+                return NotFound();
+
+            var result = await userManager.ResetPasswordAsync(user, userCredentials.Token, userCredentials.Password);
+
+            if (result.Succeeded)
+                 return Ok();
+            else
+              return BadRequest(result.Errors);         
         }
 
         [HttpGet("send-email")]

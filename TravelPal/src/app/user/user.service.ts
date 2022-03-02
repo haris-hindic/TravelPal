@@ -43,6 +43,22 @@ export class UserService {
     });
   }
 
+  changePassword(id: number, newPass: string, oldPass: string)
+  {
+    return this._http.get(`https://localhost:44325/api/Accounts/changePass?id=${id}
+    &newPass=${newPass}&oldPass=${oldPass}`);
+  }
+
+  forgotPassword(route: string, token: string, email: string) {
+    let params = new HttpParams({ encoder: new CustomEncoder() });
+    params = params.append('token', token);
+    params = params.append('email', email);
+
+    return this._http.get('https://localhost:44325/' + route, {
+      params: params,
+    });
+  }
+
   updateProfile(id: string, editVM: userEditVM) {
     return this._http.put(`${this.userApiURL}/edit-profile/${id}`, editVM);
   }

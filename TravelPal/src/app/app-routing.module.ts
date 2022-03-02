@@ -26,6 +26,7 @@ import { ConversationComponent } from './messages/conversation/conversation.comp
 import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.component';
 import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
 import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
+import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -97,6 +98,8 @@ const appRoutes: Routes = [
   //auth
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
+  { path: 'forgot-password', component: SignInComponent },
+  { path: 'input-new-password', component: InputNewPasswordComponent },
 
   {
     path: 'admin/users',

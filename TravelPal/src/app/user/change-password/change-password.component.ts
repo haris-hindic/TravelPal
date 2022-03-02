@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SecurityService } from 'src/app/security/security.service';
 import { ToastrService } from 'ngx-toastr';
 import { parseWebAPiErrors } from 'src/app/helpers/parseWebAPIErrors';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -19,7 +20,7 @@ export class ChangePasswordComponent implements OnInit {
 
   @Output() closeChangingPass = new EventEmitter<void>();
 
-  constructor(private http: HttpClient, private securityService: SecurityService, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private securityService: SecurityService, private toastr: ToastrService, private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -37,10 +38,8 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
 
-    this.http.get(`https://localhost:44325/api/Accounts/changePass?id=${this.securityService.getFieldFromJWT('id')}
-    &newPass=${this.newPass}&oldPass=${this.oldPass}`).subscribe(x=>
+    this.userService.changePassword(this.securityService.getFieldFromJWT('id'),this.newPass, this.oldPass).subscribe(x=>
       {
-
         this.toastr.success("Password changed!");
         this.closeModal();
       },

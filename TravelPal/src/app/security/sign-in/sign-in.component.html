@@ -62,10 +62,21 @@
               >Not registered?&nbsp;<i class="fas fa-user-plus"></i> Sign Up</a
             >
           </div>
+          
           <div class="col-6 text-end">
             <button type="submit" class="btn btn-primary text-end">
               <i class="fas fa-sign-in-alt"></i> Sign In
             </button>
+          </div>
+
+          <div class="col-6 text">
+            <a 
+              routerLink="/forgot-password"
+              style="padding: 5px 10px 5px 10px"
+              class="btn text-start mt-3"
+              (click)="showForgotPassword=true"
+              ><i class="fa fa-key"></i> Forgot password</a
+            >
           </div>
         </div>
       </form>
@@ -84,3 +95,5 @@
     </div>
   </div>
 </div>
+
+<app-forgot-password *ngIf="showForgotPassword" (closeModal)="showForgotPassword=false"></app-forgot-password>

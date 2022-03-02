@@ -87,4 +87,14 @@ export class SecurityService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.expirationTokenKey);
   }
+
+  forgotPassword(email: string)
+  {
+    return this._http.get(`https://localhost:44325/api/accounts/sendForgotPassword?email=${email}`);
+  }
+
+  resetForgottenPassword(data:any)
+  {
+    return this._http.post(`https://localhost:44325/api/accounts/resetForgottenPass`, data);
+  }
 }

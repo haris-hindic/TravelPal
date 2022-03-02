@@ -48,6 +48,8 @@ import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.co
 import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
 import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
+import { ForgotPasswordComponent } from './security/forgot-password/forgot-password.component';
+import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,9 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
     EventsSignUpComponent,
     EventsSignUpCreationComponent,
     HostReservationsComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ForgotPasswordComponent,
+    InputNewPasswordComponent,
   ],
   imports: [
     BrowserModule,

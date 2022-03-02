@@ -21,6 +21,9 @@ namespace TravelPalAPI.Extensions
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<DataProtectionTokenProviderOptions>(opts =>
+            opts.TokenLifespan = TimeSpan.FromDays(1));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opts =>
                 {

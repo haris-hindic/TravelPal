@@ -12,6 +12,7 @@ import { SecurityService } from '../security.service';
 export class SignInComponent implements OnInit {
   form!: FormGroup;
   errors: string[] = [];
+  showForgotPassword: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
