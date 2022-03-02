@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { userVM } from 'src/app/shared/models/user.model';
 import { AdminService } from '../admin.service';
 
@@ -9,24 +12,52 @@ import { AdminService } from '../admin.service';
 })
 export class UserListComponent implements OnInit {
   users!: userVM[];
+  pagination!: Pagination;
+  pageNumber = 1;
+  pageSize = 4;
 
-  constructor(private _adminService: AdminService) {}
+  constructor(
+    private _adminService: AdminService,
+    private _toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
-    this._adminService.getUsers().subscribe((res) => {
-      this.users = res;
-    });
+    this._adminService
+      .getUsers(this.pageNumber, this.pageSize)
+      .subscribe((res) => {
+        this.users = res.result;
+        this.pagination = res.pagination;
+      });
+  }
+
+  updatePagination(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.loadData();
   }
 
   makeAdmin(id: string) {
-    this._adminService.makeAdmin(id).subscribe(() => this.loadData());
+    this._adminService.makeAdmin(id).subscribe(() => {
+      this.loadData();
+      this._toastr.info('User successfully made admin');
+    });
   }
 
   removeAdmin(id: string) {
-    this._adminService.removeAdmin(id).subscribe(() => this.loadData());
+    this._adminService.removeAdmin(id).subscribe(() => {
+      this.loadData();
+      this._toastr.info('User successfully removed as admin');
+    });
+  }
+
+  deleteUser(id: string) {
+    this._adminService.deleteUser(id).subscribe(() => {
+      this.loadData();
+      this._toastr.warning('User successfully deleted');
+    });
   }
 }

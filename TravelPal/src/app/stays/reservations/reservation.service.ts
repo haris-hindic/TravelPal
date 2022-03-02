@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { PaginatedResult } from 'src/app/shared/models/pagination';
 import {
   ReservationCreationVM,
   ReservationTempInfo,
@@ -13,6 +15,10 @@ import {
 export class ReservationService {
   private apiURL = `https://localhost:44325/api/Reservation`;
   private storageKey = 'reservation';
+
+  paginatdResult: PaginatedResult<ReservationVM[]> = new PaginatedResult<
+    ReservationVM[]
+  >();
 
   constructor(private _http: HttpClient) {}
 
@@ -44,22 +50,56 @@ export class ReservationService {
     return this._http.post(`${this.apiURL}/create`, reservation);
   }
 
-  getByUser(id: string) {
-    return this._http.get<ReservationVM[]>(
-      `${this.apiURL}/user-reservations/${id}`
-    );
+  getByUser(id: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page!.toString());
+      params = params.append('pageSize', itemsPerPage!.toString());
+    }
+
+    return this._http
+      .get<ReservationVM[]>(`${this.apiURL}/user-reservations/${id}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((res: any) => {
+          this.paginatdResult.result = res.body;
+          if (res.headers.get('Pagination') !== null) {
+            this.paginatdResult.pagination = JSON.parse(
+              res.headers.get('Pagination')
+            );
+          }
+          return this.paginatdResult;
+        })
+      );
   }
 
-  getByHost(id: string) {
-    return this._http.get<ReservationVM[]>(
-      `${this.apiURL}/host-reservations/${id}`
-    );
-  }
+  getByHost(id: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
 
-  getByStay(id: number) {
-    return this._http.get<ReservationVM[]>(
-      `${this.apiURL}/stay-reservations/${id}`
-    );
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page!.toString());
+      params = params.append('pageSize', itemsPerPage!.toString());
+    }
+
+    return this._http
+      .get<ReservationVM[]>(`${this.apiURL}/host-reservations/${id}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((res: any) => {
+          this.paginatdResult.result = res.body;
+          if (res.headers.get('Pagination') !== null) {
+            this.paginatdResult.pagination = JSON.parse(
+              res.headers.get('Pagination')
+            );
+          }
+          return this.paginatdResult;
+        })
+      );
   }
 
   cancel(id: number) {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { ReservationVM } from '../reservation.model';
 import { ReservationService } from '../reservation.service';
 
@@ -11,6 +13,9 @@ import { ReservationService } from '../reservation.service';
 })
 export class HostReservationsComponent implements OnInit {
   reservations!: ReservationVM[];
+  pagination!: Pagination;
+  pageNumber = 1;
+  pageSize = 4;
 
   constructor(
     private _reservation: ReservationService,
@@ -23,10 +28,21 @@ export class HostReservationsComponent implements OnInit {
 
   loadData() {
     this._reservation
-      .getByHost(this._securityService.getFieldFromJWT('id'))
+      .getByHost(
+        this._securityService.getFieldFromJWT('id'),
+        this.pageNumber,
+        this.pageSize
+      )
       .subscribe((x) => {
-        this.reservations = x;
+        this.reservations = x.result;
+        this.pagination = x.pagination;
       });
+  }
+
+  updatePagination(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.loadData();
   }
 
   confirm(id: number) {
