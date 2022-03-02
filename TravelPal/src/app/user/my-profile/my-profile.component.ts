@@ -26,7 +26,6 @@ export class MyProfileComponent implements OnInit {
   showEditProfile = false;
   showVerify = false;
   showPicture = false;
-  showChangePass = false;
 
   pagination!: Pagination;
   pageNumber = 1;
@@ -80,10 +79,5 @@ export class MyProfileComponent implements OnInit {
 
   profilePicture() {
     this.showPicture = true;
-  }
-
-  changePass()
-  {
-    this.showChangePass=true;
   }
 }

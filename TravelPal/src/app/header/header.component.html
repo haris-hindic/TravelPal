@@ -148,6 +148,9 @@
           <button mat-menu-item>
             <i class="far fa-edit"></i> Edit profile
           </button>
+          <button mat-menu-item (click)="showChangePassModal=true">
+            <i class="fa fa-key"></i> Change password
+          </button>
         </mat-menu>
         <mat-menu #adminMenu="matMenu">
           <a routerLink="admin/users" mat-menu-item>View users</a>
@@ -168,3 +171,5 @@
     </app-auth-view>
   </div>
 </header>
+
+<app-change-password *ngIf="showChangePassModal" (closeChangingPass)="showChangePassModal=false"></app-change-password>

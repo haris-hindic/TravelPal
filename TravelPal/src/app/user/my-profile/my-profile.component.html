@@ -44,9 +44,6 @@
             <button class="me-2" type="button" (click)="editProfile()">
               <i class="fas fa-user-edit"></i> Edit
             </button>
-            <button class="me-2 mt-2" type="button" (click)="changePass()">
-              <i class="fas fa-user-edit"></i> Change password
-            </button>
             <button
               *ngIf="!_security.isVerified()"
               type="button"
@@ -154,7 +151,4 @@
 >
 </app-profile-picture>
 
-<app-change-password
-  *ngIf="showChangePass"
-  (closeChangingPass)="showChangePass = false"
-></app-change-password>
+

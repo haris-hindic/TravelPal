@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   id!: string;
   user!: any;
   flag = false;
+  showChangePassModal: boolean = false;
 
   constructor(
     public _securityService: SecurityService,
