@@ -47,6 +47,7 @@ import { ConversationComponent } from './messages/conversation/conversation.comp
 import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.component';
 import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
 import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
+import { ChangePasswordComponent } from './user/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { HostReservationsComponent } from './stays/reservations/host-reservation
     ConversationComponent,
     EventsSignUpComponent,
     EventsSignUpCreationComponent,
-    HostReservationsComponent
+    HostReservationsComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

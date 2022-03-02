@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -196,5 +197,36 @@ namespace TravelPalAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("changePass")]
+        public async Task<ActionResult> ChangePassword(string id, [FromQuery] string newPass, [FromQuery] string oldPass)
+        {
+
+            var user = appDb.UserAccounts.SingleOrDefault(x => x.Id == id);
+
+            if (user == null)
+                return NotFound();
+
+
+            var checkOldPassword = await signInManager.PasswordSignInAsync(user.UserName, oldPass, isPersistent: false, lockoutOnFailure: false);
+
+            if (checkOldPassword.Succeeded)
+            {
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                var result = await userManager.ResetPasswordAsync(user, token, newPass);
+
+                if (result.Succeeded)
+                    return Ok();
+                else
+                    return BadRequest(result.Errors);
+            }
+            else
+            {
+                return BadRequest("Old password is not correct!");
+            }
+        }
+
     }
+
+    
 }

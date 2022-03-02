@@ -13,7 +13,6 @@ namespace TravelPalAPI.ViewModels.Message
         public string SenderUsername { get; set; }
         public string SenderPhotoUrl { get; set; }
         public string RecipientId { get; set; }
-
         public string RecipientUsername { get; set; }
         public string RecipientPhotoUrl { get; set; }
         public string Content { get; set; }
