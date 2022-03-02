@@ -50,6 +50,7 @@ import { HostReservationsComponent } from './stays/reservations/host-reservation
 import { ChangePasswordComponent } from './user/change-password/change-password.component';
 import { ForgotPasswordComponent } from './security/forgot-password/forgot-password.component';
 import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
+import { StayListComponent } from './admin/stay-list/stay-list.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { InputNewPasswordComponent } from './security/forgot-password/input-new-
     ChangePasswordComponent,
     ForgotPasswordComponent,
     InputNewPasswordComponent,
+    StayListComponent,
   ],
   imports: [
     BrowserModule,

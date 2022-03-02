@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="mt-5 mb-5">
+    <div class="container mt-5">
+      <!-- Table -->
+      <div class="col" *ngIf="_security.isAdmin()">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <h3 class="mb-0">Accommodations list</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stay of stays">
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <p class="avatar rounded-circle mr-3">
+                        <span class="mb-0 text-sm">{{ stay.name }}</span>
+                      </p>
+                    </div>
+                  </th>
+                  <td>
+                    {{ stay.price }}
+                  </td>
+                  <td>{{ stay.city }} ({{ stay.country }})</td>
+                  <td>
+                    <span class="ms-1 text-center">
+                      <button
+                        class="btn btn-outline-info m-1"
+                        routerLink="/stays/details/{{ stay.id }}"
+                      >
+                        Details
+                      </button>
+                      <button
+                        [swal]="{
+                          title: 'Confirmation',
+                          text: 'Are you sure?',
+                          showCancelButton: true
+                        }"
+                        class="btn btn-outline-danger me-1"
+                        (confirm)="delete(stay.id)"
+                      >
+                        Delete
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer m-2">
+            <mat-paginator
+              *ngIf="pagination"
+              [length]="pagination.totalItems"
+              [pageSizeOptions]="[4, 8, 15, 25]"
+              showFirstLastButtons
+              [pageSize]="pageSize"
+              (page)="updatePagination($event)"
+              aria-label="Select page"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-start mt-2">
+            <button class="btn btn-primary" routerLink="/">Go back</button>
+          </div>
+          <div class="col-6 mt-2 text-end"></div>
+        </div>
+      </div>
+      <div class="col" *ngIf="!_security.isAdmin()">
+        <div class="row">
+          <div class="col-12 alert-info">
+            Content only avaliable for administrators.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
