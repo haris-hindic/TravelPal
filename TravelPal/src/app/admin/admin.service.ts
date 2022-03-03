@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../shared/models/pagination';
 import { userVM } from '../shared/models/user.model';
+import { AccommodationBasicVM } from '../stays/stays.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,10 @@ import { userVM } from '../shared/models/user.model';
 export class AdminService {
   private apiKey: string = `https://localhost:44325/api/Admin`;
 
-  paginatdResult: PaginatedResult<userVM[]> = new PaginatedResult<userVM[]>();
+  paginatdUsers: PaginatedResult<userVM[]> = new PaginatedResult<userVM[]>();
+  paginatdStays: PaginatedResult<AccommodationBasicVM[]> = new PaginatedResult<
+    AccommodationBasicVM[]
+  >();
 
   constructor(private _http: HttpClient) {}
 
@@ -30,15 +33,48 @@ export class AdminService {
       })
       .pipe(
         map((res: any) => {
-          this.paginatdResult.result = res.body;
+          this.paginatdUsers.result = res.body;
           if (res.headers.get('Pagination') !== null) {
-            this.paginatdResult.pagination = JSON.parse(
+            this.paginatdUsers.pagination = JSON.parse(
               res.headers.get('Pagination')
             );
           }
-          return this.paginatdResult;
+          return this.paginatdUsers;
         })
       );
+  }
+
+  getStays(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page !== null && itemsPerPage !== null) {
+      params = params.append('pageNumber', page!.toString());
+      params = params.append('pageSize', itemsPerPage!.toString());
+    }
+
+    return this._http
+      .get<AccommodationBasicVM[]>(`${this.apiKey}/getStays`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((res: any) => {
+          this.paginatdStays.result = res.body;
+          if (res.headers.get('Pagination') !== null) {
+            this.paginatdStays.pagination = JSON.parse(
+              res.headers.get('Pagination')
+            );
+          }
+          return this.paginatdStays;
+        })
+      );
+  }
+
+  deleteStay(id: number) {
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this._http.post(`${this.apiKey}/deleteStay`, JSON.stringify(id), {
+      headers,
+    });
   }
 
   makeAdmin(id: string) {

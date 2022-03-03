@@ -15,6 +15,7 @@ using TravelPalAPI.Extensions;
 using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.Repositories;
+using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.Identity;
 
 namespace TravelPalAPI.Controllers
@@ -25,10 +26,12 @@ namespace TravelPalAPI.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminRepository adminRepository;
+        private readonly IAccommodationRepository accommodationRepository;
 
-        public AdminController(IAdminRepository adminRepository)
+        public AdminController(IAdminRepository adminRepository,IAccommodationRepository accommodationRepository)
         {
             this.adminRepository = adminRepository;
+            this.accommodationRepository = accommodationRepository;
         }
 
         [HttpGet("users")]
@@ -62,5 +65,23 @@ namespace TravelPalAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("getStays")]
+        public async Task<ActionResult<IEnumerable<AccommodationBasicVM>>> Get([FromQuery]UserParams userParams)
+        {
+            var accommodaions = await accommodationRepository.GetAll(null,userParams);
+
+            Response.AddPaginationHeader(accommodaions.CurrentPage, accommodaions.PageSize,
+                accommodaions.TotalCount, accommodaions.TotalPages);
+
+            return Ok(accommodaions);
+        }
+
+        [HttpPost("deleteStay")]
+        public ActionResult DeleteStay([FromBody] int id)
+        {
+            accommodationRepository.Delete(id);
+            accommodationRepository.SaveChanges();
+            return NoContent();
+        }
     }
 }

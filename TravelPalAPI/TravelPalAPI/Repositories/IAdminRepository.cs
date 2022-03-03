@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Helpers.Pagination;
+using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.Identity;
 
 namespace TravelPalAPI.Repositories

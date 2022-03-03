@@ -51,6 +51,7 @@ import { ChangePasswordComponent } from './user/change-password/change-password.
 import { ForgotPasswordComponent } from './security/forgot-password/forgot-password.component';
 import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
 import { EventsSignUpListComponent } from './events/events-sign-up/events-sign-up-list/events-sign-up-list.component';
+import { StayListComponent } from './admin/stay-list/stay-list.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { EventsSignUpListComponent } from './events/events-sign-up/events-sign-u
     ForgotPasswordComponent,
     InputNewPasswordComponent,
     EventsSignUpListComponent,
+    StayListComponent,
   ],
   imports: [
     BrowserModule,

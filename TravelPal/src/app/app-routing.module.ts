@@ -28,6 +28,7 @@ import { EventsSignUpCreationComponent } from './events/events-sign-up/events-si
 import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
 import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
 import { EventsSignUpListComponent } from './events/events-sign-up/events-sign-up-list/events-sign-up-list.component';
+import { StayListComponent } from './admin/stay-list/stay-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -115,6 +116,11 @@ const appRoutes: Routes = [
   {
     path: 'admin/users',
     component: UserListComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'admin/stays',
+    component: StayListComponent,
     canActivate: [AdminGuard],
   },
   //profile

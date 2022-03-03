@@ -57,6 +57,13 @@ namespace TravelPalAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelPalAPI v1"));
             }
 
+            app.UseCors(builder => builder
+                .SetIsOriginAllowed(x => _ = true)
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .AllowAnyHeader()
+                );
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -67,12 +74,6 @@ namespace TravelPalAPI
 
             app.UseAuthorization();
             
-             app.UseCors(builder => builder
-                .SetIsOriginAllowed(x => _ = true)
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .AllowAnyHeader()
-                );
 
             app.UseEndpoints(endpoints =>
             {

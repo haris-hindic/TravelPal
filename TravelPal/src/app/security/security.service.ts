@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CustomEncoder } from '../helpers/custom-encode/custom-encode.component.spec';
 import {
   authResponse,
   signInCredentials,
@@ -88,13 +87,16 @@ export class SecurityService {
     localStorage.removeItem(this.expirationTokenKey);
   }
 
-  forgotPassword(email: string)
-  {
-    return this._http.get(`https://localhost:44325/api/accounts/sendForgotPassword?email=${email}`);
+  forgotPassword(email: string) {
+    return this._http.get(
+      `https://localhost:44325/api/accounts/sendForgotPassword?email=${email}`
+    );
   }
 
-  resetForgottenPassword(data:any)
-  {
-    return this._http.post(`https://localhost:44325/api/accounts/resetForgottenPass`, data);
+  resetForgottenPassword(data: any) {
+    return this._http.post(
+      `https://localhost:44325/api/accounts/resetForgottenPass`,
+      data
+    );
   }
 }

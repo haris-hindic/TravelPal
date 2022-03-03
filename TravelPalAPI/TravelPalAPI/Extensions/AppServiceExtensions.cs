@@ -36,6 +36,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<IEventSignUpRepository, EventSignUpRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,67 +22,29 @@ namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<UserAccount> userManager;
-        private readonly AppDbContext appDb;
-        private readonly IFileStorageService storageService;
-        private readonly IAccommodationRepository accRepo;
-        private readonly IEventRepository eventRepo;
-        private readonly IMessageRepository messageRepo;
-        private readonly IMapper imapper;
+        private readonly IUserRepository userRepository;
 
-        public UserController(UserManager<UserAccount> userManager,AppDbContext appDb,IFileStorageService storageService,
-            IAccommodationRepository accRepo,IEventRepository eventRepo,IMapper imapper, IMessageRepository messageRepo)
+        public UserController(IUserRepository userRepository)
         {
-            this.userManager = userManager;
-            this.appDb = appDb;
-            this.storageService = storageService;
-            this.accRepo = accRepo;
-            this.eventRepo = eventRepo;
-            this.imapper = imapper;
-            this.messageRepo = messageRepo;
+            this.userRepository = userRepository;
         }
-
-
 
         [HttpGet("profile")]
         public async Task<ActionResult<UserProfileVM>> UserProfile([FromQuery] string id)
         {
-            var user = await userManager.FindByIdAsync(id);
-
-            if (user == null) return BadRequest("User not found!");
-
-            return new UserProfileVM
-            {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                EmailVerified = user.EmailConfirmed,
-                PhoneNumber = user.PhoneNumber,
-                PhoneNumberVerified = user.PhoneNumberConfirmed,
-                Picture = user.Picture,
-                Accommodations = accRepo.GetByUserId(id, new UserParams()).Result,
-                Events = eventRepo.GetByUserId(user.Id, new UserParams()).Result,
-                MessagesReceived = messageRepo.GetReceivedMsg(user.Id)
-            };
+            var profile = await userRepository.UserProfile(id);
+            return profile != null ? profile : BadRequest("User not found!");
         }
 
         [HttpPut("edit-profile/{id}")]
         public async Task<IActionResult> EditProfile(string id, EditProfileVM edit)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var result = await userRepository.EditProfile(id, edit);
 
-            if (user == null) return BadRequest("User not found!");
-
-            user.UserName = edit.UserName;
-            user.FirstName = edit.FirstName;
-            user.LastName = edit.LastName;
-
-            await userManager.UpdateAsync(user);
-
-            return NoContent();
+            return result != false ? Ok() : BadRequest("Error!"); 
         }
 
         public class PictureVM
@@ -91,19 +55,9 @@ namespace TravelPalAPI.Controllers
         [HttpPost("change-photo/{id}")]
         public async Task<IActionResult> Photo(string id, [FromForm] PictureVM formFile)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var result = await userRepository.Photo(id, formFile);
 
-            if (user == null) return BadRequest("User not found!");
-
-            if (!user.Picture.Contains("default"))
-                storageService.DeleteFile(user.Picture, "User");
-
-            user.Picture = storageService.SaveFile("User", formFile.Picture);
-
-            await userManager.UpdateAsync(user);
-
-
-            return Ok(appDb.SaveChanges());
+            return result != false ? Ok() : BadRequest("Error!");
         }
     }
 }
