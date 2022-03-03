@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelPalAPI.Database;
 
 namespace TravelPalAPI.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220303184845_addRating")]
+    partial class addRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -593,13 +595,11 @@ namespace TravelPalAPI.Database.Migrations
 
             modelBuilder.Entity("TravelPalAPI.Models.Rating", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("AccommodationId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -607,14 +607,7 @@ namespace TravelPalAPI.Database.Migrations
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccommodationId");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("AccommodationId", "UserId");
 
                     b.ToTable("Ratings");
                 });
@@ -892,23 +885,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("TravelPalAPI.Models.Rating", b =>
-                {
-                    b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
-                        .WithMany("Ratings")
-                        .HasForeignKey("AccommodationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelPalAPI.Models.UserAccount", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Accommodation");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TravelPalAPI.Models.Reservation", b =>
                 {
                     b.HasOne("TravelPalAPI.Models.Accommodation", "Accommodation")
@@ -947,8 +923,6 @@ namespace TravelPalAPI.Database.Migrations
                     b.Navigation("AccommodationDetails");
 
                     b.Navigation("AccommodationImages");
-
-                    b.Navigation("Ratings");
 
                     b.Navigation("Reservations");
                 });

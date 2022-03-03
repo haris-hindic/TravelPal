@@ -37,6 +37,7 @@ namespace TravelPalAPI.Extensions
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRatingRepository, RatingRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

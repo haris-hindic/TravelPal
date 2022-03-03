@@ -8,17 +8,14 @@ import { Image } from 'src/app/shared/models/image.model';
 })
 export class ImageSliderComponent implements OnInit {
   @Input() images!: Array<Image>;
-  @Input() isEvent!: boolean; 
+  @Input() isEvent!: boolean;
   size = {};
 
   imageObject: Array<object> = [];
 
-  constructor() { }
-
-
+  constructor() {}
 
   ngOnInit(): void {
-    
     this.getSize();
     this.images.forEach((img) => {
       this.imageObject.push({
@@ -28,16 +25,11 @@ export class ImageSliderComponent implements OnInit {
     });
   }
 
-  getSize()
-  {
+  getSize() {
     if (this.isEvent) {
-
-      this.size = { width: 466, height: 350}
+      this.size = { width: 466, height: 350 };
+    } else {
+      this.size = { height: 500, width: 800 };
     }
-    else
-    {
-      this.size = {height: 500, width: 800};
-    }
-    console.log(this.size);
   }
 }

@@ -3,6 +3,7 @@ import {
   LocationCreationVM,
   LocationVM,
 } from '../shared/models/location.model';
+import { RatingVM } from '../shared/models/rating.model';
 import { userVM } from '../shared/models/user.model';
 import { ReservationDatesVM } from './reservations/reservation.model';
 
@@ -18,6 +19,7 @@ export interface AccommodationVM {
   accommodationDetails: AccommodationDetailsVM;
   images: Image[];
   dateReserved: ReservationDatesVM[];
+  ratings: RatingVM[];
 }
 
 export interface AccommodationBasicVM {

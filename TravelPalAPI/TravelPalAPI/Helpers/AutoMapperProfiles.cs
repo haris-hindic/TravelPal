@@ -14,6 +14,7 @@ using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
 using TravelPalAPI.ViewModels.Message;
 using TravelPalAPI.ViewModels.PaymentInfo;
+using TravelPalAPI.ViewModels.Rating;
 using TravelPalAPI.ViewModels.Reservation;
 
 namespace TravelPalAPI.Helpers
@@ -102,7 +103,10 @@ namespace TravelPalAPI.Helpers
                 .ForMember(x => x.EventDate, vm => vm.MapFrom(x => x.Event.Date));
             CreateMap<EventSignUpCreationVM, EventSignUp>()
                 .ForMember(x => x.PaymentInfo, vm => vm.MapFrom(x => x.PaymentInfo));
-            
+
+            //rating
+
+            CreateMap<RatingCreationVM, Rating>();
         }
     }
 }

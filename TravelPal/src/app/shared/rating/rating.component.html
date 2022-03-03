@@ -1,0 +1,8 @@
+<section class="rating__card" *ngIf="rating">
+  <blockquote class="rating__card__quote">{{ rating.comment }}</blockquote>
+
+  <div class="rating__card__stars">
+    <span *ngFor="let x of stars" class="fa fa-star checked"></span>
+    <span class="rating__card__stars__name">{{ rating.user }}</span>
+  </div>
+</section>

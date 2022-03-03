@@ -3,7 +3,7 @@
     <div style="overflow: scroll; max-height: 700px" class="col-7">
       <form (ngSubmit)="searchStays()">
         <div [formGroup]="searchForm" class="row">
-          <div class="col-4">
+          <div class="col-8">
             <p class="m-0"><i class="far fa-compass"></i>Location</p>
             <br />
             <input
@@ -14,7 +14,7 @@
               formControlName="location"
             />
           </div>
-          <div class="col-3">
+          <!-- <div class="col-3">
             <p class="m-0"><i class="far fa-calendar-alt"></i> From</p>
             <br />
             <input type="date" class="form-control" />
@@ -23,8 +23,8 @@
             <p class="m-0"><i class="far fa-calendar-alt"></i> To</p>
             <br />
             <input type="date" class="form-control" />
-          </div>
-          <div class="col-2">
+          </div> -->
+          <div class="col-4">
             <p class="m-0"><i class="far fa-money-bill-alt"></i> Price (€)</p>
             <br />
             <input

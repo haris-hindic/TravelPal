@@ -57,7 +57,6 @@ export class StayHomepageComponent implements OnInit {
   }
 
   updatePagination(event: PageEvent) {
-    console.log(event);
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.loadData(this.searchForm.value);

@@ -1,0 +1,45 @@
+.rating__card {
+  /* box-shadow: 0px 15px 50px -18px rgba(0, 0, 0, 0.3); */
+  box-sizing: border-box;
+  padding: 30px;
+  font-family: sans-serif;
+  color: #545454;
+  font-weight: 100;
+  background: no-repeat center center;
+  border-radius: 10px;
+  /* background: url('') no-repeat center center, linear-gradient($df-dark-blue, $df-sky-blue);
+  */
+  background-size: cover;
+  background: #eff0f2;
+  width: 100%;
+  max-width: 600px;
+  max-height: 200px;
+}
+.rating__card__quote {
+  padding: 30px 0;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 1.2;
+  font-size: 20px;
+  line-height: 1.54;
+}
+.fa-star {
+  color: #545454;
+}
+.checked {
+  color: #f78d28;
+}
+.rating__card__stars {
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+.rating__card__stars__name {
+  font-size: 16px;
+  margin: 0 0 0 5px;
+}
+.rating__card__bottomText {
+  margin: 30px auto 15px;
+  text-align: center;
+  font-size: 14px;
+}

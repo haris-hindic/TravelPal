@@ -12,9 +12,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { RatingComponent } from './rating/rating.component';
+import { SubmitRatingComponent } from './submit-rating/submit-rating.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
+  declarations: [RatingComponent, SubmitRatingComponent],
   imports: [
     CommonModule,
     SweetAlert2Module.forRoot(),
@@ -31,6 +34,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
   ],
   exports: [
     SweetAlert2Module,
@@ -45,6 +49,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    RatingComponent,
+    SubmitRatingComponent,
   ],
 })
 export class SharedModule {}

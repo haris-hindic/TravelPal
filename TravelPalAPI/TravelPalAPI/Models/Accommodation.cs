@@ -24,5 +24,6 @@ namespace TravelPalAPI.Models
         public AccommodationDetails AccommodationDetails { get; set; }
         public List<AccommodationImage> AccommodationImages { get; set; }
         public List<Reservation> Reservations{ get; set; }
+        public List<Rating> Ratings{ get; set; }
     }
 }

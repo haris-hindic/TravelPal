@@ -13,6 +13,7 @@ using TravelPalAPI.ViewModels.AccommodationDetails;
 using TravelPalAPI.ViewModels.AccommodationImage;
 using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Location;
+using TravelPalAPI.ViewModels.Rating;
 using TravelPalAPI.ViewModels.Reservation;
 
 namespace TravelPalAPI.Repositories.Implementation
@@ -147,7 +148,8 @@ namespace TravelPalAPI.Repositories.Implementation
                     Location = mapper.Map<LocationVM>(x.Location),
                     AccommodationDetails = mapper.Map<AccommodationDetailsVM>(x.AccommodationDetails),
                     Images = mapper.Map<List<AccommodationImageVM>>(x.AccommodationImages),
-                    DateReserved= x.Reservations.Where(x=>x.Status.Description=="Active").Select(x=>new ReservationDatesVM { End=x.End,Start=x.Start}).ToList()
+                    DateReserved= x.Reservations.Where(x=>x.Status.Description=="Active").Select(x=>new ReservationDatesVM { End=x.End,Start=x.Start}).ToList(),
+                    Ratings = x.Ratings.Select(x=> new RatingVM { User= x.User.UserName, Rate=x.Rate,Comment=x.Comment}).ToList()
                 }).FirstOrDefault(x => x.Id == id);
 
             return accommodation;

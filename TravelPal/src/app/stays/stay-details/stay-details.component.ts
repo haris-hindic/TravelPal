@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateFilterFn } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
+import { RatingCreationVM } from 'src/app/shared/models/rating.model';
+import { RatingService } from 'src/app/shared/rating.service';
 import { AccommodationService } from '../accommodation.service';
 import { ReservationService } from '../reservations/reservation.service';
 import { AccommodationVM } from '../stays.model';
@@ -18,6 +21,7 @@ export class StayDetailsComponent implements OnInit {
   userId = this._securityService.getFieldFromJWT('id');
   today = new Date();
 
+  showSubmitRating = false;
 
   reservation!: FormGroup;
 
@@ -40,7 +44,9 @@ export class StayDetailsComponent implements OnInit {
     private _formBuilder: FormBuilder,
     public _securityService: SecurityService,
     private _router: Router,
-    private _reservation: ReservationService
+    private _reservation: ReservationService,
+    private _rating: RatingService,
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +68,6 @@ export class StayDetailsComponent implements OnInit {
         .getById(params.id)
         .subscribe((data: AccommodationVM) => {
           this.stay = data;
-          console.log(data);
           this.reservation.get('name')!.patchValue(data.name);
         });
     });
@@ -80,9 +85,29 @@ export class StayDetailsComponent implements OnInit {
     const price = days * this.stay.price;
     this.reservation.get('price')!.patchValue(price);
 
-    console.log(JSON.stringify(this.reservation.value));
-
     this._reservation.setReservationInfo(this.reservation.value);
     this._router.navigate(['/stays/reserve/' + this.stay.id]);
+  }
+
+  rate() {
+    this.showSubmitRating = true;
+  }
+
+  submitRating(rating: RatingCreationVM) {
+    this._rating.rate(rating).subscribe(() => {
+      this._toastr.success('Successfully rated!');
+      this.loadData();
+      this.showSubmitRating = false;
+    });
+  }
+
+  notRated() {
+    if (
+      this.stay.ratings.some(
+        (x) => x.user == this._securityService.getFieldFromJWT('userName')
+      )
+    )
+      return false;
+    else return true;
   }
 }

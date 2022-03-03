@@ -17,7 +17,13 @@
         <img src="{{ stay.user.picture }}" alt="" />
         <h4>{{ stay.user.userName }}</h4>
         <small>Travel Pal Super host</small>
-        <button type="reset" routerLink='/messages/conversation/{{stay.user.id}}' *ngIf="stay.user.id != userId">Connect</button>
+        <button
+          type="reset"
+          routerLink="/messages/conversation/{{ stay.user.id }}"
+          *ngIf="stay.user.id != userId"
+        >
+          Connect
+        </button>
       </div>
     </div>
     <hr />
@@ -87,6 +93,7 @@
       </p>
     </div>
     <hr />
+
     <div class="col-8 m-2">
       <app-map
         [coordinates]="{
@@ -144,5 +151,29 @@
         </form>
       </div>
     </div>
+    <!-- <div class="col-12">
+    </div> -->
+    <div class="col-12">
+      <h2>Ratings</h2>
+      <button type="submit" *ngIf="notRated()" (click)="rate()">
+        Rate this stay
+      </button>
+      <div
+        class="row mt-2 mb-5"
+        *ngIf="stay.ratings"
+        style="max-height: 250px; overflow: scroll"
+      >
+        <div class="col-6 mt-2 mb-2" *ngFor="let r of stay.ratings">
+          <app-rating [rating]="r"></app-rating>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<app-submit-rating
+  *ngIf="showSubmitRating"
+  (closeModal)="this.showSubmitRating = false"
+  [stayID]="stay.id"
+  (result)="submitRating($event)"
+></app-submit-rating>

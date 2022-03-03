@@ -13,5 +13,6 @@ namespace TravelPalAPI.Models
         public string Picture { get; set; }
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
+        public List<Rating> Ratings { get; set; }
     }
 }
