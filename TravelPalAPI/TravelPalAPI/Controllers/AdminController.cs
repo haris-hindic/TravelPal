@@ -16,6 +16,7 @@ using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
 using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Accommodation;
+using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.Identity;
 
 namespace TravelPalAPI.Controllers
@@ -27,11 +28,13 @@ namespace TravelPalAPI.Controllers
     {
         private readonly IAdminRepository adminRepository;
         private readonly IAccommodationRepository accommodationRepository;
+        private readonly IEventRepository eventRepository;
 
-        public AdminController(IAdminRepository adminRepository,IAccommodationRepository accommodationRepository)
+        public AdminController(IAdminRepository adminRepository,IAccommodationRepository accommodationRepository, IEventRepository eventRepository)
         {
             this.adminRepository = adminRepository;
             this.accommodationRepository = accommodationRepository;
+            this.eventRepository = eventRepository;
         }
 
         [HttpGet("users")]
@@ -81,6 +84,24 @@ namespace TravelPalAPI.Controllers
         {
             accommodationRepository.Delete(id);
             accommodationRepository.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpGet("getEvents")]
+        public async Task<ActionResult<IEnumerable<EventVM>>> GetEvents([FromQuery] UserParams userParams)
+        {
+            var _events = await eventRepository.GetAll(userParams, null);
+             
+            Response.AddPaginationHeader(_events.CurrentPage, _events.PageSize,
+                _events.TotalCount, _events.TotalPages);
+
+            return Ok(_events);
+        }
+
+        [HttpPost("deleteEvent")]
+        public ActionResult DeleteEvent([FromBody] int id)
+        {
+            eventRepository.Delete(id);
             return NoContent();
         }
     }

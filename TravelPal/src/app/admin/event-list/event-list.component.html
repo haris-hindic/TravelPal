@@ -1,0 +1,70 @@
+<div
+  class="page-content page-container"
+  id="page-content"
+  *ngIf="IsEventsLoaded"
+>
+  <div class="padding">
+    <div class="row container d-flex">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Event list:</h4>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Host name</th>
+                    <th>Event name</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let event of events">
+                    <td>{{ event?.user?.userName }}</td>
+                    <td>{{ event?.name }}</td>
+                    <td>{{ event?.date | date }}</td>
+                    <td>{{ event?.price }}</td>
+                    <td>
+                      [{{ event?.locationVM?.country }}]
+                      {{ event?.locationVM?.city }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-outline-danger mt-0 m-1"
+                        (click)="deleteEvent(event.id)"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-center">
+              <mat-paginator
+                *ngIf="pagination"
+                [length]="pagination.totalItems"
+                [pageSizeOptions]="[4, 8, 15, 25]"
+                showFirstLastButtons
+                [pageSize]="pageSize"
+                (page)="onChange($event)"
+                aria-label="Select page"
+              >
+              </mat-paginator>
+            </div>
+            <div class="row">
+              <div class="col-6 text-start">
+                <button class="btn btn-info" routerLink="../../events">
+                  All events
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

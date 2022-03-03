@@ -28,7 +28,6 @@ namespace TravelPalAPI.Repositories.Implementation
             this.mapper = mapper;
         }
 
-        [HttpPost]
         public int Post([FromBody] EventCreationVM eventCreation)
         {
             var _event = mapper.Map<Event>(eventCreation);
@@ -40,8 +39,6 @@ namespace TravelPalAPI.Repositories.Implementation
             return _event.Id;
         }
 
-        [HttpGet]
-        [Route("{id}")]
         public EventVM Get(int id)
         {
             if (!appDb.Events.Any(e => e.Id == id))
@@ -63,7 +60,6 @@ namespace TravelPalAPI.Repositories.Implementation
                 }).FirstOrDefault(x => x.Id == id);
         }
 
-        [HttpDelete, Route("{id}")]
         public void Delete(int id)
         {
             if (!appDb.Events.Any(x => x.Id == id))
@@ -76,7 +72,6 @@ namespace TravelPalAPI.Repositories.Implementation
            
         }
 
-        [HttpPost("search"), AllowAnonymous]
         public async Task<PagedList<EventVM>> GetAll(UserParams _params, [FromBody] EventSearchVM eventSearch = null)
         {
             if (eventSearch == null)
@@ -123,8 +118,7 @@ namespace TravelPalAPI.Repositories.Implementation
             }
         }
 
-        [HttpGet]
-        [Route("user/{id}")]
+
         public async Task<PagedList<EventVM>> GetByUserId(string id, UserParams _params)
         {
 
@@ -146,7 +140,6 @@ namespace TravelPalAPI.Repositories.Implementation
              return await PagedList<EventVM>.Create(tempEvent, _params.PageNumber, _params.PageSize);
         }
 
-        [HttpPut, Route("{id}")]
         public void Update(int id, EventEditVM _event)
         {
             var temp = appDb.Events.FirstOrDefault(x => x.Id == id);
@@ -162,6 +155,7 @@ namespace TravelPalAPI.Repositories.Implementation
 
             appDb.SaveChanges();
         }
+
 
     }
 }

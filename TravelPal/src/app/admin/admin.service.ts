@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { EventVM } from '../events/events.model';
 import { PaginatedResult } from '../shared/models/pagination';
 import { userVM } from '../shared/models/user.model';
 import { AccommodationBasicVM } from '../stays/stays.model';
@@ -14,6 +15,9 @@ export class AdminService {
   paginatdUsers: PaginatedResult<userVM[]> = new PaginatedResult<userVM[]>();
   paginatdStays: PaginatedResult<AccommodationBasicVM[]> = new PaginatedResult<
     AccommodationBasicVM[]
+  >();
+  paginatedEvents: PaginatedResult<EventVM[]> = new PaginatedResult<
+    EventVM[]
   >();
 
   constructor(private _http: HttpClient) {}
@@ -77,6 +81,31 @@ export class AdminService {
     });
   }
 
+  getEvents(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this._http
+      .get<EventVM[]>(this.apiKey + '/getEvents', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response: any) => {
+          this.paginatedEvents.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            this.paginatedEvents.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return this.paginatedEvents;
+        })
+      );
+  }
+
   makeAdmin(id: string) {
     const headers = new HttpHeaders('Content-Type: application/json');
     return this._http.post(`${this.apiKey}/makeAdmin`, JSON.stringify(id), {
@@ -94,6 +123,13 @@ export class AdminService {
   deleteUser(id: string) {
     const headers = new HttpHeaders('Content-Type: application/json');
     return this._http.post(`${this.apiKey}/deleteUser`, JSON.stringify(id), {
+      headers,
+    });
+  }
+
+  deleteEvent(id: number) {
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this._http.post(`${this.apiKey}/deleteEvent`, JSON.stringify(id), {
       headers,
     });
   }
