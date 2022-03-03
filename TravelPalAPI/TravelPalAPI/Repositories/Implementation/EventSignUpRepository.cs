@@ -38,7 +38,6 @@ namespace TravelPalAPI.Repositories.Implementation
 
             return await PagedList<EventSignUpVM>.Create(eventSignUps,
                 _params.PageNumber, _params.PageSize);
-           ;
         }
 
         public EventSignUpVM GetById(int id)
@@ -89,5 +88,51 @@ namespace TravelPalAPI.Repositories.Implementation
 
             _dbContext.SaveChanges();
         }
+
+        public async Task<PagedList<EventSignUpVM>> GetHostedSignUps(string id, int eventId, UserParams _params)
+        {
+            var user = _dbContext.UserAccounts.SingleOrDefault(x => x.Id == id);
+
+            if (user == null)
+                return null;
+
+            IQueryable<EventSignUpVM> signUps;
+
+            if (eventId == -1)
+            {
+                  signUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x => x.Status)
+                    .Where(x => x.Event.HostId == id)
+                    .Select(x => new EventSignUpVM()
+                    {
+                        Id = x.Id,
+                        Event = x.Event.Name,
+                        Status = x.Status.Description,
+                        EventDate = x.Event.Date,
+                        Price = x.Price,
+                        SignUpDate = x.SignUpDate,
+                        Participant = x.EventParticipant.FirstName + ' ' + x.EventParticipant.LastName
+                    });
+            }
+            else
+            {
+                signUps = _dbContext.EventSignUps.Include(x => x.Event).Include(x => x.Status)
+                    .Where(x => x.Event.HostId == id && eventId == x.EventId)
+                    .Select(x => new EventSignUpVM()
+                    {
+                        Id = x.Id,
+                        Event = x.Event.Name,
+                        Status = x.Status.Description,
+                        EventDate = x.Event.Date,
+                        Price = x.Price,
+                        SignUpDate = x.SignUpDate,
+                        Participant = x.EventParticipant.FirstName + ' ' + x.EventParticipant.LastName
+                    });
+            }
+
+            return await PagedList<EventSignUpVM>.Create(signUps,
+                _params.PageNumber, _params.PageSize);
+
+        }
+
     }
 }

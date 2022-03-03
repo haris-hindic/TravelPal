@@ -57,5 +57,21 @@ namespace TravelPalAPI.Controllers
         {
             _eventSignUpRepository.CancelSignUp(id);
         }
+
+        [HttpGet("getHostedSignUps/{id}/{eventId}")]
+        public async Task<ActionResult<PagedList<EventSignUpVM>>> GetHostedSignUps(string id, int eventId, [FromQuery] UserParams _params)
+        {
+
+            var signUps = await _eventSignUpRepository.GetHostedSignUps(id, eventId, _params);
+
+            if (signUps == null)
+                return BadRequest("Invalid user ID");
+
+            Response.AddPaginationHeader(signUps.CurrentPage, signUps.PageSize,
+            signUps.TotalCount, signUps.TotalPages);
+
+            return signUps;
+        }
+
     }
 }

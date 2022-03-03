@@ -22,6 +22,4 @@ export class EventsModalComponent implements OnInit {
     this.clsModal.emit();
     this.blureOff.emit();
   }
-
-
 }

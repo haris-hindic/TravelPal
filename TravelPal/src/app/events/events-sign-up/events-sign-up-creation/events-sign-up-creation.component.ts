@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SecurityService } from 'src/app/security/security.service';
-import { userProfileVM} from 'src/app/shared/models/user.model';
+import { userProfileVM } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/user/user.service';
 import { EventVM } from '../../events.model';
 import { EventsService } from '../../events.service';
@@ -29,7 +29,7 @@ export class EventsSignUpCreationComponent implements OnInit {
     private eventService: EventsService,
     private eventSignUpService: EventsSignUpService,
     private toastr: ToastrService,
-    private router : Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,38 +41,31 @@ export class EventsSignUpCreationComponent implements OnInit {
       });
     });
 
-
     this.formGroup = this.builder.group({
       price: [0],
       eventParticipantId: [this.id],
-      eventId: [0, {validators:[Validators.required]}],
+      eventId: [0, { validators: [Validators.required] }],
       paymentInfo: this.builder.group({
-        country: ['', {validators:[Validators.required]}],
-        city: ['', {validators:[Validators.required]}],
-        postalCode: ['', {validators:[Validators.required]}],
-        ccNumber: ['', {validators:[Validators.required]}],
-        expDate: ['', {validators:[Validators.required]}],
-        ccvCode: ['', {validators:[Validators.required]}],
+        country: ['', { validators: [Validators.required] }],
+        city: ['', { validators: [Validators.required] }],
+        postalCode: ['', { validators: [Validators.required] }],
+        ccNumber: ['', { validators: [Validators.required] }],
+        expDate: ['', { validators: [Validators.required] }],
+        ccvCode: ['', { validators: [Validators.required] }],
       }),
     });
 
-    this.formGroupUserInfo = this.builder.group(
-      {
-        firstName: [''],
-        lastName: [''],
-        email: [''],
-      }
-    )
+    this.formGroupUserInfo = this.builder.group({
+      firstName: [''],
+      lastName: [''],
+      email: [''],
+    });
 
-   
+    this.userService.getUserById(this.id).subscribe((x) => {
+      this.user = x;
 
-    this.userService
-      .getUserById(this.id)
-      .subscribe((x) => {
-        this.user = x;
-        
-        this.patchValue();
-      });
+      this.patchValue();
+    });
   }
 
   patchValue() {
@@ -84,17 +77,13 @@ export class EventsSignUpCreationComponent implements OnInit {
     this.formGroup.get('price')?.patchValue(this.event.price);
   }
 
-  saveData()
-  {
-    this.eventSignUpService.addSignUp(this.formGroup.value).subscribe(x=>
-      {
-        if(x==-1)
-            this.toastr.error("Event doesn't exists!");
-        else
-        {
-          this.toastr.success("Event signed up")
-          this.router.navigateByUrl(`events/signUp/${this.id}`);
+  saveData() {
+    this.eventSignUpService.addSignUp(this.formGroup.value).subscribe((x) => {
+      if (x == -1) this.toastr.error("Event doesn't exists!");
+      else {
+        this.toastr.success('Event signed up');
+        this.router.navigateByUrl(`events/signUp/${this.id}`);
       }
-      })
+    });
   }
 }

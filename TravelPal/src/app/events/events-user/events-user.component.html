@@ -67,30 +67,30 @@
               >
               </mat-paginator>
             </div>
-              <div class="row">
-                <div class="col-6 text-start">
-                  <button class="btn btn-info" routerLink="../../events">
-                    All events
-                  </button>
-                </div>
-                <div class="col-6 text-end">
-                  <button
-                    class="btn btn-success"
-                    routerLink="../../events/creation"
-                  >
-                    Create new event
-                  </button>
-                </div>
+            <div class="row">
+              <div class="col-6 text-start">
+                <button class="btn btn-info" routerLink="../../events">
+                  All events
+                </button>
+              </div>
+              <div class="col-6 text-end">
+                <button
+                  class="btn btn-success"
+                  routerLink="../../events/creation"
+                >
+                  Create new event
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <app-events-modal
-    *ngIf="currentEvent"
-    (clsModal)="currentEvent = null"
-    [currentEvent]="currentEvent"
-  ></app-events-modal>
 </div>
+
+<app-events-modal
+  *ngIf="currentEvent"
+  (clsModal)="currentEvent = null"
+  [currentEvent]="currentEvent"
+></app-events-modal>

@@ -98,7 +98,7 @@
             [matMenuTriggerFor]="adminMenu"
             routerLink="admin/users"
           >
-            <i class="fas fa-user-secret"></i> All Users
+            <i class="fas fa-user-secret"></i> Admin
           </button>
         </mat-menu>
 
@@ -136,6 +136,13 @@
             mat-menu-item
             ><i class="fas fa-list-ul"></i> Listed events</a
           >
+          <a
+          routerLink="events/signUpList/{{
+            _securityService.getFieldFromJWT('id')
+          }}/-1"
+          mat-menu-item
+          ><i class="fas fa-calendar"></i> SignUps of Events</a
+        >
           <a routerLink="/events/creation" mat-menu-item
             ><i class="fas fa-plus"></i> List new</a
           >

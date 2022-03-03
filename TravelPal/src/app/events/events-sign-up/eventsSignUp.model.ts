@@ -22,4 +22,5 @@ export interface EventSignUpVM {
   event: string;
   status: string;
   eventDate: Date;
+  participant: string;
 }

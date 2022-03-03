@@ -13,6 +13,7 @@ namespace TravelPalAPI.Repositories.Implementation
         int Post(EventSignUpCreationVM eventSignUp);
         Task<PagedList<EventSignUpVM>> GetByUserId(string id, UserParams _params);
         EventSignUpVM GetById(int id);
+        Task<PagedList<EventSignUpVM>> GetHostedSignUps(string id, int eventId, UserParams _params);
         void Delete(int id);
         public void CancelSignUp(int id);
 

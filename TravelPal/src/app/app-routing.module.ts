@@ -27,6 +27,7 @@ import { EventsSignUpComponent } from './events/events-sign-up/events-sign-up.co
 import { EventsSignUpCreationComponent } from './events/events-sign-up/events-sign-up-creation/events-sign-up-creation.component';
 import { HostReservationsComponent } from './stays/reservations/host-reservations/host-reservations.component';
 import { InputNewPasswordComponent } from './security/forgot-password/input-new-password/input-new-password.component';
+import { EventsSignUpListComponent } from './events/events-sign-up/events-sign-up-list/events-sign-up-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -81,8 +82,18 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'events/signUp/:id',
+    component: EventsSignUpComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'events/signUpCreation/:id',
     component: EventsSignUpCreationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'events/signUpList/:id/:eventId',
+    component: EventsSignUpListComponent,
     canActivate: [AuthGuard],
   },
   {
