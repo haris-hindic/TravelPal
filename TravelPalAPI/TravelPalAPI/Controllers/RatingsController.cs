@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,18 +16,27 @@ namespace TravelPalAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsVerified")]
     public class RatingsController : ControllerBase
     {
         private readonly IRatingRepository ratingRepository;
+        private readonly IAccommodationRepository accommodationRepository;
 
-        public RatingsController(IRatingRepository ratingRepository)
+        public RatingsController(IRatingRepository ratingRepository,IAccommodationRepository accommodationRepository)
         {
             this.ratingRepository = ratingRepository;
+            this.accommodationRepository = accommodationRepository;
         }
 
         [HttpPost("rate")]
         public IActionResult RateAccommodation([FromBody] RatingCreationVM creationVM)
         {
+            var ownerId = accommodationRepository.GetById(creationVM.AccommodationId).User.Id;
+
+            if (ownerId == creationVM.UserId)
+                return BadRequest();
+
+
             ratingRepository.RateAccommodation(creationVM);
             ratingRepository.Save();
             return Ok();

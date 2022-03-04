@@ -155,7 +155,7 @@
     </div> -->
     <div class="col-12">
       <h2>Ratings</h2>
-      <button type="submit" *ngIf="notRated()" (click)="rate()">
+      <button type="submit" *ngIf="notRated() && notOwn()" (click)="rate()">
         Rate this stay
       </button>
       <div
@@ -165,6 +165,10 @@
       >
         <div class="col-6 mt-2 mb-2" *ngFor="let r of stay.ratings">
           <app-rating [rating]="r"></app-rating>
+        </div>
+
+        <div class="col-6 mt-2 mb-2" *ngIf="stay.ratings.length < 1">
+          No ratings to display.
         </div>
       </div>
     </div>

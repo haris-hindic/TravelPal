@@ -110,4 +110,12 @@ export class StayDetailsComponent implements OnInit {
       return false;
     else return true;
   }
+
+  notOwn() {
+    if (this.stay.user.id == this._securityService.getFieldFromJWT('id')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

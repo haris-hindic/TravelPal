@@ -84,7 +84,7 @@ namespace TravelPalAPI.Controllers
                 FirstName = userCredentials.FirstName,
                 LastName = userCredentials.LastName,
                 PhoneNumber = userCredentials.PhoneNumber,
-                Picture= "https://localhost:44325/User/default.jpg"
+                Picture= "https://res.cloudinary.com/travelpal/image/upload/v1646346560/users/default_ordioo.jpg"
             };
             var result = await userManager.CreateAsync(user, userCredentials.Password);
 
