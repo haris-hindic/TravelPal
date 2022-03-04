@@ -19,7 +19,6 @@ export class EventsUserComponent implements OnInit {
   currentEvent!: any;
   IsEventsLoaded: boolean = false;
 
-  
   // pagination
   pagination!: Pagination;
   pageNumber = 1;
