@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
 using TravelPalAPI.Models;
@@ -17,6 +18,8 @@ namespace TravelPalAPI.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
+     
+
             services.AddIdentity<UserAccount, IdentityRole>(opts=> { opts.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();

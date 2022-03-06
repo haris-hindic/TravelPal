@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -18,6 +19,7 @@ using TravelPalAPI.Repositories;
 using TravelPalAPI.ViewModels.Accommodation;
 using TravelPalAPI.ViewModels.Event;
 using TravelPalAPI.ViewModels.Identity;
+using TravelPalAPI.ViewModels.Rating;
 
 namespace TravelPalAPI.Controllers
 {
@@ -29,12 +31,15 @@ namespace TravelPalAPI.Controllers
         private readonly IAdminRepository adminRepository;
         private readonly IAccommodationRepository accommodationRepository;
         private readonly IEventRepository eventRepository;
+        private readonly IRatingRepository ratingRepository;
 
-        public AdminController(IAdminRepository adminRepository,IAccommodationRepository accommodationRepository, IEventRepository eventRepository)
+        public AdminController(IAdminRepository adminRepository,IAccommodationRepository accommodationRepository, 
+            IEventRepository eventRepository, IRatingRepository ratingRepository)
         {
             this.adminRepository = adminRepository;
             this.accommodationRepository = accommodationRepository;
             this.eventRepository = eventRepository;
+            this.ratingRepository = ratingRepository;
         }
 
         [HttpGet("users")]
@@ -103,6 +108,33 @@ namespace TravelPalAPI.Controllers
         {
             eventRepository.Delete(id);
             return NoContent();
+        }
+
+        [HttpGet("getRatings")]
+        public async Task<ActionResult<IEnumerable>> GetAllRatings([FromQuery] UserParams userParams)
+        {
+            var ratings = await ratingRepository.GetAll(userParams);
+
+            Response.AddPaginationHeader(ratings.CurrentPage, ratings.PageSize,
+                ratings.TotalCount, ratings.TotalPages);
+
+            return Ok(ratings);
+        }
+
+        [HttpPost("deleteRating")]
+        public ActionResult Delete([FromBody] int id)
+        {
+            var result = ratingRepository.Delete(id);
+
+            if (result >= 0)
+            {
+                ratingRepository.Save();
+                return Ok();
+            }
+            else
+                return NotFound("Rating doesn't exists!");
+
+           
         }
     }
 }

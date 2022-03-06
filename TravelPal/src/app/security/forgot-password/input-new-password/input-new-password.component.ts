@@ -44,8 +44,7 @@ export class InputNewPasswordComponent implements OnInit {
   }
 
   saveChanges() {
-    if(this.checkPassword())
-    {
+
     this.securityService
       .resetForgottenPassword(this.formGroup.value)
       .subscribe((x) => {
@@ -58,7 +57,6 @@ export class InputNewPasswordComponent implements OnInit {
       });
     };
 
-  }
 
   checkPassword()
   {

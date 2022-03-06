@@ -41,5 +41,7 @@ namespace TravelPalAPI.Controllers
             ratingRepository.Save();
             return Ok();
         }
+
+
     }
 }

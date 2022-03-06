@@ -8,6 +8,6 @@ namespace TravelPalAPI.Helpers
 {
     public interface IEmailSenderService
     {
-        public void SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message);
+        public Task SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message);
     }
 }

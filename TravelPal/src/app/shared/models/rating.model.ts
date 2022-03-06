@@ -1,3 +1,6 @@
+import { AccommodationVM } from 'src/app/stays/stays.model';
+import { userVM } from './user.model';
+
 export interface RatingCreationVM {
   userId: string;
   accommodationId: number;
@@ -5,7 +8,9 @@ export interface RatingCreationVM {
   comment: string;
 }
 export interface RatingVM {
-  user: string;
+  id: number;
   rate: number;
   comment: string;
+  user: string;
+  accommodation: AccommodationVM;
 }

@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelPalAPI.Database;
+using TravelPalAPI.Helpers.Pagination;
 using TravelPalAPI.Models;
+using TravelPalAPI.ViewModels.Accommodation;
+using TravelPalAPI.ViewModels.Identity;
 using TravelPalAPI.ViewModels.Rating;
 
 namespace TravelPalAPI.Repositories.Implementation
@@ -26,6 +29,37 @@ namespace TravelPalAPI.Repositories.Implementation
 
             appDb.Ratings.Add(obj);
         }
+
+        public async Task<PagedList<RatingVM>> GetAll(UserParams _params)
+        {
+            var obj = appDb.Ratings.Select(x => new RatingVM()
+            {
+                Rate = x.Rate,
+                Comment = x.Comment,
+                User = x.User.UserName,
+                Accommodation = imapper.Map<AccommodationVM>(x.Accommodation),
+                Id = x.Id
+            });
+
+            if (obj == null)
+                return null;
+
+            return await PagedList<RatingVM>.Create(obj, _params.PageNumber, _params.PageSize);
+
+        }
+
+        public int Delete(int id)
+        {
+            var rating = appDb.Ratings.SingleOrDefault(x => x.Id == id);
+
+            if (rating == null)
+                return -1;
+
+            appDb.Ratings.Remove(rating);
+
+            return rating.Id;
+        }
+
 
         public void Save()
         {

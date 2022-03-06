@@ -2,12 +2,13 @@
 
 using MimeKit;
 using MailKit.Net.Smtp;
+using System.Threading.Tasks;
 
 namespace TravelPalAPI.Helpers
 {
     public class EmailSenderService : IEmailSenderService
     {
-        public void SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message)
+        public async Task SendEmail(IConfiguration configuration, string receiverName, string receiverEmail, string subject, string message)
         {
             var email = new MimeMessage();
 

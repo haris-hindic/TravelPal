@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { EventVM } from '../events/events.model';
 import { PaginatedResult } from '../shared/models/pagination';
+import { RatingVM } from '../shared/models/rating.model';
 import { userVM } from '../shared/models/user.model';
 import { AccommodationBasicVM } from '../stays/stays.model';
 
@@ -18,6 +19,9 @@ export class AdminService {
   >();
   paginatedEvents: PaginatedResult<EventVM[]> = new PaginatedResult<
     EventVM[]
+  >();
+  paginatedRatings: PaginatedResult<RatingVM[]> = new PaginatedResult<
+  RatingVM[]
   >();
 
   constructor(private _http: HttpClient) {}
@@ -106,6 +110,31 @@ export class AdminService {
       );
   }
 
+  getRatings(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    return this._http
+      .get<RatingVM[]>(this.apiKey + '/getRatings', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response: any) => {
+          this.paginatedRatings.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            this.paginatedRatings.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return this.paginatedRatings;
+        })
+      );
+  }
+
   makeAdmin(id: string) {
     const headers = new HttpHeaders('Content-Type: application/json');
     return this._http.post(`${this.apiKey}/makeAdmin`, JSON.stringify(id), {
@@ -130,6 +159,13 @@ export class AdminService {
   deleteEvent(id: number) {
     const headers = new HttpHeaders('Content-Type: application/json');
     return this._http.post(`${this.apiKey}/deleteEvent`, JSON.stringify(id), {
+      headers,
+    });
+  }
+
+  deleteRating(id: number) {
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this._http.post(`${this.apiKey}/deleteRating`, JSON.stringify(id), {
       headers,
     });
   }
