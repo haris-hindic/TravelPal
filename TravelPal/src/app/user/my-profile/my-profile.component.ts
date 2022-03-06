@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { EventVM } from 'src/app/events/events.model';
-import { EventsService } from 'src/app/events/events.service';
 import { SecurityService } from 'src/app/security/security.service';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { userEditVM, userProfileVM } from 'src/app/shared/models/user.model';
-import { AccommodationService } from 'src/app/stays/accommodation.service';
 import {
   AccommodationBasicVM,
   AccommodationVM,
