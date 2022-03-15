@@ -30,17 +30,6 @@
             >
               Remove Admin
             </button>
-            <button
-              class="btn btn-outline-danger"
-              [swal]="{
-                title: 'Confirmation',
-                text: 'Are you sure?',
-                showCancelButton: true
-              }"
-              (confirm)="deleteUser(user.id)"
-            >
-              Delete User
-            </button>
           </td>
         </tr>
       </tbody>

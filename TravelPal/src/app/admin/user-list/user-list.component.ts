@@ -53,11 +53,4 @@ export class UserListComponent implements OnInit {
       this._toastr.info('User successfully removed as admin');
     });
   }
-
-  deleteUser(id: string) {
-    this._adminService.deleteUser(id).subscribe(() => {
-      this.loadData();
-      this._toastr.warning('User successfully deleted');
-    });
-  }
 }

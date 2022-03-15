@@ -23,14 +23,6 @@ namespace TravelPalAPI.Repositories.Implementation
             this.appDb = appDb;
             this.userManager = userManager;
         }
-
-        public async Task<IdentityResult> DeleteUser(string userId)
-        {
-            var user = await userManager.FindByIdAsync(userId);
-
-            return await userManager.DeleteAsync(user);
-        }
-
         public async Task<PagedList<UserVM>> GetUsers(UserParams userParams)
         {
             var users = appDb.UserAccounts.OrderBy(x => x.UserName).Select(x =>

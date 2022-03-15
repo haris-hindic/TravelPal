@@ -14,6 +14,5 @@ namespace TravelPalAPI.Repositories
         Task<PagedList<UserVM>> GetUsers(UserParams userParams);
         Task<IdentityResult> MakeAdmin(string userId);
         Task<IdentityResult> RemoveAdmin(string userId);
-        Task<IdentityResult> DeleteUser(string userId);
     }
 }

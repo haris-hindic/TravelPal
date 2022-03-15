@@ -53,6 +53,7 @@ namespace TravelPalAPI.Database
                 .HasOne(u => u.Sender)
                 .WithMany(x => x.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

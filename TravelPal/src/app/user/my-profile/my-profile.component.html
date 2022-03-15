@@ -45,7 +45,7 @@
               <i class="fas fa-user-edit"></i> Edit
             </button>
             <button
-              *ngIf="!user.phoneNumberVerified || !user.emailVerified"
+            *ngIf="!user.emailVerified || !user.phoneNumberVerified"
               type="button"
               (click)="verifyProfile()"
             >
@@ -86,11 +86,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button
-                routerLink="/user-stays/{{ _security.getFieldFromJWT('id') }}"
-                class="m-4 rounded-circle"
-                type="button"
-              >
+              <button class="m-4 rounded-circle" type="button">
                 <i class="fas fa-stream"></i> View all
               </button>
             </div>
@@ -107,24 +103,29 @@
             verify either your phone number or email.
           </div>
 
-          <div *ngIf="userEvents.length > 0">
-            <div *ngFor="let event of userEvents" class="card">
-              <img
-                routerLink="/events/edit/{{ event.id }}"
-                style="cursor: pointer"
-                [src]="event.images[0].imagePath"
-              />
-              <div class="card-trip-infos">
-                <div>
-                  <h2>{{ event.name }}</h2>
-                  <p>
-                    {{ event.locationVM.country }},{{ event.locationVM.city }}
-                  </p>
+          <section class="events">
+            <article class="postcard dark blue" *ngFor="let event of userEvents">
+              <a class="postcard__img_link" 
+                >
+                <img class="postcard__img" src="{{event.images[0].imagePath}}"/>
+              </a>
+              <div class="postcard__text">
+                <h1 class="postcard__title blue" style="cursor: pointer;" routerLink="/events/edit/{{event.id}}">{{event.name}}</h1>
+                <div class="postcard__subtitle small">
+                  <time>
+                    <i class="fas fa-calendar-alt mr-2"></i>{{event.date  | date}}
+                  </time>
                 </div>
-                <h2 class="card-trip-pricing">{{ event.price | currency }}</h2>
+                <div class="postcard__bar"></div>
+                <div class="postcard__preview-txt" [innerHtml]="event.eventDescription"></div>
+                <ul class="postcard__tagbox">
+                  <li class="tag__item"><i class="far fa-money-bill-alt"></i> {{event.price}}€</li>
+                  <li class="tag__item"><i class="fas fa-clock mr-2"></i>{{event.duration}}h</li>
+                  <li class="tag__item"><i class="far fa-compass"></i>{{event.locationVM.city}} ({{event.locationVM.country}})</li>
+                </ul>
               </div>
-            </div>
-          </div>
+            </article>
+        </section>
         </mat-tab>
       </mat-tab-group>
     </div>
@@ -150,5 +151,3 @@
   (closeModal)="showPicture = false"
 >
 </app-profile-picture>
-
-

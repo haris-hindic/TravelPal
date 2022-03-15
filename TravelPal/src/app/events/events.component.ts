@@ -73,6 +73,6 @@ export class EventsComponent implements OnInit {
   onChange(event: PageEvent) {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-    this.loadData();
+    this.searchEvents();
   }
 }

@@ -149,13 +149,6 @@ export class AdminService {
     });
   }
 
-  deleteUser(id: string) {
-    const headers = new HttpHeaders('Content-Type: application/json');
-    return this._http.post(`${this.apiKey}/deleteUser`, JSON.stringify(id), {
-      headers,
-    });
-  }
-
   deleteEvent(id: number) {
     const headers = new HttpHeaders('Content-Type: application/json');
     return this._http.post(`${this.apiKey}/deleteEvent`, JSON.stringify(id), {

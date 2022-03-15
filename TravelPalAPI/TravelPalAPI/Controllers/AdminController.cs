@@ -66,13 +66,6 @@ namespace TravelPalAPI.Controllers
             return NoContent();
         }
 
-        [HttpPost("deleteUser")]
-        public async Task<ActionResult> DeleteUser([FromBody] string userId)
-        {
-            await adminRepository.DeleteUser(userId);
-            return NoContent();
-        }
-
         [HttpGet("getStays")]
         public async Task<ActionResult<IEnumerable<AccommodationBasicVM>>> Get([FromQuery]UserParams userParams)
         {
